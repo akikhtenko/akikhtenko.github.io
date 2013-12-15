@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Alexander Kikhtenko's Blog</title>
+  <title>Immutable Double-linked Tree Construction in Scala - Alexander Kikhtenko's Blog</title>
   <meta name="author" content="Alexander Kikhtenko">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://akikhtenko.github.io">
+  <link rel="canonical" href="http://akikhtenko.github.io/blog/2013/12/15/immutable-double-linked-tree-construction-in-scala">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Alexander Kikhtenko's Blog" type="application/atom+xml">
@@ -61,15 +61,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/15/immutable-double-linked-tree-construction-in-scala/">Immutable Double-linked Tree Construction in Scala</a></h1>
+      <h1 class="entry-title">Immutable Double-linked Tree Construction in Scala</h1>
     
     
       <p class="meta">
@@ -92,7 +89,7 @@
   </header>
 
 
-  <div class="entry-content"><p>Majority of people in the software development community seem to be convinced by now that immutability is good and we need to adhere to immutable data structures even in the languages (Scala among them) where mutability concern is left to developers&#8217; discretion.</p>
+<div class="entry-content"><p>Majority of people in the software development community seem to be convinced by now that immutability is good and we need to adhere to immutable data structures even in the languages (Scala among them) where mutability concern is left to developers&#8217; discretion.</p>
 
 <p>However construction of such data structures from some sort of data sources can sometimes be quite tricky. Take for example a double-linked rose tree (multi-way tree). Each note of the tree has an optional reference to the parent node (root of the tree does not have the parent) and a list of children.</p>
 
@@ -262,18 +259,51 @@
 
 <p>To be honest I had a different solution where children get populated from inside the <code>Node</code> case class and the population function is passed as a val when I started writing this post. But this solution is simpler and cleaner without a doubt.</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Alexander Kikhtenko</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2013-12-15T17:39:55+00:00" pubdate data-updated="true">Dec 15<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
   
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://akikhtenko.github.io/blog/2013/12/15/immutable-double-linked-tree-construction-in-scala/" data-via="akikhtenko" data-counturl="http://akikhtenko.github.io/blog/2013/12/15/immutable-double-linked-tree-construction-in-scala/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -293,6 +323,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
