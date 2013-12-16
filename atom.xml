@@ -4,7 +4,7 @@
   <title><![CDATA[Alexander Kikhtenko's Blog]]></title>
   <link href="http://akikhtenko.github.io/atom.xml" rel="self"/>
   <link href="http://akikhtenko.github.io/"/>
-  <updated>2013-12-16T21:03:05+00:00</updated>
+  <updated>2013-12-16T21:08:23+00:00</updated>
   <id>http://akikhtenko.github.io/</id>
   <author>
     <name><![CDATA[Alexander Kikhtenko]]></name>
@@ -83,7 +83,7 @@
 
 <p>Something tells me that Scala laziness can come in handy here. And indeed if we stick <code>lazy</code> keyword in the <code>node</code> value declaration the code compiles nicely.</p>
 
-<figure class='code'><figcaption><span>mark:2</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -126,7 +126,7 @@
 
 <p>This code still results in <code>java.lang.StackOverflowError</code> but this time it&rsquo;s caused by directly referencing the <code>node</code> argument inside <code>childrenOf()</code> which also forces eager <code>node</code> evaluation. It is obvious that we need to propagate laziness all the way to the <code>Node</code> class constructor making necessary changes along the way:</p>
 
-<figure class='code'><figcaption><span>mark:4,7,12,13</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
