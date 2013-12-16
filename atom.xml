@@ -4,7 +4,7 @@
   <title><![CDATA[Alexander Kikhtenko's Blog]]></title>
   <link href="http://akikhtenko.github.io/atom.xml" rel="self"/>
   <link href="http://akikhtenko.github.io/"/>
-  <updated>2013-12-15T23:49:33+00:00</updated>
+  <updated>2013-12-16T21:03:05+00:00</updated>
   <id>http://akikhtenko.github.io/</id>
   <author>
     <name><![CDATA[Alexander Kikhtenko]]></name>
@@ -20,7 +20,7 @@
     <id>http://akikhtenko.github.io/blog/2013/12/15/immutable-double-linked-tree-construction-in-scala</id>
     <content type="html"><![CDATA[<p>Majority of people in the software development community seem to be convinced by now that immutability is good and we need to adhere to immutable data structures even in the languages (Scala among them) where mutability concern is left to developers&#8217; discretion.</p>
 
-<p>However construction of such data structures from some sort of data sources can sometimes be quite tricky. Take for example a double-linked rose tree (multi-way tree). Each note of the tree has an optional reference to the parent node (root of the tree does not have the parent) and a list of children.</p>
+<p>However construction of such data structures from some sort of data sources can sometimes be quite tricky. Take for example a double-linked rose tree (multi-way tree). Each node of the tree has an optional reference to the parent node (root of the tree does not have the parent) and a list of children.</p>
 
 <p>In Scala this can be represented as:</p>
 
@@ -83,7 +83,7 @@
 
 <p>Something tells me that Scala laziness can come in handy here. And indeed if we stick <code>lazy</code> keyword in the <code>node</code> value declaration the code compiles nicely.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>mark:2</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -115,26 +115,18 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The thing is that Scala by default uses call-by-value model where each parameter eagerly evaluates to a value before passing in to a function. This strategy triggers evaluation of the lazy <code>node</code> value when <code>childrenOf()</code> is invoked and the recursive node creation blows up the stack. Lets switch to the call-by-name strategy and implement <code>childrenOf()</code>:</p>
+<p>The thing is that by default Scala uses a call-by-value model where each parameter eagerly evaluates to a value before passing in to a function. This strategy triggers evaluation of the lazy <code>node</code> value when <code>childrenOf()</code> is invoked and the recursive node creation blows up the stack. Another option available in Scala is a call-by-name strategy which allows for delayed evaluation (until necessary). In order to switch to this model one has to use a special construct <code>param: =&gt; Type</code>. Lets make use of it and implement <code>childrenOf()</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">createNodeFor</span><span class="o">(</span><span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">parentOption</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]])</span><span class="k">:</span> <span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">node</span><span class="k">:</span> <span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Node</span><span class="o">(</span><span class="n">nodeId</span><span class="o">,</span> <span class="n">s</span><span class="s">&quot;content ${nodeId}&quot;</span><span class="o">,</span> <span class="n">parentOption</span><span class="o">,</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">node</span><span class="o">))</span>
-</span><span class='line'>  <span class="n">node</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">TreeSource</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">node</span><span class="o">)))</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span>
+</span><span class='line'>  <span class="nc">TreeSource</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">node</span><span class="o">)))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>This code still results in <code>java.lang.StackOverflowError</code> but this time it&rsquo;s caused by directly referencing the <code>node</code> argument inside <code>childrenOf()</code> which also forces eager <code>node</code> evaluation. It is obvious that we need to propagate laziness all the way to the <code>Node</code> class constructor making necessary changes along the way:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>mark:4,7,12,13</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -146,6 +138,7 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
+<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span>
 </span><span class='line'>  <span class="k">val</span> <span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
 </span><span class='line'>  <span class="k">val</span> <span class="n">nodeContent</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span>
@@ -156,12 +149,13 @@
 </span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">node</span><span class="k">:</span> <span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Node</span><span class="o">(</span><span class="n">nodeId</span><span class="o">,</span> <span class="n">s</span><span class="s">&quot;content ${nodeId}&quot;</span><span class="o">,</span> <span class="n">parentOption</span><span class="o">,</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">nodeId</span><span class="o">,</span> <span class="n">node</span><span class="o">))</span>
 </span><span class='line'>  <span class="n">node</span>
 </span><span class='line'><span class="o">}</span>
-</span><span class='line'>  
-</span><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">TreeSource</span><span class="o">(</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="n">node</span><span class="o">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span>
+</span><span class='line'>  <span class="nc">TreeSource</span><span class="o">(</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="n">node</span><span class="o">)))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>What we did was we passed <code>nodeId</code> explicitly to <code>childrenOf()</code> and replaced all <code>node</code> referencing to <code>() =&gt; node</code> to prevent eager evaluation and fixed the types accordingly.</p>
+<p>What we did was we passed <code>nodeId</code> explicitly to <code>childrenOf()</code>, replaced <code>node</code> referencing to <code>() =&gt; node</code> to prevent eager evaluation and fixed the types accordingly.</p>
 
 <p>Let&rsquo;s see where we are now:</p>
 
@@ -186,7 +180,7 @@
 
 <p>Finally we arrived at the expected result and now can build a tree traversable in both directions.</p>
 
-<p>To be honest I had a different solution where children get populated from inside the <code>Node</code> case class and the population function is passed as a val when I started writing this post. But this solution is simpler and cleaner without a doubt.</p>
+<p>To be honest I had a different solution where children get populated from inside the <code>Node</code> case class constructor and the population function is passed to it as a val when I started writing this post. But the solution in which we ended up here looks simpler and cleaner without a doubt.</p>
 ]]></content>
   </entry>
   

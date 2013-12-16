@@ -21,7 +21,7 @@
   <link rel="canonical" href="http://akikhtenko.github.io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Alexander Kikhtenko's Blog" type="application/atom+xml">
+  <link href="" rel="alternate" title="Alexander Kikhtenko's Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -31,6 +31,19 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46502111-1']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -42,7 +55,7 @@
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  <li><a href="" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
 </ul>
   
@@ -87,7 +100,7 @@
 
   <div class="entry-content"><p>Majority of people in the software development community seem to be convinced by now that immutability is good and we need to adhere to immutable data structures even in the languages (Scala among them) where mutability concern is left to developers&#8217; discretion.</p>
 
-<p>However construction of such data structures from some sort of data sources can sometimes be quite tricky. Take for example a double-linked rose tree (multi-way tree). Each note of the tree has an optional reference to the parent node (root of the tree does not have the parent) and a list of children.</p>
+<p>However construction of such data structures from some sort of data sources can sometimes be quite tricky. Take for example a double-linked rose tree (multi-way tree). Each node of the tree has an optional reference to the parent node (root of the tree does not have the parent) and a list of children.</p>
 
 <p>In Scala this can be represented as:</p>
 
@@ -150,7 +163,7 @@
 
 <p>Something tells me that Scala laziness can come in handy here. And indeed if we stick <code>lazy</code> keyword in the <code>node</code> value declaration the code compiles nicely.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>mark:2</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -182,26 +195,18 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The thing is that Scala by default uses call-by-value model where each parameter eagerly evaluates to a value before passing in to a function. This strategy triggers evaluation of the lazy <code>node</code> value when <code>childrenOf()</code> is invoked and the recursive node creation blows up the stack. Lets switch to the call-by-name strategy and implement <code>childrenOf()</code>:</p>
+<p>The thing is that by default Scala uses a call-by-value model where each parameter eagerly evaluates to a value before passing in to a function. This strategy triggers evaluation of the lazy <code>node</code> value when <code>childrenOf()</code> is invoked and the recursive node creation blows up the stack. Another option available in Scala is a call-by-name strategy which allows for delayed evaluation (until necessary). In order to switch to this model one has to use a special construct <code>param: =&gt; Type</code>. Lets make use of it and implement <code>childrenOf()</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">createNodeFor</span><span class="o">(</span><span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">parentOption</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]])</span><span class="k">:</span> <span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">node</span><span class="k">:</span> <span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Node</span><span class="o">(</span><span class="n">nodeId</span><span class="o">,</span> <span class="n">s</span><span class="s">&quot;content ${nodeId}&quot;</span><span class="o">,</span> <span class="n">parentOption</span><span class="o">,</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">node</span><span class="o">))</span>
-</span><span class='line'>  <span class="n">node</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">TreeSource</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">node</span><span class="o">)))</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span>
+</span><span class='line'>  <span class="nc">TreeSource</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">node</span><span class="o">)))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>This code still results in <code>java.lang.StackOverflowError</code> but this time it&rsquo;s caused by directly referencing the <code>node</code> argument inside <code>childrenOf()</code> which also forces eager <code>node</code> evaluation. It is obvious that we need to propagate laziness all the way to the <code>Node</code> class constructor making necessary changes along the way:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>mark:4,7,12,13</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -213,6 +218,7 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
+<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span>
 </span><span class='line'>  <span class="k">val</span> <span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
 </span><span class='line'>  <span class="k">val</span> <span class="n">nodeContent</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span>
@@ -223,12 +229,13 @@
 </span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">node</span><span class="k">:</span> <span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Node</span><span class="o">(</span><span class="n">nodeId</span><span class="o">,</span> <span class="n">s</span><span class="s">&quot;content ${nodeId}&quot;</span><span class="o">,</span> <span class="n">parentOption</span><span class="o">,</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">nodeId</span><span class="o">,</span> <span class="n">node</span><span class="o">))</span>
 </span><span class='line'>  <span class="n">node</span>
 </span><span class='line'><span class="o">}</span>
-</span><span class='line'>  
-</span><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">TreeSource</span><span class="o">(</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="n">node</span><span class="o">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="n">childrenOf</span><span class="o">(</span><span class="n">nodeId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">node</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Node</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span>
+</span><span class='line'>  <span class="nc">TreeSource</span><span class="o">(</span><span class="n">nodeId</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">createNodeFor</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(()</span> <span class="k">=&gt;</span> <span class="n">node</span><span class="o">)))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>What we did was we passed <code>nodeId</code> explicitly to <code>childrenOf()</code> and replaced all <code>node</code> referencing to <code>() =&gt; node</code> to prevent eager evaluation and fixed the types accordingly.</p>
+<p>What we did was we passed <code>nodeId</code> explicitly to <code>childrenOf()</code>, replaced <code>node</code> referencing to <code>() =&gt; node</code> to prevent eager evaluation and fixed the types accordingly.</p>
 
 <p>Let&rsquo;s see where we are now:</p>
 
@@ -253,7 +260,7 @@
 
 <p>Finally we arrived at the expected result and now can build a tree traversable in both directions.</p>
 
-<p>To be honest I had a different solution where children get populated from inside the <code>Node</code> case class and the population function is passed as a val when I started writing this post. But this solution is simpler and cleaner without a doubt.</p>
+<p>To be honest I had a different solution where children get populated from inside the <code>Node</code> case class constructor and the population function is passed to it as a val when I started writing this post. But the solution in which we ended up here looks simpler and cleaner without a doubt.</p>
 </div>
   
   
@@ -296,6 +303,19 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'akikhtenko';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
