@@ -80,38 +80,35 @@ li a {
                     <i class="me-1"></i><span>Market-wide</span>
                 </a>
                 <ul id="marketWide" class="collapse show list-group list-group-flush">
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="Supply.html" class="text-reset">BTC Supply</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed (adj for supply)</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="ASOL.html" class="text-reset">Average Spent Coin Age (ASOL)</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="Dormancy.html" class="text-reset">Average Spent 1BTC Age (Dormancy)</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="RealizedPnl.html" class="text-reset">Realized PnL Ratio</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="SOPR.html" class="text-reset">SOPR</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="NUPL.html" class="text-reset">NUPL</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="MVRV.html" class="text-reset">MVRV</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
-                    </li>
-                                        <li class="list-group-item py-1 ">
-                        <a href="CostBasisDistribution.html" class="text-reset">Cost Basis Distribution</a>
                     </li>
                                     </ul>
 
@@ -121,20 +118,23 @@ li a {
                     <i class="me-1"></i><span>Hodler Age Specific</span>
                 </a>
                 <ul id="ageSpecific" class="collapse show list-group list-group-flush">
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="HoldWavesClassic.html" class="text-reset">HODL Waves (Classic)</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="SthToLthRatio.html" class="text-reset">STH/LTH Ratio</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="LthVsSthProfitability.html" class="text-reset">LTH/STH Profitability</a>
                     </li>
-                                        <li class="list-group-item py-1 active bg-black">
+                                        <li class="list-group-item py-1 active bg-black" id="currentPlot">
                         <a href="SpentOutput.html" class="text-reset">LTH Daily Spent</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Cost Basis Distribution</a>
                     </li>
                                     </ul>
 
@@ -144,32 +144,35 @@ li a {
                     <i class="me-1"></i><span>Address Size Specific</span>
                 </a>
                 <ul id="addressSpecific" class="collapse show list-group list-group-flush">
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressBandDistribution.html" class="text-reset">Address Bands Distribution</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressBandRealizedDistribution.html" class="text-reset">Address Bands Distribution (Realized Cap)</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressBandBalances.html" class="text-reset">Address Bands Balances</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressSmallToBigRatio.html" class="text-reset">Small/Big Bands Balance Ratio</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressSmallToBigRealizedRatio.html" class="text-reset">Small/Big Bands Realized Cap Ratio</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="BigAddressBandCounts.html" class="text-reset">Big Address Bands Counts</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="SmallAddressBandCounts.html" class="text-reset">Small Address Bands Counts</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressBigSOPR.html" class="text-reset">Big Bands SOPR</a>
                     </li>
-                                        <li class="list-group-item py-1 ">
+                                        <li class="list-group-item py-1 " >
                         <a href="AddressBigMVRV.html" class="text-reset">Big Bands MVRV</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
                     </li>
                                     </ul>
             </div>
@@ -425,6 +428,10 @@ config.scrollZoom=true;
 Plotly.newPlot(target_target, data, layout, config);            </script>
             </div>
 </main>
+<script type="text/javascript">
+    var currentPlot = document.getElementById("currentPlot");
+    currentPlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+</script>
 <!--Main layout-->
 
 </body>
