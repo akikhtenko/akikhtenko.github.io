@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ChainExposed</title>
+        <script src="plotly-latest.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46502111-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+    <style type="text/css">
+main {
+    padding-left: 360px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 58px;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 360px;
+  z-index: 600;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.fillRemaining {
+    height: calc(100vh - 82px);
+}
+
+li a {
+    text-decoration: none;
+    white-space: nowrap;
+    display: block;
+}
+
+.sidebar .list-group-item-action::before {
+    display: inline-block;
+    width:1.25em;
+    line-height:0;
+    content:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition:transform 0.35s ease;
+    transform-origin:.5em 50%
+}
+
+.sidebar .list-group-item-action[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+  </style>
+</head>
+<body class="fillRemaining">
+
+<header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse show d-lg-block sidebar bg-white">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+
+                <a class="list-group-item list-group-item-action py-2 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#marketWide" aria-expanded="true" aria-controls="marketWide">
+                    <i class="me-1"></i><span>Market-wide</span>
+                </a>
+                <ul id="marketWide" class="collapse show list-group list-group-flush">
+                                        <li class="list-group-item py-1 " >
+                        <a href="Supply.html" class="text-reset">BTC Supply</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed (adjusted)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="ASOL.html" class="text-reset">Average Spent Coin Age (ASOL)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="Dormancy.html" class="text-reset">Average Spent 1BTC Age (Dormancy)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="RealizedPnl.html" class="text-reset">Realized PnL Ratio</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SOPR.html" class="text-reset"> SOPR</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="NUPL.html" class="text-reset">NUPL</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="MVRV.html" class="text-reset"> MVRV</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="TransactionAvgValue.html" class="text-reset">Average Transaction Value (adjusted)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
+                    </li>
+                                    </ul>
+
+                <br/>
+
+                <a class="list-group-item list-group-item-action py-2 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpecific" aria-expanded="true" aria-controls="ageSpecific">
+                    <i class="me-1"></i><span>Hodler Age Specific</span>
+                </a>
+                <ul id="ageSpecific" class="collapse show list-group list-group-flush">
+                                        <li class="list-group-item py-1 " >
+                        <a href="HoldWavesClassic.html" class="text-reset">HODL Waves (Classic)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SthToLthRatio.html" class="text-reset">STH/LTH Ratio</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="LthVsSthProfitability.html" class="text-reset">LTH/STH Profitability</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="MVRV30d.html" class="text-reset">30d MVRV</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="MVRVSTH.html" class="text-reset">STH MVRV</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="MVRVLTH.html" class="text-reset">LTH MVRV</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SpentOutputAgeDistribution.html" class="text-reset">Daily Spent Age Bands (7d MA)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="LTHSpentOutput.html" class="text-reset">LTH Daily Spent (7d MA)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SOPRSTH.html" class="text-reset">STH SOPR</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SOPRLTH.html" class="text-reset">LTH SOPR</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Cost Basis Distribution</a>
+                    </li>
+                                        <li class="list-group-item py-1 active bg-black" id="currentPlot">
+                        <a href="SupplyAgeHistogram.html" class="text-reset">Supply Age Distribution</a>
+                    </li>
+                                    </ul>
+
+                <br/>
+
+                <a class="list-group-item list-group-item-action py-2 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpecific" aria-expanded="true" aria-controls="addressSpecific">
+                    <i class="me-1"></i><span>Address Size Specific</span>
+                </a>
+                <ul id="addressSpecific" class="collapse show list-group list-group-flush">
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBandDistribution.html" class="text-reset">Address Bands Distribution</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBandRealizedDistribution.html" class="text-reset">Address Bands Distribution (Realized Cap)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressCountChange.html" class="text-reset">Non-zero Address Count Change (total-adj)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBandBalances.html" class="text-reset">Address Bands Balances</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="BigAddressBandCounts.html" class="text-reset">Big Address Bands Counts</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SmallAddressBandCounts.html" class="text-reset">Small Address Bands Counts</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="SpentOutputAddressDistribution.html" class="text-reset">Daily Spent Address Bands (7d MA)</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressSmallToBigRatio.html" class="text-reset">Small/Big Bands Balance Ratio</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressSmallToBigRealizedRatio.html" class="text-reset">Small/Big Bands Realized Cap Ratio</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBigSOPR.html" class="text-reset">Big Bands SOPR</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBigMVRV.html" class="text-reset">Big Bands MVRV</a>
+                    </li>
+                                        <li class="list-group-item py-1 " >
+                        <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
+                    </li>
+                                    </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <h2>ChainExposed</h2>
+            </a>
+        </div>
+    </nav>
+    <!-- Navbar -->
+</header>
+
+<!--Main layout-->
+<main style="margin-top: 58px" class="h-100">
+    <div class="container-fluid pt-4 h-100" style="padding: 0px; margin: 0px" id="target">
+                    <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    spikedistance: 10000,
+    annotations: [
+        {
+            "opacity": 0.07,
+            "font": {"color": "blue", "size": 40},
+            "showarrow": false,
+            "text": "ChainExposed",
+            "valign": "top",
+            "x": 0.5,
+            "y": 0.5,
+            "xref": "x domain",
+            "yref": "y domain"
+        }
+    ],
+    title: 'Supply Age Distribution',
+    autosize: true,
+    margin: {
+  "autoexpand" : true,
+  "b" : 80,
+  "l" : 80,
+  "pad" : 0,
+  "r" : 80,
+  "t" : 40
+},
+    hovermode: 'closest',
+    xaxis: {
+    title: 'Date',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    },
+
+    yaxis: {
+    title: 'Volume',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    },
+
+};
+var config = {
+  "displayModeBar" : false,
+  "responsive" : true
+}
+var trace0 =
+{
+x: ["2009-01-01","2009-02-01","2009-03-01","2009-04-01","2009-05-01","2009-06-01","2009-07-01","2009-08-01","2009-09-01","2009-10-01","2009-11-01","2009-12-01","2010-01-01","2010-02-01","2010-03-01","2010-04-01","2010-05-01","2010-06-01","2010-07-01","2010-08-01","2010-09-01","2010-10-01","2010-11-01","2010-12-01","2011-01-01","2011-02-01","2011-03-01","2011-04-01","2011-05-01","2011-06-01","2011-07-01","2011-08-01","2011-09-01","2011-10-01","2011-11-01","2011-12-01","2012-01-01","2012-02-01","2012-03-01","2012-04-01","2012-05-01","2012-06-01","2012-07-01","2012-08-01","2012-09-01","2012-10-01","2012-11-01","2012-12-01","2013-01-01","2013-02-01","2013-03-01","2013-04-01","2013-05-01","2013-06-01","2013-07-01","2013-08-01","2013-09-01","2013-10-01","2013-11-01","2013-12-01","2014-01-01","2014-02-01","2014-03-01","2014-04-01","2014-05-01","2014-06-01","2014-07-01","2014-08-01","2014-09-01","2014-10-01","2014-11-01","2014-12-01","2015-01-01","2015-02-01","2015-03-01","2015-04-01","2015-05-01","2015-06-01","2015-07-01","2015-08-01","2015-09-01","2015-10-01","2015-11-01","2015-12-01","2016-01-01","2016-02-01","2016-03-01","2016-04-01","2016-05-01","2016-06-01","2016-07-01","2016-08-01","2016-09-01","2016-10-01","2016-11-01","2016-12-01","2017-01-01","2017-02-01","2017-03-01","2017-04-01","2017-05-01","2017-06-01","2017-07-01","2017-08-01","2017-09-01","2017-10-01","2017-11-01","2017-12-01","2018-01-01","2018-02-01","2018-03-01","2018-04-01","2018-05-01","2018-06-01","2018-07-01","2018-08-01","2018-09-01","2018-10-01","2018-11-01","2018-12-01","2019-01-01","2019-02-01","2019-03-01","2019-04-01","2019-05-01","2019-06-01","2019-07-01","2019-08-01","2019-09-01","2019-10-01","2019-11-01","2019-12-01","2020-01-01","2020-02-01","2020-03-01","2020-04-01","2020-05-01","2020-06-01","2020-07-01","2020-08-01","2020-09-01","2020-10-01","2020-11-01","2020-12-01","2021-01-01","2021-02-01","2021-03-01","2021-04-01","2021-05-01","2021-06-01","2021-07-01","2021-08-01","2021-09-01","2021-10-01","2021-11-01"],
+y: [110865.0, 132652.06, 141350.0, 139300.0, 129650.0, 82150.0, 64105.14, 46000.0, 75150.12, 48850.0, 47650.0, 70149.37, 61358.0, 66418.36, 71843.43, 99305.42, 46642.99, 62562.99, 118401.13, 76988.3000005, 44248.77046876, 50873.70776615, 43017.8, 24734.30880922, 23766.49370246, 27060.28176497, 95975.8560848, 37497.83754451, 104424.34881667, 53032.1157037, 39109.05859203, 64468.10242517, 12603.04564893, 24513.49083924, 14921.91846915, 17596.67125279, 16084.34920334, 14028.02864868, 25170.9545071, 15348.17441693, 17065.25437174, 17215.46161044, 26502.26449723, 20451.10751374, 15573.94449346, 19119.64446762, 17795.83909809, 43629.4931628, 32672.81987325, 25030.00370233, 43927.25229879, 119922.81242781, 33858.03978396, 28306.07710132, 30974.40008599, 26458.70290587, 32178.43204819, 33596.89914735, 63672.79825501, 104061.03538342, 49557.16187649, 29429.1525198, 28580.96245943, 39831.56021866, 67259.14677258, 149477.4713514, 26141.21343616, 17179.32930663, 17630.28159739, 18963.49451807, 18015.66494883, 21202.52194772, 18417.29129963, 23912.73641921, 13315.04943881, 10476.21562961, 12925.82681402, 15200.84730597, 12810.44223796, 23718.37522671, 18328.72729729, 22964.4939096, 26252.96702274, 30260.14110517, 25918.62086882, 31870.43260393, 40580.15389242, 46155.39780744, 28372.66826999, 26575.16903762, 30457.71481114, 123754.75011482, 20708.26559218, 30014.12081134, 42936.08324813, 36887.84104663, 37197.78473513, 29808.44103899, 53237.83444384, 32368.49589021, 55703.33514819, 101643.51049591, 100263.56207487, 152533.32390077, 111040.05758383, 143577.96901548, 169270.9826511, 221994.92436922, 213598.30564985, 113122.91332251, 89693.71209257, 89499.53923425, 100458.95309786, 60782.69047306, 54149.84806654, 131716.12901651, 45416.58956378, 52254.37529888, 73680.17361483, 610000.18797637, 146060.87185206, 131718.13999665, 66994.74082958, 57312.47417416, 138212.45377193, 111936.13557813, 152937.97602156, 97351.42112195, 183355.61026481, 69787.51490784, 137456.49894625, 87438.07520208, 95421.13703301, 97729.31904447, 208988.09258336, 111584.32487343, 138452.59777548, 145134.83480445, 133262.62259835, 193714.12114447, 161057.90763164, 180436.52015597, 373920.91992291, 704334.347764, 714557.81745482, 738876.44768564, 628142.77887868, 642114.52333825, 680602.34288599, 561360.27103685, 710331.06909408, 418981.55004895, 502522.03134876, 1152720.60013081, 960635.14968946],
+marker: {
+    size: 6.0,
+    color: 'rgba(243, 108, 67, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Hodled BTC',
+};
+var trace1={};
+config.scrollZoom=true;
+
+        var data = [ trace0, trace1];
+Plotly.newPlot(target_target, data, layout, config);            </script>
+            </div>
+</main>
+<script type="text/javascript">
+    var currentPlot = document.getElementById("currentPlot");
+    currentPlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+</script>
+<!--Main layout-->
+
+</body>
+</html>
