@@ -90,6 +90,14 @@ div.cmath {
     }
 }
 
+@media screen and (max-width:1199.98px) {
+    .main-box {
+        height: 70%;
+    }
+    .description-box {
+        height: 30%;
+    }
+}
 
 
   </style>
@@ -263,7 +271,7 @@ div.cmath {
 <main style="margin-top: 58px;" class="h-100">
     <div class="container-fluid pt-4 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 main-box" id="target">
+            <div class="col-12 col-xl-9 m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -407,6 +415,21 @@ config.scrollZoom=true;
         var data = [ trace0, trace1, trace2, trace3];
 Plotly.newPlot(target_target, data, layout, config);            </script>
                             </div>
+                            <div class="col-12 col-xl-3 bg-light description-box" style="overflow-y: auto;">
+                    <div class="cmath">
+    `(sum_(i=1)^n "CoinValue"_i * "Price"_"at disposal") / (sum_(i=1)^n "CoinValue"_i * "Price"_"at creation")`
+</div>
+
+Spent Output Profit Ratio or <b>SOPR</b> is a ratio between combined USD value of all coins spent on a given day and combined USD value of spent coins at the point when they were created (roughly, purchased). It's one of the metrics in a *Realized Profit/Loss* category of metrics. <br/><br/>
+
+The easiest way to gain intuition on this metric is to think of it roughly as an aggregate USD amount received by sellers divided by an aggregate USD amount paid by these sellers in the first place. <br/><br/>
+
+The way to use this metric is to see where the current value is compared to the value of 1 which is a <b>break-even point</b> for the coin sellers, i.e. where on average sellers are selling without any profits.<br/><br/>
+
+This inflection point often serves as resistance in <b>bear market</b> phases when market participant rush to exit the market as soon as their break-even point is hit.
+And conversely in <b>bull market</b> phases it often serves as support where holders start defending or topping up their stashes at their purchase prices.<br/><br/>
+
+SOPR values high above 1 mean aggressive profit taking by smart money and values well below 1 are capitulation points where holders lose trust in their coins and are willing to sell in heavy losses.                </div>
                     </div>
     </div>
 </main>
