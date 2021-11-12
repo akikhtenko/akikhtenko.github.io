@@ -2,11 +2,12 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>ChainExposed - LTH/STH Profitability</title>
+    <title>ChainExposed - Short Term vs Long Term Holder PnL</title>
     <link rel="icon" href="favicon.png">
         <script src="plotly-latest.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="free, bitcoin, crypto, on-chain, market, top, bottom, signal, analytics, chart">
 
@@ -72,6 +73,12 @@ li a {
 
 .description-box {
     height: 100%;
+}
+
+div.cmath {
+    margin-bottom: 20px;
+    white-space : pre;
+    font-size : smaller;
 }
 
 @media screen and (max-width:991.98px) {
@@ -150,31 +157,31 @@ li a {
                         <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="SthToLthRatio.html" class="text-reset">STH/LTH Ratio</a>
+                        <a href="SthToLthRatio.html" class="text-reset">Short Term to Long Term Holder Ratio</a>
                     </li>
                                         <li class="list-group-item py-1 active bg-black" id="currentPlot">
-                        <a href="LthVsSthProfitability.html" class="text-reset">LTH/STH Profitability</a>
+                        <a href="LthVsSthProfitability.html" class="text-reset">Short Term vs Long Term Holder PnL</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="MVRV30d.html" class="text-reset">30d MVRV</a>
+                        <a href="MVRV30day.html" class="text-reset">30 day MVRV</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="MVRVSTH.html" class="text-reset">STH MVRV</a>
+                        <a href="MVRVShortTermHolder.html" class="text-reset">Short Term Holder MVRV</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="MVRVLTH.html" class="text-reset">LTH MVRV</a>
+                        <a href="MVRVLongTermHolder.html" class="text-reset">Long Term Holder MVRV</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="SpentOutputAgeDistribution.html" class="text-reset">Daily Spent Age Bands (7d MA)</a>
+                        <a href="SpentOutputAgeDistribution.html" class="text-reset">Daily Spending Age Bands</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="LTHSpentOutput.html" class="text-reset">LTH Daily Spent (7d MA)</a>
+                        <a href="LTHSpentOutput.html" class="text-reset">Long Term Holder Daily Spending</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="SOPRSTH.html" class="text-reset">STH SOPR</a>
+                        <a href="SOPRShortTermHolder.html" class="text-reset">Short Term Holder SOPR</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="SOPRLTH.html" class="text-reset">LTH SOPR</a>
+                        <a href="SOPRLongTermHolder.html" class="text-reset">Long Term Holder SOPR</a>
                     </li>
                                         <li class="list-group-item py-1 " >
                         <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Cost Basis Distribution</a>
@@ -209,7 +216,7 @@ li a {
                         <a href="SmallAddressBandCounts.html" class="text-reset">Small Address Bands Counts</a>
                     </li>
                                         <li class="list-group-item py-1 " >
-                        <a href="SpentOutputAddressDistribution.html" class="text-reset">Daily Spent Address Bands (30d MA)</a>
+                        <a href="SpentOutputAddressDistribution.html" class="text-reset">Daily Spending Address Bands</a>
                     </li>
                                         <li class="list-group-item py-1 " >
                         <a href="AddressSmallToBigRatio.html" class="text-reset">Small/Big Bands Balance Ratio</a>
@@ -279,7 +286,7 @@ li a {
         y: -0.15,
         orientation: 'h'
     },
-    title: 'LTH/STH Profitability',
+    title: 'Short Term vs Long Term Holder PnL',
     autosize: true,
     margin: {
   "autoexpand" : true,
