@@ -66,6 +66,24 @@ li a {
     transform: rotate(90deg);
 }
 
+.main-box {
+    height: 100%;
+}
+
+.description-box {
+    height: 100%;
+}
+
+@media screen and (max-width:1199px) {
+        main {
+        padding-left: 200px;
+    }
+    .sidebar {
+      width: 200px;
+    }
+}
+
+
   </style>
 </head>
 <body class="fillRemaining">
@@ -81,7 +99,7 @@ li a {
                 </a>
                 <ul id="marketWide" class="collapse show list-group list-group-flush">
                                         <li class="list-group-item py-1 " >
-                        <a href="Supply.html" class="text-reset">BTC Supply</a>
+                        <a href="Supply.html" class="text-reset">Circulating Supply</a>
                     </li>
                                         <li class="list-group-item py-1 " >
                         <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
@@ -225,21 +243,70 @@ li a {
 </header>
 
 <!--Main layout-->
-<main style="margin-top: 58px" class="h-100">
-    <div class="container-fluid pt-4 h-100" style="padding: 0px; margin: 0px" id="target">
-                <div class="row mx-1 g-5">
+<main style="margin-top: 58px;" class="h-100">
+    <div class="container-fluid pt-4 h-100 m-0">
+        <div class="row h-100 m-0 p-0">
+            <div class="col-12  m-0 p-0 main-box" id="target">
+                                <div class="row mx-1 g-5">
     <div class="col bg-light">
         <div class="p-3">
-            Chainexposed is a collection of on-chain and general technical analysis metrics that can theoretically help predict major crypto market cycle top and bottoms. <br/>
+            <b><i>ChainExposed</i></b> is a collection of on-chain and general technical analysis metrics that can theoretically help predict major crypto market cycle tops and bottoms. <br/>
             It can also be used to gauge a general state of the crypto market and to learn about the inner workings of blockchain technology.
         </div>
+
         <div class="p-3">
-            <b>What is an on-chain metric?</b> Unlike in a traditional finance market Bitcoin and other blockchains have vital pieces of data stored in the immutable blockchain itself.
+            <b>What is an on-chain metric?</b> Unlike in a traditional financial market Bitcoin and other blockchains have vital pieces of data stored in the immutable blockchain itself.
             Combined with price market data these two give a unique perspective on behaviour of market participants.
             Never in the history of financial markets regular people had an option to 'look under the hood' and understand what different layers of participants are doing day to day.
         </div>
+
         <div class="p-3">
-            Blockchain technology itself and on-chain analysis in particular are in its infancy state and lots of different metrics and indicators are getting built regularly.
+            <h4>The concept of UTXO</h4>
+
+            In Bitcoin lingua UTXO is referring to an Unspent Transaction Output and is a cornerstone of the discipline of on-chain analysis.
+            You can think of a UTXO as a coin in a traditional currency but with 2 key differences:<br/><br/>
+
+            1. Each time a UTXO is transacted it will be fully spent, i.e. there can be no partial UTXO spends
+            2. A face value of UTXO isn't fixed to exact values such as 1, 5, 20 etc. It's a free form number, e.g. 13245 Satoshis.<br/><br/>
+
+            As an example in a hypothetical world where miners don't get any fees for their service,
+            if a person X had a single UTXO of 3BTC in his address and would send 2BTC to a person Y, the miner would 'spend' or 'destroy' the input UTXO and produce 2 output UTXOs of 2BTC and 1BTC face values.
+            The former would be transferred to person Y and the latter (the change) would go back to persion X.
+        </div>
+
+        <div class="p-3">
+            <h4>Age Specific Metrics</h4>
+
+            The relevant bits of information stored on-chain are primarily related to how long a UTXO/coin has been sitting in an address before being spent.
+            This gives us an insight of how much conviction a holder of this UTXO has in Bitcoin price and how much experience she has in the market.<br/><br/>
+
+            As a rule of thumb the longer a coin is sitting in someone's address the less likely he is to spend it on emotions. In fact there has been a statistical
+            study done by Glassnode revealing that ~155d mark is a point at which a UTXO holder behaviour changes so that she can be considered part of a 'smart money' group.<br/><br/>
+
+            This is why it is important to contrast behaviours of the two age groups - short term holders (<b>STH</b>) and long term holders (<b>LTH</b>) which you can find in the metrics.
+        </div>
+        <div class="p-3">
+            <h4>Age Specific Metrics</h4>
+
+            Another important barometer of smart money is how much Bitcoin a given entity holds. The more an entity has at stake the more educated and measured her actions will be.
+            This is the second category if metrics you can find on <b>ChainExposed</b>. <br/><br/>
+
+            We subdivide all non-zero Bitcoin addresses into 7 bands depending on how much holding it has:<br/>
+            * < 0.1 (<b>Plankton</b>)<br/>
+            * 0.1 to 1 (<b>Shrimps</b>)<br/>
+            * 1 to 10 (<b>Crabs</b>)<br/>
+            * 10 to 100 (<b>Fish</b>)<br/>
+            * 100 to 1000 (<b>Sharks</b>)<br/>
+            * 1000 to 5000 (<b>Whales</b>)<br/>
+            * > 5000 (<b>Humpbacks</b>)<br/><br/>
+
+            In some metrics we bundle the first 4 bands into <b>Small bands</b> and the remaining 3 bands into <b>Big bands</b> where the Big bands group has a smart money semantics similar to LTH above.
+        </div>
+
+        <div class="p-3">
+            <h4>Please note</h4>
+
+            Blockchain technology itself and on-chain analysis in particular are in their infancy state and lots of different metrics and indicators are getting built regularly.
             We strive to publish new charts whenever we feel they may provide value to people.
         </div>
 
@@ -250,6 +317,7 @@ li a {
 
         <div class="p-3">
             We believe that you should first look at where Bitcoin is situated in its market cycle before making any financial bets on altcoins.
+            These bets would be in a direction of a general Bitcoin trend.
             Other coins may be added in the future if there is enough motivation to do so.
         </div>
 
@@ -257,11 +325,14 @@ li a {
             Even though we made every effort to make our metrics as useful as possible to predict market swings, the website is work of independent crypto researchers and is not a financial advice. <br/>
             Make financial decisions at your own risk.
         </div>
+
         <div class="p-3">
             If you have any questions or would like contact us for any other matter feel free to drop us a message at <a href="mailto:info@kiklex.co.uk">info@kiklex.co.uk</a>
         </div>
     </div>
-</div>            </div>
+</div>                            </div>
+                    </div>
+    </div>
 </main>
 <script type="text/javascript">
     var currentPlot = document.getElementById("currentPlot");
