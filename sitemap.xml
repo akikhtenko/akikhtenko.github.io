@@ -2,192 +2,197 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >
   <url>
     <loc>https://kiklex.co.uk/index.html</loc>
-    <lastmod>2021-11-12T17:33:46.191+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/Supply.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/RealizedCap.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/BDD.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/ASOL.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/Dormancy.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/UnspentDormancy.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://kiklex.co.uk/Liveliness.html</loc>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/RealizedPnl.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SOPR.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/NUPL.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/MVRV.html</loc>
-    <lastmod>2021-11-12T17:33:46.193+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/TransactionAvgValue.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/TransactionOutputs.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/HoldWavesClassic.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/HoldWavesRealized.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SthToLthRatio.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/LthVsSthProfitability.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/MVRV30day.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/MVRVShortTermHolder.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/MVRVLongTermHolder.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SpentOutputAgeDistribution.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/LTHSpentOutput.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SOPRShortTermHolder.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SOPRLongTermHolder.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AgeBandCostBasisDistribution.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SupplyAgeHistogram.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressBandDistribution.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressBandRealizedDistribution.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressCountChange.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressBandBalances.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/BigAddressBandCounts.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SmallAddressBandCounts.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/SpentOutputAddressDistribution.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressSmallToBigRatio.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressSmallToBigRealizedRatio.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressBigSOPR.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressBigMVRV.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://kiklex.co.uk/AddressBandCostBasisDistribution.html</loc>
-    <lastmod>2021-11-12T17:33:46.194+00:00</lastmod>
+    <lastmod>2021-11-13T09:38:28.135+00:00</lastmod>
     <changefreq>daily</changefreq>
   </url>
 </urlset>
