@@ -90,6 +90,14 @@ div.cmath {
     }
 }
 
+@media screen and (max-width:1199.98px) {
+    .main-box {
+        height: 70%;
+    }
+    .description-box {
+        height: 30%;
+    }
+}
 
 
   </style>
@@ -269,7 +277,7 @@ div.cmath {
 <main style="margin-top: 58px;" class="h-100">
     <div class="container-fluid pt-4 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 main-box" id="target">
+            <div class="col-12 col-xl-9 m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -628,6 +636,19 @@ config.scrollZoom=true;
         var data = [ trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10, trace11, trace12, trace13];
 Plotly.newPlot(target_target, data, layout, config);            </script>
                             </div>
+                            <div class="col-12 col-xl-3 bg-light description-box" style="overflow-y: auto;">
+                    Similarly to its <a href="HoldWavesClassic.html">classic cousin</a> <b>Realized Cap HODL Waves</b> chart shows how Bitcoin supply is distribution across
+various coin age bands. The key difference is that the Realized Cap version shows how much each age band contributes to the market-wide Realized Cap.<br/><br/>
+
+<b>Realized Cap</b> is a measure of combined USD values of all coins in a set at the point when they were received (roughly, purchased) from a previous owner.
+It can be thought of as a cost basis for all the owners of the coins in the set.<br/><br/>
+
+Disproportionally big waves in the lower age bands indicate an increased amount of new coins purchased (received) at much higher prices then the rest of
+the coin population. <br/><br/>
+
+A good way to look at this chart is as a <b>FOMO indicator</b>. Distribute your position into the tops of these young FOMO wave peaks.<br/><br/>
+
+Conversely buying in the periods of higher age bands dominance (majority of coin owners are holding for a long time and aren't likely to sell) is usually a smart idea.                </div>
                     </div>
     </div>
 </main>

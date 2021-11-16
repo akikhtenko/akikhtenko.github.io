@@ -90,6 +90,14 @@ div.cmath {
     }
 }
 
+@media screen and (max-width:1199.98px) {
+    .main-box {
+        height: 70%;
+    }
+    .description-box {
+        height: 30%;
+    }
+}
 
 
   </style>
@@ -269,7 +277,7 @@ div.cmath {
 <main style="margin-top: 58px;" class="h-100">
     <div class="container-fluid pt-4 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 main-box" id="target">
+            <div class="col-12 col-xl-9 m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -628,6 +636,19 @@ config.scrollZoom=true;
         var data = [ trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10, trace11, trace12, trace13];
 Plotly.newPlot(target_target, data, layout, config);            </script>
                             </div>
+                            <div class="col-12 col-xl-3 bg-light description-box" style="overflow-y: auto;">
+                    <b>HODL Waves</b> chart shows age distribution of the entire Bitcoin supply (UTXO set) at any given point in time. I.e. the more BTC value is
+held in coins of a given age band the bigger is its proportion in the whole coin set (the thicker is the wave)<br/><br/>
+
+If you look closely at the chart you will notice that a spike/wave in a smaller age band propagates to upper band waves as corresponding coins age over time.<br/><br/>
+
+While it takes time for younger coins to mature up the age bands, as soon as older coins are spent on the market it immediately drops to 0 age and
+starts to contribute to the lowest band which can manifest in "cliff-edge" drops in the upper bands.<br/><br/>
+
+The chart clearly shows periods when younger coins start to dominate the market and these are generally good times to look for an exit from a position.<br/><br/>
+
+In fact it shows exactly that, the *smart money* (older coin holders) selling to the general crowd into price strength until a price blow-off top happens and
+re-accumulation by the smart money begins anew.                </div>
                     </div>
     </div>
 </main>
