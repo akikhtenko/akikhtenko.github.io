@@ -90,6 +90,14 @@ div.cmath {
     }
 }
 
+@media screen and (max-width:1199.98px) {
+    .main-box {
+        height: 70%;
+    }
+    .description-box {
+        height: 30%;
+    }
+}
 
 
   </style>
@@ -269,7 +277,7 @@ div.cmath {
 <main style="margin-top: 58px;" class="h-100">
     <div class="container-fluid pt-4 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 main-box" id="target">
+            <div class="col-12 col-xl-9 m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -457,6 +465,37 @@ config.scrollZoom=true;
         var data = [ trace0, trace1, trace2, trace3, trace4, trace5];
 Plotly.newPlot(target_target, data, layout, config);            </script>
                             </div>
+                            <div class="col-12 col-xl-3 bg-light description-box" style="overflow-y: auto;">
+                    What exactly are <b>Bitcoin Days</b> are why are they destroyed? To answer that we first need to understand how Bitcoin works under the hood.<br/><br/>
+
+The entire Bitcoin supply is in fact a huge collection of coins collectively stored on the blockchain. Every coin
+(which technically is called a <b>UTXO</b> or <b>unspent transaction output</b>) can have any nominal value unlike with the regular money which have set
+denominations of 1, 2, 5, 10 etc.<br/><br/>
+
+When address A owning a coin of, say, 3BTC denomination wants to 'send' 1BTC to address B, she must <b>spend</b> (or <b>destroy</b>) the entire 3BTC coin
+and create 2 new coins- 1BTC with the ownership assigned to address B and 2BTC assigned back to address A. There's no way to partially spend a coin.<br/><br/>
+
+Now if address B holds 1BTC for N days until today, we say that the coin accumulated N Bitcoin Days. If this coin is now getting spent these become
+N <b>Bitcoin Days Destroyed</b>.<br/><br/>
+
+<b>Interpretation</b>. A big number of Bitcoin Days Destroyed in any given period indicates a large distribution of old coins by long term holders (smart money).
+All previous market peaks have been accompanied by a period of elevated destruction of old coins hence the metric can be used to catch the late stages of bull cycles.<br/><br/>
+
+To further account for ever-growing supply of Bitcoin and thus a potential to accumulate/distribute a bigger amount of Bitcoin over time, we can apply
+a supply adjustment multiplier to the metric.<br/>
+
+<div class="cmath">
+    `"TotalSupply" / "CurrentSupply" * sum_(i=1)^n "CoinAge"_i * "CoinValue"_i`
+</div>
+
+This multiplies effectively magnifies earlier days data when the current supply was still low. One can argue that instead of doing that we must be magnifying
+the more recent data which is more topical to the current conditions - price, Bitcoin narrative, adoption, macro condition etc.<br/><br/>
+
+To do that we can reverse flip the multiplier which produces the second variation of the metric called <b>terminal adjusted</b> BDD.<br/>
+
+<div class="cmath">
+    `"CurrentSupply" / "TotalSupply" * sum_(i=1)^n "CoinAge"_i * "CoinValue"_i`
+</div>                </div>
                     </div>
     </div>
 </main>
