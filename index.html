@@ -115,19 +115,16 @@ div.cmath {
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
     </li>
-                                                                                                                                                                                <li class="list-group-item py-0">
+                                                                                                                                                                    <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#spending" aria-expanded="false" aria-controls="spending">
             <i class="me-1"></i><span><b>Spending Behaviour</b></span>
         </a>
         <ul id="spending" class="collapse  list-group list-group-flush">
                         <li class="list-group-item py-2 py-lg-1 " >
-                <a href="RealizedProfit.html" class="text-reset">Realized Profit Pct</a>
+                <a href="RealizedProfitAndLoss.html" class="text-reset">Realized Profit/Loss Pct</a>
             </li>
                         <li class="list-group-item py-2 py-lg-1 " >
-                <a href="RealizedLoss.html" class="text-reset">Realized Loss Pct</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="RealizedPnl.html" class="text-reset">Net Realized Profit/Loss</a>
+                <a href="NetRealizedPnl.html" class="text-reset">Net Realized Profit/Loss Pct</a>
             </li>
                         <li class="list-group-item py-2 py-lg-1 " >
                 <a href="RealizedX.html" class="text-reset">Realized Profit/Loss Crosses</a>
@@ -169,10 +166,16 @@ div.cmath {
                     </ul>
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
-        <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age (Dormancy)</a>
+        <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
     </li>
                                                                                                                     <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
@@ -180,16 +183,16 @@ div.cmath {
         </a>
         <ul id="network" class="collapse  list-group list-group-flush">
                         <li class="list-group-item py-2 py-lg-1 " >
-                <a href="TransactionAvgValue.html" class="text-reset">Average Transaction Value (adjusted)</a>
+                <a href="NVTRatio.html" class="text-reset">NVT and RVT Ratios</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="TransactedVolume.html" class="text-reset">Transacted Volume</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="TransactionAvgValue.html" class="text-reset">Average Transaction Value</a>
             </li>
                         <li class="list-group-item py-2 py-lg-1 " >
                 <a href="CoinCirculation.html" class="text-reset">Coin circulation</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="AddressNonZeroCount.html" class="text-reset">Non-Zero Address Count</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="AddressCountChange.html" class="text-reset">Net Address Count Change</a>
             </li>
                         <li class="list-group-item py-2 py-lg-1 " >
                 <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
@@ -209,6 +212,9 @@ div.cmath {
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="HypeCycleWaves.html" class="text-reset">Hype Cycles (&lt;1m RHODL)</a>
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="SthToLthRatio.html" class="text-reset">Short Term to Long Term Holder Ratio</a>
@@ -389,11 +395,39 @@ div.cmath {
             </li>
                     </ul>
     </li>
+                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
+            <i class="me-1"></i><span><b>Network Metrics</b></span>
+        </a>
+        <ul id="network" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="ActiveAddresses.html" class="text-reset">Active Addresses</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressNonZeroCount.html" class="text-reset">Non-Zero Address Count</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressCountChange.html" class="text-reset">Net Address Count Change</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="NewAddresses.html" class="text-reset">New Addresses Created</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="DepletedAddresses.html" class="text-reset">Addresses Depleted</a>
+            </li>
+                    </ul>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressWhaleTxCount.html" class="text-reset">Whale Originating Transaction Count</a>
+    </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="AddressSmallToWhaleRatio.html" class="text-reset">Small/Whale Bands Balance Ratio</a>
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="AddressSmallToWhaleRealizedRatio.html" class="text-reset">Small/Whale Bands Realized Cap Ratio</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="UnspentSatoshiBagDistribution.html" class="text-reset">Unspent Satoshi&#39;s Bags Distribution</a>
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
