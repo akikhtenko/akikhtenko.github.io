@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>ChainExposed - Age Bands Cost Basis Distribution</title>
+    <title>ChainExposed - Age Bands Realized Price Distribution</title>
     <link rel="icon" href="favicon.png">
     <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -174,25 +174,6 @@ div.cmath {
             </li>
                     </ul>
     </li>
-                                                                                                        <li class="list-group-item py-0">
-        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#supplyDistribution" aria-expanded="false" aria-controls="supplyDistribution">
-            <i class="me-1"></i><span><b>Supply Distribution</b></span>
-        </a>
-        <ul id="supplyDistribution" class="collapse  list-group list-group-flush">
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="SupplyDistributionShiftFromAthRealizedPrice.html" class="text-reset">Realized Price Shift From Last ATH</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="SupplyDistributionShiftDaysAgoRealizedPrice30.html" class="text-reset">Realized Price Shift (30 Days)</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="SupplyDistributionShiftDaysAgoRealizedPrice7.html" class="text-reset">Realized Price Shift (7 Days)</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
-                <a href="SupplyDistributionShiftDaysAgoRealizedPrice1.html" class="text-reset">Realized Price Shift (1 Days)</a>
-            </li>
-                    </ul>
-    </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
     </li>
@@ -318,8 +299,27 @@ div.cmath {
             </li>
                     </ul>
     </li>
-                                                <li class="list-group-item py-2 py-lg-1 active bg-black" id="currentPlot">
-        <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Cost Basis Distribution</a>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#supplyDistribution" aria-expanded="true" aria-controls="supplyDistribution">
+            <i class="me-1"></i><span><b>Supply Distribution</b></span>
+        </a>
+        <ul id="supplyDistribution" class="collapse show list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 active bg-black" id="currentPlot">
+                <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Realized Price Distribution</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftFromAth.html" class="text-reset">LTH/STH Realized Price Shift From Last ATH</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftDaysAgo30.html" class="text-reset">LTH/STH Realized Price Shift (30 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftDaysAgo7.html" class="text-reset">LTH/STH Realized Price Shift (7 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftDaysAgo1.html" class="text-reset">LTH/STH Realized Price Shift (1 Days)</a>
+            </li>
+                    </ul>
     </li>
                                                 <li class="list-group-item py-2 py-lg-1 " >
         <a href="SupplyAgeHistogram.html" class="text-reset">Supply Age Distribution</a>
@@ -329,7 +329,7 @@ div.cmath {
                 <br/>
 
                 <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpecific" aria-expanded="true" aria-controls="addressSpecific">
-                    <i class="me-1"></i><span><b>Address Size Specific</b></span>
+                    <i class="me-1"></i><span><b>Address Specific</b></span>
                 </a>
                 <ul id="addressSpecific" class="collapse show list-group list-group-flush">
                                                 <li class="list-group-item py-2 py-lg-1 " >
@@ -532,7 +532,7 @@ div.cmath {
         y: -0.15,
         orientation: 'h'
     },
-    title: 'Age Bands Cost Basis Distribution',
+    title: 'Age Bands Realized Price Distribution',
     autosize: true,
     margin: {
   "autoexpand" : true,
