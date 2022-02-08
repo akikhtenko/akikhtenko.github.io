@@ -106,18 +106,28 @@ div.cmath {
                     <i class="me-1"></i><span><b>Market-wide</b></span>
                 </a>
                 <ul id="marketWide" class="collapse show list-group list-group-flush">
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="Supply.html" class="text-reset">Circulating Supply</a>
+                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#macro" aria-expanded="false" aria-controls="macro">
+            <i class="me-1"></i><span><b>Macro Picture</b></span>
+        </a>
+        <ul id="macro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="Supply.html" class="text-reset">Circulating Supply</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="Liveliness.html" class="text-reset">Liveliness</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
+            </li>
+                    </ul>
     </li>
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
-    </li>
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
-    </li>
-                                                                                                                                                                                                                                <li class="list-group-item py-0">
+                                                                                                                                                                                                                    <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#spending" aria-expanded="false" aria-controls="spending">
-            <i class="me-1"></i><span><b>Spending Behaviour</b></span>
+            <i class="me-1"></i><span><b>Spending</b></span>
         </a>
         <ul id="spending" class="collapse  list-group list-group-flush">
                         <li class="list-group-item py-2 py-lg-1 " >
@@ -148,9 +158,6 @@ div.cmath {
                 <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed (adjusted)</a>
             </li>
                         <li class="list-group-item py-2 py-lg-1 " >
-                <a href="Liveliness.html" class="text-reset">Liveliness</a>
-            </li>
-                        <li class="list-group-item py-2 py-lg-1 " >
                 <a href="SellBubbles1.html" class="text-reset">Sell Bubbles (Last 1 Day)</a>
             </li>
                         <li class="list-group-item py-2 py-lg-1 " >
@@ -164,11 +171,14 @@ div.cmath {
             </li>
                     </ul>
     </li>
-                                                                                                        <li class="list-group-item py-0">
+                                                                                                                    <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#unrealizedPnL" aria-expanded="false" aria-controls="unrealizedPnL">
             <i class="me-1"></i><span><b>Unrealized Profit/Loss</b></span>
         </a>
         <ul id="unrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
+            </li>
                         <li class="list-group-item py-2 py-lg-1 " >
                 <a href="PnLBands.html" class="text-reset">Unrealized Profit/Loss Bands (Relative)</a>
             </li>
@@ -182,18 +192,6 @@ div.cmath {
                 <a href="MVRV.html" class="text-reset"> MVRV</a>
             </li>
                     </ul>
-    </li>
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
-    </li>
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
-    </li>
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
-    </li>
-                                                <li class="list-group-item py-2 py-lg-1 " >
-        <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
     </li>
                                                                                                                                                     <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#volume" aria-expanded="true" aria-controls="volume">
@@ -236,6 +234,22 @@ div.cmath {
             </li>
                     </ul>
     </li>
+                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#other" aria-expanded="false" aria-controls="other">
+            <i class="me-1"></i><span><b>Other</b></span>
+        </a>
+        <ul id="other" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
+            </li>
+                    </ul>
+    </li>
                                     </ul>
 
                 <br/>
@@ -270,7 +284,7 @@ div.cmath {
     </li>
                                                                                                                                                                                             <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpending" aria-expanded="false" aria-controls="ageSpending">
-            <i class="me-1"></i><span><b>Age-Specific Spending Behaviour</b></span>
+            <i class="me-1"></i><span><b>Age-Specific Spending</b></span>
         </a>
         <ul id="ageSpending" class="collapse  list-group list-group-flush">
                         <li class="list-group-item py-2 py-lg-1 " >
@@ -442,7 +456,7 @@ div.cmath {
     </li>
                                                                                                                                 <li class="list-group-item py-0">
         <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpending" aria-expanded="false" aria-controls="addressSpending">
-            <i class="me-1"></i><span><b>Address-Specific Spending Behaviour</b></span>
+            <i class="me-1"></i><span><b>Address-Specific Spending</b></span>
         </a>
         <ul id="addressSpending" class="collapse  list-group list-group-flush">
                         <li class="list-group-item py-2 py-lg-1 " >
