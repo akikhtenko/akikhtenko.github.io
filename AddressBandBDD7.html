@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ChainExposed - Bitcoin Days Destroyed Bands 7d MA</title>
+    <link rel="icon" href="favicon.png">
+    <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="free, bitcoin, crypto, on-chain, market, top, bottom, signal, analytics, chart">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVW2DEJ56"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+  gtag('config', 'G-WJVW2DEJ56');
+    </script>
+    <style type="text/css">
+main {
+    padding-left: 360px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 58px;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 360px;
+  z-index: 600;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.fillRemaining {
+    height: calc(100vh - 82px);
+}
+
+li a {
+    text-decoration: none;
+    white-space: nowrap;
+    display: block;
+}
+
+.sidebar .list-group-item-action::before {
+    display: inline-block;
+    width:1.25em;
+    line-height:0;
+    content:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition:transform 0.35s ease;
+    transform-origin:.5em 50%
+}
+
+.sidebar .list-group-item-action[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.main-box {
+    height: 100%;
+}
+
+.description-box {
+    height: 100%;
+}
+
+div.cmath {
+    margin-bottom: 20px;
+    white-space : pre;
+    font-size : smaller;
+}
+
+@media screen and (max-width:991.98px) {
+    main {
+        padding-left: 0px;
+    }
+    .sidebar {
+        width: 100%;
+    }
+}
+
+
+
+  </style>
+</head>
+<body class="fillRemaining">
+
+<header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+
+                <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#marketWide" aria-expanded="true" aria-controls="marketWide">
+                    <i class="me-1"></i><span><b>Market-wide</b></span>
+                </a>
+                <ul id="marketWide" class="collapse show list-group list-group-flush">
+                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#macro" aria-expanded="false" aria-controls="macro">
+            <i class="me-1"></i><span><b>Macro Picture</b></span>
+        </a>
+        <ul id="macro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="Supply.html" class="text-reset">Circulating Supply</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="Liveliness.html" class="text-reset">Liveliness</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#spending" aria-expanded="false" aria-controls="spending">
+            <i class="me-1"></i><span><b>Spending</b></span>
+        </a>
+        <ul id="spending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RealizedProfitAndLoss.html" class="text-reset">Realized Profit/Loss Pct</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RealizedPnLBands.html" class="text-reset">Realized Profit/Loss Bands (Absolute)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="NetRealizedPnl.html" class="text-reset">Net Realized Profit/Loss Pct</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RealizedX.html" class="text-reset">Realized Profit/Loss Crosses</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SOPR.html" class="text-reset"> SOPR</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="ASOL.html" class="text-reset">Average Spent Coin Age (ASOL)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="Dormancy.html" class="text-reset">Dormancy (adjusted)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="DormancyFlow.html" class="text-reset">Dormancy Flow</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed (adjusted)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SellBubbles1.html" class="text-reset">Sell Bubbles (Last 1 Day)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SellBubbles7.html" class="text-reset">Sell Bubbles (Last 7 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SellBubbles30.html" class="text-reset">Sell Bubbles (Last 30 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SpendingProbability.html" class="text-reset">Spending Probability</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#unrealizedPnL" aria-expanded="false" aria-controls="unrealizedPnL">
+            <i class="me-1"></i><span><b>Unrealized Profit/Loss</b></span>
+        </a>
+        <ul id="unrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="PnLBands.html" class="text-reset">Unrealized Profit/Loss Bands (Relative)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="NUPL.html" class="text-reset">NUPL</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RelativeUnrealizedProfit.html" class="text-reset">Relative Unrealized Profit</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="MVRV.html" class="text-reset"> MVRV</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#volume" aria-expanded="false" aria-controls="volume">
+            <i class="me-1"></i><span><b>Volume Metrics</b></span>
+        </a>
+        <ul id="volume" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="TransactedVolume.html" class="text-reset">Transacted Volume</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AvgTransactionVolume.html" class="text-reset">Average Transaction Volume</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="VolumeBandDistributionVolumeAbsolute.html" class="text-reset">Transaction Volume Bands (Absolute)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="VolumeBandDistributionCountAbsolute.html" class="text-reset">Transaction Count Bands (Absolute)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="VolumeBandDistributionVolumeRelative.html" class="text-reset">Transaction Volume Bands (Relative)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="VolumeBandDistributionCountRelative.html" class="text-reset">Transaction Count Bands (Relative)</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
+            <i class="me-1"></i><span><b>Network Metrics</b></span>
+        </a>
+        <ul id="network" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="NVTRatio.html" class="text-reset">NVT and RVT Ratios</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="CoinCirculation.html" class="text-reset">Coin circulation</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#other" aria-expanded="false" aria-controls="other">
+            <i class="me-1"></i><span><b>Other</b></span>
+        </a>
+        <ul id="other" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
+            </li>
+                    </ul>
+    </li>
+                                    </ul>
+
+                <br/>
+
+                <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpecific" aria-expanded="true" aria-controls="ageSpecific">
+                    <i class="me-1"></i><span><b>Hodler Age Specific</b></span>
+                </a>
+                <ul id="ageSpecific" class="collapse show list-group list-group-flush">
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="HodlWaves.html" class="text-reset">HODL Waves (Classic)</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="HodlWavesAddress.html" class="text-reset">HODL Waves (Address-Based)</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AgeBandRealizedPrice.html" class="text-reset">Age Bands Realized Price</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="HypeCycleWaves.html" class="text-reset">Hype Cycles (&lt;1m RHODL)</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="SthLthUtxoRatio.html" class="text-reset">Short Term to Long Term Coin Ratio</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="SthLthAddressRatio.html" class="text-reset">Short Term to Long Term Address Ratio</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="LthAddressPct.html" class="text-reset">Supply In Long Term Addresses (%)</a>
+    </li>
+                                                                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpending" aria-expanded="false" aria-controls="ageSpending">
+            <i class="me-1"></i><span><b>Age-Specific Spending</b></span>
+        </a>
+        <ul id="ageSpending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AgeBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution Abs</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AgeBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution Pct 7d MA</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AgeBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution Abs</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AgeBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution Pct 7d MA</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="LTHSpentOutput.html" class="text-reset">Long Term Holder Spending</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="LTHAvgSpentCostBasis.html" class="text-reset">Spent Old Coin Cost Basis</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SpentOutputAgeDistribution.html" class="text-reset">Spending Distribution</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SOPR30day.html" class="text-reset">30 day SOPR</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthSOPRShortTermHolder.html" class="text-reset">Short Term Holder SOPR</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthSOPRLongTermHolder.html" class="text-reset">Long Term Holder SOPR</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="RelativeSpendingLongTermHolder.html" class="text-reset">Long Term Holder Relative Spending</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageUnrealizedPnL" aria-expanded="false" aria-controls="ageUnrealizedPnL">
+            <i class="me-1"></i><span><b>Age-Specific Unrealized Profit/Loss</b></span>
+        </a>
+        <ul id="ageUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="MVRV30day.html" class="text-reset">30 day MVRV</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="LthVsSthProfitability.html" class="text-reset">Short Term vs Long Term Holder PnL</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthInProfitPct.html" class="text-reset">Short/Long Term Holder In Profit (%)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthMVRVShortTermHolderCoin.html" class="text-reset">Short Term Holder Coin MVRV</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthMVRVLongTermHolderCoin.html" class="text-reset">Long Term Holder Coin MVRV</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthMVRVShortTermHolderAddress.html" class="text-reset">Short Term Holder Address MVRV</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="XthMVRVLongTermHolderAddress.html" class="text-reset">Long Term Holder Address MVRV</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#supplyDistribution" aria-expanded="false" aria-controls="supplyDistribution">
+            <i class="me-1"></i><span><b>Supply Distribution</b></span>
+        </a>
+        <ul id="supplyDistribution" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyAgeHistogram.html" class="text-reset">Supply Age Distribution</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Realized Price Distribution</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftFromAth.html" class="text-reset">LTH/STH Realized Price Shift From Last ATH</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftDaysAgo30.html" class="text-reset">LTH/STH Realized Price Shift (30 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftDaysAgo7.html" class="text-reset">LTH/STH Realized Price Shift (7 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftDaysAgo1.html" class="text-reset">LTH/STH Realized Price Shift (1 Days)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SupplyDistributionShiftStudy.html" class="text-reset">LTH Realized Price Shift Study</a>
+            </li>
+                    </ul>
+    </li>
+                                    </ul>
+
+                <br/>
+
+                <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpecific" aria-expanded="true" aria-controls="addressSpecific">
+                    <i class="me-1"></i><span><b>Address Specific</b></span>
+                </a>
+                <ul id="addressSpecific" class="collapse show list-group list-group-flush">
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressBandDistribution.html" class="text-reset">Address Bands Distribution</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressBandRealizedDistribution.html" class="text-reset">Address Bands Distribution (Realized Cap)</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressBandRealizedPrice.html" class="text-reset">Address Bands Realized Price</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="WhaleAccumulationHeatMap.html" class="text-reset">Whale Accumulation Heat Map</a>
+    </li>
+                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsBalances" aria-expanded="false" aria-controls="addressBandsBalances">
+            <i class="me-1"></i><span><b>Address Bands Balances</b></span>
+        </a>
+        <ul id="addressBandsBalances" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotFISH.html" class="text-reset">10 to 100 (Fish)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandTotPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsCounts" aria-expanded="false" aria-controls="addressBandsCounts">
+            <i class="me-1"></i><span><b>Address Bands Counts</b></span>
+        </a>
+        <ul id="addressBandsCounts" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntFISH.html" class="text-reset">10 to 100 (Fish)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="addressBandCntPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpending" aria-expanded="true" aria-controls="addressSpending">
+            <i class="me-1"></i><span><b>Address-Specific Spending</b></span>
+        </a>
+        <ul id="addressSpending" class="collapse show list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution Abs</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution Pct 7d MA</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution Abs</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution Pct 7d MA</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 active bg-black" id="currentPlot">
+                <a href="AddressBandBDD7.html" class="text-reset">Bitcoin Days Destroyed Bands 7d MA</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressBandBDD90.html" class="text-reset">Bitcoin Days Destroyed Bands 90d MA</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="SpentOutputAddressDistribution.html" class="text-reset">Spending Distribution</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressWhaleSOPR.html" class="text-reset">Whale SOPR</a>
+            </li>
+                    </ul>
+    </li>
+                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressUnrealizedPnL" aria-expanded="false" aria-controls="addressUnrealizedPnL">
+            <i class="me-1"></i><span><b>Address-Specific Unrealized Profit/Loss</b></span>
+        </a>
+        <ul id="addressUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressWhaleMVRV.html" class="text-reset">Whale MVRV</a>
+            </li>
+                    </ul>
+    </li>
+                                                                                                                                <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
+            <i class="me-1"></i><span><b>Network Metrics</b></span>
+        </a>
+        <ul id="network" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="ActiveAddresses.html" class="text-reset">Active Addresses</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="ActiveAddressRatio.html" class="text-reset">Active to Total Address Ratio</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressNonZeroCount.html" class="text-reset">Non-Zero Address Count</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="AddressCountChange.html" class="text-reset">Net Address Count Change</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="NewAddresses.html" class="text-reset">New Addresses Created</a>
+            </li>
+                        <li class="list-group-item py-2 py-lg-1 " >
+                <a href="DepletedAddresses.html" class="text-reset">Addresses Depleted</a>
+            </li>
+                    </ul>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressWhaleTxCount.html" class="text-reset">Whale Originating Transaction Count</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressSmallToWhaleRatio.html" class="text-reset">Small/Whale Bands Balance Ratio</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressSmallToWhaleRealizedRatio.html" class="text-reset">Small/Whale Bands Realized Cap Ratio</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="UnspentSatoshiBagDistribution.html" class="text-reset">Unspent Satoshi&#39;s Bags Distribution</a>
+    </li>
+                                                <li class="list-group-item py-2 py-lg-1 " >
+        <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
+    </li>
+                                    </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <h2>ChainExposed</h2>
+            </a>
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+                <!--<div class="alert alert-danger m-0" role="alert">
+                    The charts will not be updated for about a week starting from 18 December 2021.
+                    We will be upgrading our servers and resyncing the Bitcoin node!
+                </div>-->
+                <li class="nav-item">
+                    <a class="nav-link active" href="https://twitter.com/bullfromsea" target="_blank" style="white-space: nowrap;"><img src="whale-bull-chainexposed-logo.png" height="40px"/> @bullfromsea</a>
+                </li>
+                <li class="nav-item">
+                    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Navbar -->
+</header>
+
+<!--Main layout-->
+<main style="margin-top: 58px;" class="h-100">
+    <div class="container-fluid pt-4 h-100 m-0">
+        <div class="row h-100 m-0 p-0">
+            <div class="col-12  m-0 p-0 main-box" id="target">
+                                    <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    spikedistance: 10000,
+    annotations: [
+        {
+            "opacity": 0.07,
+            "font": {"color": "blue", "size": 40},
+            "showarrow": false,
+            "text": "ChainExposed",
+            "valign": "top",
+            "x": 0.5,
+            "y": 0.5,
+            "xref": "x domain",
+            "yref": "y domain"
+        }
+    ],
+    legend: {
+        x: 0,
+        y: -0.15,
+        orientation: 'h'
+    },
+    title: 'Bitcoin Days Destroyed Bands 7d MA',
+    autosize: true,
+    margin: {
+  "autoexpand" : true,
+  "b" : 80,
+  "l" : 80,
+  "pad" : 0,
+  "r" : 80,
+  "t" : 40
+},
+    hovermode: 'x',
+    xaxis: {
+    title: 'Date',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    rangeslider: {thickness: 0.05},
+    },
+
+    yaxis: {
+    title: 'Price',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    type: 'log',
+    overlaying: 'y2',
+    },
+    yaxis2: {
+    title: 'Bitcoin Days Destroyed',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    side: 'right',
+    },
+
+    barmode: 'stack',
+};
+var config = {
+  "displayModeBar" : false,
+  "responsive" : true
+}
+var trace0 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["45078.128350263","47892.8409181765","47525.2091431911","47208.6250270602","48829.8275096435","48110.2417334892","49140.3826578024","52224.9391139684","51650.0699485681","55820.5044038574","55861.8205670953","57500.7161102864","53952.1533386324","48560.4890350672","49567.3456890707","47568.131170076","46231.7675784921","45834.5133611923","45359.4641642314","49634.4471092928","48304.7054879018","50690.4671835184","48472.7954751607","48800.8173594389","48970.5244868498","51086.4681794272","52088.475131502","54739.1352542373","56116.040912332","57847.2549357101","57334.641534775","61288.7941276447","59905.6184704851","56121.121924021","56500.4460257159","58683.0659824664","57731.4798410871","58168.1219222677","58247.8847066043","57447.9330198714","54453.1373508475","54563.6119458211","52595.4113237873","51547.1248953828","54817.8571122151","56019.8373055523","55713.0381396844","57571.2333477498","58684.5483921683","58792.1948275862","58818.9770985973","59031.5340192285","57282.3896247808","58202.199391993","58755.8525295149","58084.0664231444","56266.8346762127","57963.3445994155","58051.7625563998","59651.5589877265","59932.9306469901","59905.9363744594","63445.638314436","62869.4955873758","63231.162987142","61571.1100905903","60280.8761758036","56389.5579812975","55798.1370771479","56474.3737586207","54025.7995745178","51882.0598106371","50954.9100607832","50279.9484464056","48946.9407428404","53943.3499783752","55027.0309848042","54787.3787071888","53567.0811938048","57741.44441654","57863.5903927528","56572.5968410286","57243.0416054939","53724.10892519","57342.0256616014","56527.3529789597","57341.0684549386","58736.1258950906","58288.4256303916","55902.9277399182","56612.1026487434","50972.355081239","49368.6144739918","49997.3959011105","47047.9633331385","46022.5037090006","43492.3954833431","42789.8093921683","37642.5200017534","40799.4021475745","37174.3311014027","37643.4197983635","34774.207221917","38630.4091186441","38269.7710747516","39194.8588980129","38510.8570417884","35596.7179510228","34681.8183670368","35652.1687703098","37312.9748970193","36661.3781184687","37639.4556732905","39160.1504132086","36884.3735551724","35409.5672366452","35720.6043546464","33724.9077517826","33475.0489234366","37372.9888953828","36826.0022185856","37185.3931268264","35669.1712817066","38925.4194289889","40455.5959833431","40254.6514679135","38265.5437726476","38018.6432346581","35714.3120787259","35555.9763966686","35599.9418784337","31715.1598624196","32394.5555949737","33610.4968129749","34658.972875979","31683.5032004676","31890.6764465225","34506.4911975453","34376.188538983","35933.7782178843","35065.4661533606","33505.0804935126","33782.9459464641","34588.2242916423","35355.6078883694","33911.7538404442","34123.9815680888","33931.6186382233","32819.6595312098","33914.8810742256","33610.9458386908","34258.4413898305","33135.2359117475","32641.9759610169","32798.2845189947","31707.6900368206","31455.7175818819","31547.9511990064","31707.7038527177","30883.4697462303","29766.6577182934","32119.6572258328","32306.9614285798","33439.5957028638","34166.914654588","35119.9374360023","37444.7825102279","39126.5402881356","39939.1940432495","40086.1643950906","41789.6670981882","41793.3137481005","39968.9689544126","39304.1862835769","38288.8253975453","39773.9113489188","40941.650434249","42790.3573284629","44484.9005862069","43972.3010181181","46265.6424564582","45488.7912624196","45676.3263611923","44405.7483483343","47717.4853559322","47124.2050736411","47074.370710111","45984.7199070719","44714.0967982466","44954.3637469316","46646.8615049679","49240.8356049094","49070.2409701929","49363.3160952659","49590.8763676213","47925.8622127411","49002.3166049094","47190.3449929866","49048.4755891292","48852.4687995324","48948.3479579193","47125.7685189947","47219.2443424898","48688.5375572764","49369.5862746932","49860.5341635301","49919.577563647","51747.6438565167","52640.5883740503","46854.4006028638","46187.9757306254","46448.7748290473","44765.2755762712","45098.5916447691","46180.6124563998","44991.5221277031","47022.6177597896","48167.1893676213","47797.3283237873","47213.7941294565","48204.0136519579","47218.4739964933","42855.5103448276","40526.4893760958","43577.5724821742","44861.2980329047","42803.307701052","42735.2658240795","43131.2941773816","42496.7852250146","41223.7862743425","41453.9470131502","43781.546015488","48078.1315543542","47792.4391943308","48202.6229177089","49288.5013106371","51558.0493319112","55419.800411163","53805.1569125658","53933.5275908825","55010.9224751607","54701.2797022209","57289.1864570426","56196.1812597896","57348.8928769725","57384.0369146698","61446.0840073057","60932.0632119228","61462.2223722969","61977.0575514319","64290.8977574518","66061.7965639977","62373.8856206897","60750.9673718293","61250.082628872","60865.4470523086","63031.6729015196","60393.9802738165","58563.3359899766","60564.5721122151","62230.8055689655","61742.9165321449","61432.9700628287","61092.0950592051","63024.7472296902","62955.9817630041","61393.8899780246","61005.840833723","61455.0536268849","63043.8290590298","67541.7555081824","67095.5856706605","64756.0779689071","64962.9312939801","64078.968037405","64397.7912063121","65032.2256548217","63753.5031592636","60322.4978530099","60154.3083661601","56794.1556271186","58014.0729888954","59749.4738229106","59032.6241017534","56383.5658760958","57642.2657980713","57141.8303784337","59008.6554792519","53800.6178389831","54635.8824628872","57248.5696963764","57920.7107299825","57097.0127942724","57180.6098439509","56582.8937691408","53671.6160680888","49159.7357983635","49327.0935999416","50535.4252232612","50574.4728344828","50500.6543513735","47937.8228458212","47437.2289725307","49321.7693252484","50136.5722568673","46785.3278410286","48292.6822501461","48830.6223860316","47663.4691077148","46334.4837489772","46904.8736753361","46876.426924021","46954.7634783168","49082.0624666277","48692.0987391584","50712.9707682642","50783.8344210988","50590.4508976622","50798.3065859147","50796.3776735827","47673.0440452367","46470.3215751023","47102.4630037989","46355.1173302747","47560.0093816482","47352.5577565751","46453.432351841","45905.9611221508","43530.9440388662","43144.9652928112","41512.7845808299","41799.8128848627","41886.4985569842","41816.9510561075","42768.1786116306","43961.0265441262","42626.8653924605","43102.6476180596","43206.6744812975","43168.8596671537","42211.270399474","42431.2319670368","41787.722012858","40756.1261630625","36492.2872241379","34996.390965225","36271.0502650497","36659.7252206312","36952.586773232","36825.8245993571","37021.9371332554","37768.8474836353","38088.2912279953","37983.5063845704","38462.6724029807","38787.9640824079","36942.3307493279","37057.6521879018","41079.9060881356","41508.5816925774","42358.2251732905","43888.980119813","44167.4447945646"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "black",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y',
+type: 'scatter',
+name: 'Price',
+};
+var trace1 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["197443.9219327314","196958.12271712284","199591.2196645314","195583.13977729285","197823.79626655858","187318.53678043143","170617.59916795426","173383.05716240854","177566.31542767285","181917.25260928998","196284.38716430427","203743.41294525997","212813.01674889855","223763.26593788143","219240.10826098855","214679.45220124998","204225.35311159428","187323.99540611","173837.8027362243","156981.4276083386","139884.17758294859","133212.48393052857","125254.80228455858","121795.49549180715","119005.89856246285","116894.2561779343","119463.15268631428","124158.51516025285","128418.6032413557","131875.89461247856","134505.64874645998","138377.2351395057","147570.38010678283","148928.18430215283","143562.53496036713","134891.20615793","133858.7115551743","131304.6602915486","125779.03753280286","118925.68389309857","119727.09749598714","124826.95882529285","127237.35912311428","126287.64762827715","122049.85568807571","118430.51050779714","114301.60681749428","109691.64679701143","105022.9517441743","102676.20290659572","101924.08527181573","104861.47049956287","106446.15559961717","107962.65106565715","110425.66853525","109345.00499003715","110359.71851040571","108497.78492821286","110217.11310797856","112144.30238927713","111934.55370295714","110510.1277352857","115698.33816244284","120097.96180211571","126184.01111612286","123158.81425817999","118106.25788341572","121093.00049436571","116543.21793514857","110783.97842213286","102125.28225977143","101462.84801564571","112088.28097347142","117129.16611408714","115256.22844664002","116821.73409992571","118057.52565648143","121748.21759062572","118238.89000242716","111717.03814027715","111439.28011269857","115746.37680187571","128029.46446039","149374.96871180285","157393.12542033856","164392.61622271713","176024.50402838428","190941.72613403856","211602.38371685002","210067.3806575086","192962.45339084146","197124.75491463716","208172.52650159574","201319.04748453287","189853.99518748146","171604.54803297715","171243.80699789","165391.01447134858","173460.5148783843","159321.65372540572","152587.77050071428","146743.8584365543","140511.0697200357","132550.46129829143","130893.45985784428","106666.13713921714","99801.62787096713","96859.67663473857","95073.29045910428","96979.65945612571","102148.37949542429","114301.80308418143","124454.93202302858","125822.07018950429","126472.93362905286","124318.0987925843","113040.43956888","106273.21858035712","102336.90412029285","91710.96404475998","89233.33312568998","87257.32306108142","91333.03029295999","92433.23324281142","90734.45986832428","81395.68853278141","81325.49425216998","80227.14688911283","88413.1815090227","81801.52824700272","85180.35728528557","86232.70950529842","85507.01827024986","85357.76230092843","85539.15400928557","75960.05354223713","77287.78724293284","68374.82269463428","63815.331211355704","60712.48429207571","58887.88300729571","56574.59389372428","53436.761192310005","53467.76150206143","58939.329426581426","60582.851652062855","65156.21972208143","66937.38657228","68109.31494817571","71897.52557555713","71997.21223568999","72757.49525683999","72601.16281845428","71165.07991893856","73299.42071788284","75839.26104936714","75664.99660219428","72112.83620170143","67896.50209982858","68709.38830128858","74199.21299126715","70260.5690244443","67842.26128822286","73203.90426921858","74371.49682213714","76496.24851352429","79403.55511622428","76417.44060308856","77188.73981604284","77580.10568717284","71157.66190991284","73840.52873607569","73594.44934288712","70949.20911651998","68747.16266785284","69586.99907787998","71225.86456925141","73031.92006451284","72876.94298584713","80578.40253942428","83198.8810946","87278.40010956857","91571.95290667571","93226.4895462457","96847.02029112856","97139.18495679999","90511.01364594999","89809.24366123427","91884.00870792998","90773.82106109428","97677.79525828714","101690.34243472427","104325.40854057428","104263.08531267714","108815.19170171858","103758.03035345572","103461.66929636286","93456.4599817","85992.48032880285","84232.55697228","82759.84397292286","78750.08055592286","79472.20141799","81080.65137064144","87753.36420261001","92600.88551198001","92195.02631172","94868.19531321","96168.3022453557","97224.46334892999","94553.31797836142","89997.39111442713","84163.84778819142","82861.12964687856","80714.25264188855","77489.02740884713","74998.31069829142","76296.47496024714","78404.6753517257","80051.2444239657","81392.49539054428","81553.14336649285","81043.63439022857","80355.49574535286","78175.46265344","76199.22693407287","76521.7582850543","73314.56023459144","72095.66922178572","72518.35903104716","73052.38614750144","71542.10581154288","76408.57527428429","76610.73299844429","81724.52544037857","83454.69890626143","84330.31635362285","89704.63816577714","97161.59181173572","101023.04851196714","103355.2026788857","106472.96800557856","129023.9638366072","134819.40319042577","132534.76636487863","130631.21952385434","124289.88276927435","133348.3544943315","135891.5744043215","119306.10630075286","119632.1580721757","126847.04557202858","138636.64796449713","149512.06897265714","140583.75596876713","133521.29131781284","132631.9216620814","131260.85548387427","126462.8992922714","114039.3553483214","103983.80902478426","103080.74392081855","104926.3222469157","104238.62575500713","104300.10477051428","102921.30673839143","103159.31705248429","102602.16206028857","114261.04274004714","113824.12072196713","112915.21084884","115271.64277519142","126117.01569191285","136248.08772568143","140571.95392448857","129092.84877668144","128063.7873436","126464.72179607714","121682.37224173","109970.25062003","99282.35248442287","93447.21959271286","91512.56787346571","93114.23218322571","97706.80949701287","94980.27149091857","93823.36861958144","92233.19292043286","91980.76177316571","93608.87880623856","90768.89531770714","83944.90565543856","87144.56842692141","85281.0434664457","85624.66425224283","88302.9007244757","91139.25733817427","101203.71157822998","116231.06939779571","118662.93948837857","119245.55635749856","117517.98390036428","118773.30941111429","114400.57640957","104342.50966235285","89233.18407256284","83647.67500634285","82884.05905065715","82755.7961705157","76388.48148215713","75414.36139017857","76260.49731533429","78378.05340549428","84591.58485543712","91978.57012718427","92526.43285439142","94363.84440405856","95955.07612134713","95540.75813842998","92390.10572726569","95362.39179495999","90160.21178472","94347.95816912285","94467.38417630427","146314.93331240004","145208.69515125715","146068.9922368929","134519.37286290433","133814.01377519575","134695.4097397386","136736.47376600574","84902.12136777569","85889.69600229712","86431.32606103855","89008.09425102996","90461.06471843712","85327.6107326914","80910.15536263285","78823.96663482855","78510.80939279571","79168.24263312714","77122.90036584143","73355.39390432999","71892.48678277284","73540.24171851571","83245.99623359142","92053.10729409428","92143.33842176286","98073.48767845288","98738.86569348858","98662.11738703573","103620.72582624714","102190.28997179857","98155.28022271571","99567.98026399715","96749.29354927571","100684.31460984713","106698.98747594285","100519.00645776858","90672.09144945857","85162.42659708286","84255.48245740286","84185.95105432","119430.59177187285"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(158, 1, 66, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(158, 1, 66, 0.8)',
+type: 'scatter',
+name: 'less than 0.1 (Plankton)',
+};
+var trace2 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["837150.7284963543","836038.5123424971","850652.6489523029","841634.4953936642","863596.19819176","824589.9029258442","740003.0761687185","770962.27749586","799180.7731545015","829222.2305783214","879402.8924921971","934841.9381142043","971332.6219385158","1030484.4665559586","983685.0374490987","940401.3586462344","885556.6379346558","820447.0113514643","746494.4687935886","670655.26967204","580960.3509598457","555900.83561366","533192.3160121043","509913.8257779957","483047.0407399571","464688.20433746715","471023.09439797996","477368.70953268284","494180.98756383854","500157.9634908171","517178.96165938425","561210.5323081157","613562.3807368486","618926.5786604371","618585.0746386914","591347.7236035115","589977.2878584757","572900.9083829571","534098.6918388758","471296.6018488971","466203.09067873","461380.47123638","464444.2166902986","464616.29490869143","455780.58823541715","441078.4865569829","437520.99074970576","437027.19528697006","438965.4058457601","446288.1778575901","439877.0828448901","444950.6809293901","451951.9991818443","456768.40447641857","461519.43167725","464672.8030160914","460259.74083872855","461865.58099020284","468938.62454114","489150.6480420557","496029.7364252072","494051.55661216145","503150.8598919515","517218.2826146486","530501.1914645158","513726.101115","484431.7671811857","506442.68384823005","490198.6491033214","471909.5381186971","445380.17008933856","466194.05346480716","541186.7047405828","560251.5535875414","543951.4448197614","540141.2232454586","540858.8596249014","545266.8653985171","508482.2063641371","456270.5360613757","447026.25058948","448100.19630885136","472624.63625066995","516809.9460115871","542136.7365818286","580396.0899129043","606613.22966152","656070.69905842","676499.4716544328","690872.5810575186","662183.9926732972","667359.82690292","700892.5087533928","686080.0214125771","656849.2790779929","664071.1577921815","680101.5783141443","660321.4751912772","759926.3163440672","725045.4692460272","715251.2591125243","697324.9336870243","694528.8086861887","647564.0604718043","640453.9653684471","494847.0822038143","438118.4608695443","411991.5554156","395680.01989701","342736.95991926","327644.02201004716","324782.5065493043","353092.12067435","405687.7721105129","453566.5823691629","507864.6627812286","582980.0442157814","593001.21957409","602542.1324381871","562628.8164566685","507738.3668167057","447846.08414191287","401768.56264730997","320859.16338707856","311708.98392817285","284821.77008659","284960.20328434714","288977.4124541043","312658.6196494657","297913.9502578785","302727.2663444757","306429.7401305785","329496.26082510286","339903.6803731","330081.99032285716","306885.9542485157","297435.1426534443","268288.9082126743","250727.09560410288","223137.8884352143","208002.10893217142","209561.28417305","203849.96484125144","208187.65756301713","221271.5611624757","230989.67583311285","241309.03157212285","240074.64317607429","251620.0774125771","260198.08296109285","258963.85200143998","266228.66698824","271494.9119468014","263009.8001857714","264693.57440748287","255447.04110456","251364.31103616286","244528.49061450287","236952.31156731572","226957.8277295243","267663.69155636145","280143.14825706143","278535.44488420716","276091.51355657575","275079.70524976717","276646.1517696372","295539.49578614143","274477.49777817284","273368.49696158996","285781.7832679257","294796.20825008285","308612.43547776714","316961.1919654314","298494.41420768","285500.08155104145","289998.5311081143","283035.29868637427","284047.41379533143","284201.6164600929","290017.12182467","306513.9547236829","313231.9889748886","310099.60010663","315809.5439029129","312212.04477033997","303069.91962466284","292825.00876532","280371.35002685","282331.2699571214","277883.57925919426","276205.4573999729","286706.6345525472","294979.97030120145","297904.5232688729","335283.8088628872","345776.9075771457","347569.9009019986","342282.06696599","333986.2296003514","335235.3106616129","335748.37822812","305289.5681457971","300122.7029713757","313767.68123159854","335095.3581022643","348681.52260560717","347237.66206317575","358748.31800105714","360583.9886682914","362665.3950265186","351041.65403593716","336592.10713530285","326066.6086753914","320735.2347771543","303319.07585902","292981.22136255575","272768.3445098643","268268.4510578457","262790.3851580272","256652.48320409","255957.69430753","256217.93944508","283840.2113185871","293944.99808087","295064.1341347771","291128.70723727427","304899.0785781557","299903.22656019573","298473.02023928426","266381.7129385943","257960.92757150857","253386.86787746858","259757.01240990285","254149.92258361858","266286.9730375286","269333.7656823028","274883.69201163854","296518.6380724071","335496.6638699771","375466.54193874286","381211.5652418943","385955.60937718285","546409.3587629772","575646.1536249629","578341.8711954314","573266.8942543571","547883.4789027543","594062.3191495672","626172.2816932457","485025.10506025713","739357.4073668041","771833.8776153028","808185.4322949256","853099.8235475599","820063.5049520342","790200.2827982198","789156.9802454384","526403.0848065071","491583.67594641855","438925.02454782143","390541.2917240243","383343.3825105457","382441.27779170574","367950.7146018857","360063.77237528143","359481.4033478529","366377.6303797986","370516.65167955","413571.95309396426","415288.80365697","426210.6976509471","442565.0802787","477012.2605131142","494279.0140778885","499134.0341444971","450850.5271781129","440253.5074382286","436855.53657473","420744.6213791514","386475.48757865286","356625.47633959574","348423.0725972929","341482.5918308443","343144.0412132786","348691.7389565229","342603.11954262713","332241.05922475574","330842.78958254","323320.9637320971","330497.2045451514","328439.6296987886","313605.3254271186","314787.52089511","313139.78634453","323007.8366444257","326692.36876373715","328301.72337104427","360311.3834442357","372257.85293030855","388267.86084599857","396170.40750205715","385708.50511122856","395105.13728769287","393424.60311823426","363815.36268325715","356726.2114155114","348106.5639140785","341310.1639622385","340540.48408387566","317803.16712981573","313620.28695691","312637.4825945443","303076.5763379957","286917.5366063586","288796.63589389855","285955.53633020143","293231.9744276871","286160.82541308","279972.04696474713","279548.2661980657","275561.61548463284","274797.56941071857","281664.1404065086","284934.2150827343","463503.1249834185","468379.20234233566","476076.10145340423","478315.7368944542","479314.3285894128","485826.4845969771","498916.2840735728","340522.5174428357","352112.7672297886","353915.18901768856","362609.0425424786","364048.9665363686","348539.03230920713","329963.71671878","310388.46321652713","292292.4153088229","285267.9576347886","274525.6963329029","270121.69593348284","271311.79648971","272444.3516086057","316878.70379189146","384956.30980005284","397929.8050883971","438637.0048584028","451295.4880897657","452600.86430979427","447265.08875789144","404663.9232044457","358680.17278860573","351997.9973462643","319379.3942108957","304896.39352507715","307733.10924477","302244.4080055029","295844.6663632486","280420.85619774146","273459.3106944372","266898.6426901829","298049.70302015"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(233, 92, 71, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(233, 92, 71, 0.8)',
+type: 'scatter',
+name: '0.1 to 1 (Shrimps)',
+};
+var trace3 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["2240419.0916263554","2296313.494543644","2362564.930333204","2336116.948837274","2432788.4617565456","2332753.5536009585","2044447.9418259843","2113672.8020459386","2225829.6677125683","2330686.2345222244","2514257.984790953","2603143.6985385814","2716354.6918374687","2850937.9388601887","2791370.0396444383","2619535.1710412884","2454870.6828791727","2199502.902571481","2027018.0605200615","1887599.8795144744","1690527.8693696572","1646844.1156216685","1578178.4506178314","1533052.24405923","1494688.0952609656","1438139.3511752728","1438858.810530997","1457732.6135271827","1433075.1601043185","1468834.5420440214","1507882.2038675228","1654882.2427399685","1793035.8675106228","1810927.809396007","1862198.1879246028","1826232.8051847727","1811200.8382040428","1771284.8946477098","1646066.2622142513","1483833.93398878","1422355.4737571143","1332378.1955602784","1340559.524829257","1324082.1107416942","1277328.5987960284","1232155.15328106","1203512.19586982","1183601.5444562214","1188196.0703302743","1213884.9592127313","1205763.4356974843","1243413.6561752686","1255204.0286396814","1264901.5162003185","1301299.7635175271","1302644.2639218357","1239089.1478019129","1258071.5102501984","1223550.4488449327","1245467.0649080386","1257512.6349027671","1261549.6446092112","1305640.1895408472","1373632.059066953","1383381.7382554328","1406578.7902510215","1392256.0876063085","1462618.0318560272","1436878.3528719458","1390065.6750874943","1316458.6316039327","1352210.89195179","1482439.5353435744","1484633.9649093014","1481559.074915507","1474015.4748540814","1484731.1890518756","1469956.2807856486","1396436.813141923","1268751.4621289314","1250212.2647374442","1191858.917112443","1255246.1815256071","1265074.6387328557","1292271.3910117256","1324019.8414419715","1410242.613782807","1451130.8734131672","1497071.6606720528","1536948.5730980157","1542472.3501531258","1624162.9823366401","1792554.4217493644","1748886.1222414859","1742780.66993471","1770496.275030733","1809812.00838856","1797337.734796623","2035640.2976613087","1942644.0445279356","1937588.2552522542","1911748.7973177128","1943757.2553970856","1804745.9204801","1770474.7084863428","1379445.2587771185","1195128.2153497157","1094925.4607859657","1040922.5110732985","935808.4931243514","877776.1249683743","832593.2079560399","879991.2661376086","933681.1915965556","938652.4770833171","934607.0262283128","876140.8124166172","977628.0955116486","1050914.9485609813","998971.6890192286","964585.6194527","928349.8058632843","927264.1297010386","911000.6370040914","985137.8178637886","1121928.0686558299","1126940.116478274","1132656.0163432572","1173565.193875034","1162870.414281617","1161012.0302393583","1003125.4744361698","869043.4518819371","898831.3196981328","878628.3054944257","835947.7854351215","814988.8099065714","762238.0104191086","715714.9721985429","611548.9548846243","556491.6706357587","569760.9471754672","575291.9628882557","609760.1958200843","647950.16161803","679598.8909554858","709719.7956111914","707433.8854847715","698663.2361802715","705678.3818929672","677558.3930151586","690770.9747989486","688260.1406056929","659788.2888225272","661116.4289753071","648398.7224267514","661202.5379056543","652121.1158036372","657824.9581682229","659686.13732298","709026.7397161629","719904.15948397","727908.2509131543","689217.5031427728","676639.0637523929","651805.3512058657","679708.6333337715","686435.7772565371","719635.3263784872","759044.5207275086","794147.0457949885","852016.8873198","886869.5806518614","854591.3844718542","818571.3605406099","794062.3524577457","751033.1194051142","777896.3538308528","771591.6862042042","799150.9972145185","814387.3937289914","815129.6392118699","800602.5696330814","804848.6828796685","776290.6554558415","772038.6060022857","704958.2529210472","683780.0923926729","685316.9817429443","688489.5947590043","706547.4702533229","710719.5973768244","687173.1033400914","714520.6587899529","781509.3268374129","805558.83462491","848446.0920440258","828700.0268562001","803967.9709063914","812677.73664375","817419.1322836572","763932.89117652","766882.7299948743","742354.6552811072","775479.1349904414","878308.6961871","907343.90870287","948360.12213403","947496.4869761085","944070.6153266743","924676.5499500242","896853.5923241385","833640.7811861043","789216.3961696771","740652.4813166542","713609.0794656901","674087.5635417228","665145.1241582957","718389.3885205615","689189.2695875672","690935.7534186529","677967.7972222257","704281.5883006386","732029.7805885514","786708.4054069628","717354.9512283171","772341.3917995985","756433.7626023614","759956.8399474757","724484.6604948685","700458.1101455686","651402.0119232929","698797.2768710929","659580.1625926086","689216.8834023157","701819.3467941529","741085.1310078986","782339.6153528686","841353.7478725157","896165.5128072499","924410.1564518128","940603.5372475099","959873.9260802014","996898.2503468157","998120.1259648643","1030242.1250736371","1009192.248866173","1130098.2460620287","1201098.9798209385","1225322.2152930987","1485288.875834617","1577093.45788704","1673037.7879873314","1763569.92720854","1677481.650310023","1605644.3695605115","1632978.3251438658","1496611.7390130416","1467801.3033783257","1298226.6097095485","1187353.21503037","1178105.5257804715","1179357.3668885657","1111138.3166135584","956196.3240561599","897675.8586780314","966757.2257211643","961081.5740818357","950617.5639637243","950100.7399684915","975787.0518556571","1012589.0949743729","1122985.8569041342","1132294.046238447","1141065.1157469256","1155895.3234982414","1140881.50779793","1117168.4818579028","1100470.3360156287","992028.14863598","919214.4367981472","930938.3488234386","870694.24937449","856626.7892104329","876249.8192524657","870448.0738334272","875274.0602847843","856872.1968509029","799993.3499487358","820748.0275562358","811264.1107939186","788749.4569921801","765483.9529707528","735825.7202621271","763516.3278743514","776180.0639361457","778869.4034434058","883501.5900880886","887794.5592802186","938359.1253563372","956409.724191553","959104.9682326243","985861.6730916557","978818.8339675586","913243.9786663414","906599.7149065472","868148.0800356471","868890.6297067214","846734.5641729386","807580.4196034714","810268.3501211785","817508.4470501714","806326.5409941985","801002.2078567286","784983.3062110657","784966.5567482742","803443.8211052743","798575.64272561","774365.5764334372","763792.3325660015","750024.3846469214","732385.0798525214","742940.8710324115","731399.1961911272","753189.0575148514","795784.4457972901","817796.6749603457","803261.9086640157","824448.8477462115","850311.65824004","889447.1824198457","918741.2009897828","895911.2829704757","921184.0874982872","947752.7135459743","937120.3561978657","902181.5780933972","866930.4282248071","799381.1764493244","756387.50063906","732814.5475318615","711164.6911408043","730413.9031084843","727265.2575986929","727988.3538344871","838378.9638891257","1032845.6689584528","1070861.9823311027","1197440.6253914514","1299112.7143810343","1320524.1709735042","1316500.8535297257","1195358.8040747172","1044355.6844647629","1014151.6738201658","931443.3484756101","1762191.5814637989","1742708.717364646","1733740.9009134104","1726929.938073446","1706387.0580596689","1699559.472984169","1647114.6914970274","690753.9057417229"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(253, 190, 110, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(253, 190, 110, 0.8)',
+type: 'scatter',
+name: '1 to 10 (Crabs)',
+};
+var trace4 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["3360499.88327119","3452308.7293437785","3525994.019347357","3476799.5100254626","3624411.504481437","3424081.3992935885","2949595.101110293","3191658.5130027747","3277098.0128732845","3537828.1164888213","3795481.1368928645","3758269.9133959515","3905568.181621783","4110422.370030447","3970707.4432371273","3747139.8422082197","3543132.29435593","3211282.7582422458","3551483.211474791","3298970.5680578714","2941991.702686014","2720436.9391093543","2698848.2878463143","2478063.77257781","2515994.282553621","1910498.8603108884","1948500.5006526385","2138036.933213631","2230805.2325556884","2156031.566610557","2398587.9517147616","2493553.440251464","2700926.140734224","2774959.22397481","2707294.181661347","2518340.79975607","2550744.0838309512","2331144.0021770885","2173449.295122453","2037610.1707753958","1944393.7003618143","2493981.4138915213","2526704.9873319385","2481254.4115591417","2425087.480783496","2393544.6333527057","2256106.0952105084","2218446.9659031513","1527799.421669653","1771984.01549752","1865896.4545072971","2336601.8993938384","2461837.860931861","2457054.9630423114","2607492.4580636644","2771874.913032004","2584361.1608073628","2504358.34768214","2107540.937896814","2182767.8347391044","2306510.387936887","2274725.7639816627","2324139.443036373","2438831.3722401587","2508227.15330461","2502680.6683462383","2383207.9847288057","2571311.5323429173","2490401.189415857","2432013.3364591743","2295663.701641043","2254444.1286127185","2374052.75642027","2308898.842858057","2102755.9736491716","2281335.309667383","2272193.3539819857","2370266.7812326183","2301208.034816607","2259234.85532957","2344107.7232533987","2252248.243377944","2214149.831843304","2187878.160972734","2030003.6900726955","2199974.5354462154","2332360.2530479254","2321645.5225552013","2371254.110126167","2342651.25295383","2314033.915356424","2468292.9713065457","2639824.098478416","2456550.053693696","2407433.014175803","2451148.2875706274","2468384.3399553387","2468134.559394657","2894028.314646483","2676595.584261606","2725142.5422380785","2693879.3953257413","2764376.504943094","2685336.999532637","2760269.5111892144","2128438.61973986","1969878.7601663515","1807324.6354306443","1732772.7885130057","1571394.9022540872","1409315.68820914","1248429.44139217","1310141.2541561702","1413242.0258149628","1345355.7528551128","1276642.1424207042","1285751.9569125385","1349797.589166647","1938462.2985163028","1993670.4596982973","2255338.5143995215","2266365.2084701345","2282342.7246035817","2233041.86171549","2190659.0875720102","1614797.4801569958","1599725.75467444","1193773.6545127213","1204784.9511941227","1240820.59032623","1166662.2197999684","1123883.4200642142","1278919.6052246257","1240864.076138293","1322058.7086345686","1332118.3274228629","1326161.8403076371","1282656.3238067057","1257868.8346016442","1015174.4889466014","884078.6947962486","832569.5893295829","808132.8200511286","821348.57817078","981961.1483309485","1101665.674996897","1173624.9974298356","1202583.2546344514","1241443.8379834886","1233211.0845867484","1166185.0500459585","1016844.4301744557","881996.2854332842","862281.6447349385","867577.8922082029","750744.7471764128","820391.4237345915","863468.5961098028","948265.53683776","1008491.9063748729","1006015.2454473258","1030337.3862110942","1130751.9990323829","1057942.69900656","1065861.7281884213","1043761.4025474943","1086081.7906568828","1106484.1974927727","1125350.5704707499","1563251.1120462315","1595729.1590152944","1671563.4745666657","1638470.653535646","1569891.0915639387","1509708.2385762387","1451476.3112912243","958497.00913492","993109.6827053771","916260.0794304771","968392.6929638871","972655.0130759543","963865.2431714986","1234124.4925793256","1298097.7086167028","1295318.5240204227","1331803.7395814972","1282043.8384139985","1259118.5669188586","1350233.930870207","1270357.0855222528","1257094.1242243487","1242448.6939313114","1312615.2991985315","1349360.058104083","1514378.9017365128","1465914.5645834643","1351071.933820557","1476822.02515638","1421033.9444510185","1420159.5669568013","1410892.143609487","1266134.8139392084","1401974.4256163826","1374048.7740517627","1247330.4899688298","1396912.04691098","1429256.434012067","1456781.6611587498","1495792.4310283456","1376836.3541728342","1326112.2776435271","1276260.0079453543","1179769.9024783","1065258.04003075","1201439.3316937215","1266516.943546517","1182015.2854441071","1268420.5741518529","1288309.815501677","1282294.0556396157","1282270.5632459929","1064638.187842313","1014777.7177671815","1022404.3685171957","1099204.9047055915","1079997.0177188786","1155645.8061265242","1112974.40446166","1175144.3339993414","1121868.23801911","1172267.5881361014","1048749.0358588828","1115965.8866857172","1041321.9304530843","1055054.6172900442","1088700.6866324856","1100927.67308305","1215624.6820909185","1326954.5437581027","1428941.9494225543","1554938.37479842","1651301.350668033","1684017.345490287","1872405.0627573957","1850138.363621163","1849028.9137341415","1798189.6674251372","1878448.4123173403","1995733.213654323","1943369.5447965057","2031407.1791138959","2158275.9251626474","2372113.9527474414","2426272.808505883","2365606.7973554614","2195894.937294916","2344822.8087235545","2133156.0350942984","2138661.4518784615","1871489.3088104771","1790143.4442305786","1709121.2094788614","1802938.3672635402","1598762.3677189571","1636073.5415066702","1608246.5183711816","1690936.9426022728","1693835.5743457244","1703927.381559543","1606532.3324621574","1650145.7929312086","1697690.3074151573","1756782.226322363","2287669.6683825385","2344758.997152381","3201387.0888307802","3192563.5409945087","3193883.5162673714","3345293.2824827028","3288635.5319636185","2650871.80489445","2597042.68849881","1642422.1497871398","1609692.2896373526","1619125.5635515498","1352157.5466949057","1198217.5510976915","1124099.0857155942","1141266.5259850256","1125441.0364329228","1143760.7690591428","1210176.7512623826","1154969.7301769143","1125551.7115707742","1250929.335381557","1267969.36527699","1461287.9060148227","1624170.2489271043","1542423.8353462114","1610921.9754808242","1681080.0643424299","1688030.3774128242","1637188.5297086558","1600259.209968733","1646483.45373001","1628129.6421079256","1663094.3039534444","1748382.2004364342","1770771.9622579815","1682009.73616544","1645064.6343373659","1512451.0500163971","1540110.4439592971","1457628.3236477543","1310578.9639567814","1227852.3639942084","1321055.1167566783","1233196.194394097","1175917.3358469312","1248098.3478204543","1328021.138415887","1346776.4523747084","1370244.5991514886","1359761.6833327357","1480007.1517722714","1479851.6543339714","1310618.9621427343","1242572.6905154414","1206593.06430073","1173954.3149122358","1255048.5226954028","1183183.5348053828","1181072.3635124357","1275139.7520260557","1355581.87904067","1380982.25071648","1434576.7448288086","1289009.799671993","1282861.6456675","1245522.9871780344","1210414.45921375","1229155.7501770956","1223441.495180227","1271737.56542226","1390874.4789869487","1514535.461725733","1764353.8806371214","1918787.240201033","2021273.462242083","2270539.752503716","2104315.326366867","2002319.3519599342","1842820.6968603313","1686712.4921818858","1559950.7702889515","1367804.25721342","9890713.725836212","9915181.915405337","9904474.946881147","9917610.912263112","9913340.631975181","9905389.22033568","9953770.85661714","1125589.92693197"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(136, 207, 164, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(136, 207, 164, 0.8)',
+type: 'scatter',
+name: '10 to 100 (Fish)',
+};
+var trace5 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["4518304.713966666","4582756.468022474","5006712.454376096","4653596.759642828","4484741.84621647","3759183.28394462","3612412.250619877","4049892.35783412","4365111.0299809165","4601254.758221237","5222161.286570082","5399071.835668365","5605478.812047573","5098828.192917954","4877310.621828645","4276562.346056215","3764966.2580672414","3435607.541234704","3133318.343191216","2955428.7746196673","2982839.601725766","2765222.5654420056","3148127.674295646","3090983.9387489487","3003453.695432946","2874137.694061462","3716421.2577354303","3575005.7994441963","3686884.975341308","3357506.1620429046","3315954.4811223946","3451377.1358558675","3582867.5059104003","2669814.283360983","2956448.577802917","2683582.0558985043","2563377.1684995256","2461483.0389324646","2148853.221777936","2135224.1015341403","2481063.9785565827","2110043.1525369557","2214309.346578313","2762506.675168074","3020018.575239713","3115096.616295961","3335888.19036281","3046104.2083645617","3417069.258957583","3743009.8671519714","3175733.5810517543","2858768.7105055973","2685996.7499999288","2547175.945867466","2421265.9602699173","2073108.3205956442","1824595.827209247","1761918.4353128413","2232716.981244257","2426840.0278146714","2514588.6633892227","2886684.6801964613","3355045.8680693586","6208472.058367654","7037593.75145378","6597048.57677357","6905703.960554014","6868033.173243992","6366921.331472223","5761823.50969064","2621979.721520464","2042485.33650098","2845852.3338749856","2413520.4291134328","2280108.574385793","2695131.036760433","2901286.28628981","3318863.122501963","3132199.610060803","3050487.1084326957","3068427.194099483","2953342.7394969086","2929011.626960966","3102138.69870461","2857254.35294337","2865515.641689209","2347044.1333483444","2312217.9461447303","2543909.0433703274","2484452.00745582","2376001.47362939","2655438.4410781357","2832980.2089072885","2986040.0540191173","3304352.698303329","3342465.6731195357","3244610.2078068717","3291736.3274417887","3679412.6762710684","3499470.080327193","3363435.85561165","3200877.835021147","3207875.6896603745","3353215.4092832473","3077292.7944981074","2510430.1441304185","2281802.9312986787","2055235.25629267","1874201.4234918572","1544536.0194081657","1196368.703942737","1726396.5275680241","1749190.6025172172","1833498.7071133556","1967707.8753770443","2010479.6847707184","2094730.4201187815","2298523.8756729127","1892912.1013850057","1744674.9080687743","1739431.46210517","1560541.7757594027","1465000.5820917913","1516568.9002193627","1354933.9445726213","1281030.043093023","1175613.8142191372","1067849.4292011242","1074723.9803194415","1041134.1322564671","1061088.2117772573","1157647.9279274857","1244054.3247885772","1658475.8477956555","1822812.86913471","1906907.0606090685","2015494.4772394185","2011993.8634075928","1951811.4244802827","1692649.2122755311","1261424.2200268342","1171287.4735836498","1038759.4977275142","974653.5664952885","887804.9051969943","948604.4038025499","965816.4549351186","1179274.14563452","1115029.9312559743","1030844.0759817543","1086171.0686247987","1172126.1831741673","1687653.7509957685","1715107.6175108328","1651927.66154339","1835578.9273384172","1934477.5575524713","1915769.5804772142","1775182.5232763342","1357271.5273636186","1544733.5991383728","1371576.3043819342","1210155.037428997","1135620.6395792929","1104862.4923786814","1165670.7905841856","989320.5632536113","921027.7896960371","1220556.77030772","4986189.502487513","5075096.489554088","5052016.394657595","5015956.878146043","4988153.80829129","4798093.050293114","4501650.401236074","732595.1305703728","764637.5454775714","994070.09636197","1005462.09164057","1041089.2220375543","1114008.3281214514","1204406.5441969843","1252869.4129279042","1278309.0570208728","1048377.3872571671","1035789.1260014958","1052892.3824743829","1232594.4157488472","1332804.2112300657","1389805.5458022256","1295843.2141503498","1620477.7813966186","1673928.5945527898","1646842.5569979057","1454570.3415567842","1612726.5368858571","1984784.4157250056","1955568.5010076286","1775729.8513838786","1795322.0468961399","1763974.0869229627","1794632.5966132157","1586014.6450252384","1202188.0348532014","1383379.9603179942","1240942.2018998957","1171616.4055432456","1307731.4495661329","1419450.1712189384","1438092.54427898","1528794.4462085871","1415530.2629056342","1524486.2925059872","1487793.0157265544","1314918.7302451758","1214648.6601097244","1234507.2402965329","1339765.622204013","1269670.8785216059","1364398.599735403","1657201.7864155","1709040.6616044387","1640171.8377629127","1764634.28027798","1678449.31677999","1751214.3726571542","1526844.1276290556","1267038.150134507","1333487.58452796","1687585.2202525942","1614704.9191330958","1514271.1976853472","1547932.634934403","1642108.9869147942","1733580.2651510614","1571226.1784557884","1480557.7115284787","1316448.4777277515","1504994.1398007472","1564957.3234865556","1726744.0733660043","1972261.7750245384","2200933.21132193","2313547.753581729","2235372.7223653914","2159239.5426991284","2239759.498528829","2544317.2631974057","2182685.2978443787","2400433.231325827","2536431.5348124686","3060659.9982771855","3234733.7875219085","3086146.1450658026","2833492.8252130444","2970189.610552207","2889474.4814102845","2614145.429114227","2255251.9943337385","1988432.266875803","2276515.0860231128","2163716.358981616","2205317.874039983","2193159.855564297","2109554.8009359385","2470938.044110973","2556469.6073725186","2219144.7838629787","2105345.176701534","1944703.8525288543","2138096.651138507","2371440.3858115487","2224786.6470334115","2526323.3013574644","2736565.6565770586","3415595.943109872","3662027.9467088315","3504689.3764456077","3948113.5555813364","3849200.846697519","3446691.134832265","3647859.5625307616","2932718.6717517073","2920769.87260368","2684359.0836430457","1968871.2583537987","1904550.5114794387","4071733.5924341637","4156080.6071551163","4185106.935228108","4136991.9992023706","4462481.6540053785","4729216.9050268335","5025295.664072792","3024252.109568397","2712915.83921737","2995110.0075372285","3080701.1970620984","2874613.9524077657","2880921.030220707","2725387.8319189614","3241483.35318656","3303218.219372146","3261435.968587003","2999367.41301041","3030245.7464488903","3349599.8062906205","3153543.365657423","2620709.8601210047","2506612.913070732","2357584.365663346","2426722.8190390514","2208524.27034814","1814838.8779990256","2050324.3859147558","1853986.2206400556","1690029.6391385815","1593620.42908868","1711253.9418857428","1847916.6047560943","1662446.4465503471","1861674.49611951","2160024.2519988716","2376545.34791198","2770506.6076915604","2571785.82255428","2637809.3024752033","2611806.027251866","2265132.6230245247","2297987.708231023","2282653.5828580214","1924403.9858893142","1985713.349682883","1811729.5179714144","1833693.2692707372","1873909.58664078","1522595.16059401","1435848.6155893558","1404679.846164303","1440521.3689159714","1543054.1823490285","1532624.6660508085","1404868.6782853785","1464403.51043735","1498929.7126547713","1847625.0924951972","1948269.80308509","2096661.4572353943","2376811.029125123","2404026.7860163073","2360913.2332158946","2234073.7138354657","2194955.2744955327","2077431.20073231","1764513.7707044145","1.3481733828784406E7","1.3379998252827726E7","1.3320097031039534E7","1.3307149770831387E7","1.2955713372561805E7","1.2935968053806033E7","1.3059309356068911E7","1078340.9279059686"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(83, 173, 173, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(83, 173, 173, 0.8)',
+type: 'scatter',
+name: '100 to 1000 (Sharks)',
+};
+var trace6 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["5617080.995972953","5362744.760539179","4531188.143307574","4624049.497605728","2384942.4530155915","2335257.8455968713","2226869.8102702727","1717885.0910588442","2186649.9298519585","2760515.430616614","3135957.4890096686","3417323.376652253","3597683.249729366","4165170.2492441256","6501350.973532741","6978465.422492216","7053328.357132781","6829704.934637258","6562439.010157274","6301995.791034975","6585846.593868855","4084694.950463971","2910263.1256491775","3216235.3856124333","2962839.4042919814","2957134.9366029087","3913800.87113749","2680298.816991476","2748450.680124345","7023861.549459532","6902085.676228881","6980358.804617833","8517741.285881221","7851725.185743941","8615144.665189445","9712981.882197088","5396117.663453783","4382449.666648085","5470997.555466055","4012638.4689197843","4265501.834864454","4417830.13178074","3478121.5371953472","4984460.426688911","5523507.860347246","5474599.353809626","5644779.815135522","5165989.566639756","4505495.249049846","4720898.185796328","4258794.0057604145","4222497.29617679","3067859.8477026075","2821765.7873020703","2612133.337042296","3472085.108612445","3135808.356187288","2515339.237008391","2352364.822343028","2754674.738267854","3765137.6664521126","5001921.637793849","4070525.5795752513","4631771.485750334","5795510.631343185","5599621.651037999","5391144.390569392","4426960.0752625335","3175109.726043142","3801431.9306693533","3567470.698146683","2562587.7380455956","2897431.4197065374","5181427.039311386","6212112.5572914","6685384.938557083","8418472.100958409","8258005.736242327","8816886.661411518","9346189.525479099","7071986.8266046","6393820.183815983","6282712.256915907","3953169.9702691473","3972328.91306018","2960103.836805483","3843048.267077633","3851718.599304781","3514192.3789653964","3476899.8092939574","3225182.0916130194","3998397.2160980892","5077946.248560378","3304843.036823706","3302214.3902295013","3531415.883800514","3304494.689561677","3983910.0786950956","4274548.48019714","3482710.4053379786","3642944.7792046284","3454318.70007327","3158834.1349655627","3785339.0704799783","3497691.37092472","2773888.265963453","2334063.790586563","2085152.8986881273","2067895.993746366","3376303.2894497705","2627907.997927699","2313187.7264869404","1852349.9092636642","3438773.5575050144","3389408.63695029","3371914.671358587","2068786.3340437657","2327005.7847686643","2233777.4550221986","2410417.9272285216","1262064.077273293","1790639.4014852918","1807900.873026453","1795490.2138480544","1603232.1465015828","1679547.9351246743","1368340.5409659473","1182119.2232136272","731071.19377219","778533.0260680629","792040.3887686557","782686.5054572385","706474.4033727528","1484784.7000059658","1552883.3917273132","2174940.679140443","2178772.063838393","2173667.2900064727","2183049.4771547914","2277178.2269278","1606171.3715715671","1442867.5260974471","1141289.5915124884","1114980.2981153484","1137531.5399269685","1082536.0725736115","987092.7372324758","963539.7997104272","872301.1792997728","1068653.38167678","1052991.2565997057","1030113.52893117","1368921.63202406","1385870.659034153","1293977.8333262785","1226222.962383333","955091.7954961658","4028099.5364215914","4024559.9748536735","3724375.0245509","3722248.914024997","3788071.2440410727","3915422.2612939044","3606719.374162114","511124.0905423686","560147.9624571272","693893.5981462599","2909007.4640409974","6498765.340303356","1.77141184322238E7","1.7828983159752496E7","1.7847026450523406E7","1.7843014482221454E7","1.772856688239727E7","1.554951779216417E7","1.1848072901338276E7","537687.8960892014","758627.7517132886","739215.6246749357","882062.2881410785","945792.3645399442","947502.5509248672","1003132.9789628299","1032642.36760783","731712.7655813285","1100049.053380507","905983.3446098841","908944.6100621269","880748.1209674984","1235831.9389776154","1261951.5977348727","1271174.1691471413","1089267.7153734914","1115381.9255477213","1371045.2243991643","1322784.37627267","4121963.691052559","4413578.156572392","4568024.6820119275","4395730.712637141","4368057.335465844","4327382.114760369","4720127.626562338","1797140.9328099557","1512186.01058165","1339152.614849883","1327161.96401173","1331763.5592616098","1035259.9540344243","757129.8219008072","604417.0112246271","1034788.7620575584","2025399.7270882556","2075641.32460956","2079704.5794440429","2044852.472431023","2962962.5388613744","3290278.925032161","3568028.725330184","2669837.234238884","2632903.8683986682","2668135.906631701","2919044.55568524","1919285.0075559","1497221.210500447","712413.6763397357","595007.7475830343","600309.0295299486","954088.05767897","1420393.6744172256","1416307.382194051","1537500.9831393885","1794024.6983489927","2103750.00166681","2126436.5606341828","1767275.5563562028","1404171.9752818928","1495068.77518674","1630601.4005752513","1534912.1595662828","1336376.6330431656","1292363.9169371298","1909790.2953929529","1653800.3083528928","3204756.6036578952","3126195.694621484","3126705.1603849772","3053257.668565841","3359297.04021886","2720037.213471511","2711446.12329164","2336193.3560142545","2406161.7678472633","2486869.6688794745","2657931.3159278887","2359218.4453103174","2406118.223515956","3159270.345140423","2159205.2490010913","1926923.8543576456","1949641.3593095655","1858409.5157401157","1855035.60532054","3990292.547527117","6779470.33750378","8294839.501480321","8846546.538535917","8672383.602193901","1.0205611696788304E7","1.0353819008483624E7","8179976.282718356","5563676.677904866","4024318.8536600755","4442798.190030114","4440645.223847174","2816736.1015375955","2751560.9342041225","2729589.1640044483","1834108.168214961","2252224.3497167896","1917266.9105826614","2026089.3593566357","2083105.5698301631","2553423.190976283","2552275.3617571513","2776310.79465439","2751137.7241474385","2308549.063888013","4979692.174174496","4997804.454815233","4493421.13161595","4580869.326830373","4555537.881062112","4289624.202095703","4498476.076696417","1604157.8556816198","1727861.6980682241","1784229.6532638054","1794341.5891680669","1836856.5036292528","1880777.69688375","1485603.4665367128","1696602.8840345885","1494289.7145963227","1503393.1551130286","1407956.582622117","1384555.613631237","1989044.2670558344","2302241.5455384","2201527.6823747973","2229542.900993801","2163263.8415333712","2179109.9803628884","2064277.0007919858","1035768.4906763071","1028029.2286991285","1054117.8690248914","1006491.5782902957","956167.749318","1251560.6173967144","1052718.4316888372","1217694.33254796","904768.0763222271","1331318.3114910028","2918662.7918472774","2922636.8641922656","2612670.59127934","2824634.916494443","2873215.2170569645","3120300.9615411595","2889502.6458262685","1415291.4263009613","1414096.5896546557","1427936.6166688483","1491265.6143351984","1277611.420668227","1377617.9780429085","1112867.1793008798","1015480.4615503685","1013264.2307180199","996546.7683366499","744528.7735070485","721883.5642178799","569910.9541703714","1023711.0044348743","1142855.279599157","1175658.6463143113","1803103.8232917343","1838675.2382864985","2253759.4922634056","2011823.6986394955","1528160.7673359227","1420687.6888484913","1469898.29416781","1032288.7554745099","1036007.1089050857","6077516.357247823","6082590.255770068","6567436.874089745","6568211.194017043","6589177.4084255425","6545557.600369729","6820488.52037217","2338889.957358727"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(57, 125, 184, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(57, 125, 184, 0.8)',
+type: 'scatter',
+name: '1000 to 10000 (Whales)',
+};
+var trace7 =
+{
+x: ["2021-02-10","2021-02-11","2021-02-12","2021-02-13","2021-02-14","2021-02-15","2021-02-16","2021-02-17","2021-02-18","2021-02-19","2021-02-20","2021-02-21","2021-02-22","2021-02-23","2021-02-24","2021-02-25","2021-02-26","2021-02-27","2021-02-28","2021-03-01","2021-03-02","2021-03-03","2021-03-04","2021-03-05","2021-03-06","2021-03-07","2021-03-08","2021-03-09","2021-03-10","2021-03-11","2021-03-12","2021-03-13","2021-03-14","2021-03-15","2021-03-16","2021-03-17","2021-03-18","2021-03-19","2021-03-20","2021-03-21","2021-03-22","2021-03-23","2021-03-24","2021-03-25","2021-03-26","2021-03-27","2021-03-28","2021-03-29","2021-03-30","2021-03-31","2021-04-01","2021-04-02","2021-04-03","2021-04-04","2021-04-05","2021-04-06","2021-04-07","2021-04-08","2021-04-09","2021-04-10","2021-04-11","2021-04-12","2021-04-13","2021-04-14","2021-04-15","2021-04-16","2021-04-17","2021-04-18","2021-04-19","2021-04-20","2021-04-21","2021-04-22","2021-04-23","2021-04-24","2021-04-25","2021-04-26","2021-04-27","2021-04-28","2021-04-29","2021-04-30","2021-05-01","2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08","2021-05-09","2021-05-10","2021-05-11","2021-05-12","2021-05-13","2021-05-14","2021-05-15","2021-05-16","2021-05-17","2021-05-18","2021-05-19","2021-05-20","2021-05-21","2021-05-22","2021-05-23","2021-05-24","2021-05-25","2021-05-26","2021-05-27","2021-05-28","2021-05-29","2021-05-30","2021-05-31","2021-06-01","2021-06-02","2021-06-03","2021-06-04","2021-06-05","2021-06-06","2021-06-07","2021-06-08","2021-06-09","2021-06-10","2021-06-11","2021-06-12","2021-06-13","2021-06-14","2021-06-15","2021-06-16","2021-06-17","2021-06-18","2021-06-19","2021-06-20","2021-06-21","2021-06-22","2021-06-23","2021-06-24","2021-06-25","2021-06-26","2021-06-27","2021-06-28","2021-06-29","2021-06-30","2021-07-01","2021-07-02","2021-07-03","2021-07-04","2021-07-05","2021-07-06","2021-07-07","2021-07-08","2021-07-09","2021-07-10","2021-07-11","2021-07-12","2021-07-13","2021-07-14","2021-07-15","2021-07-16","2021-07-17","2021-07-18","2021-07-19","2021-07-20","2021-07-21","2021-07-22","2021-07-23","2021-07-24","2021-07-25","2021-07-26","2021-07-27","2021-07-28","2021-07-29","2021-07-30","2021-07-31","2021-08-01","2021-08-02","2021-08-03","2021-08-04","2021-08-05","2021-08-06","2021-08-07","2021-08-08","2021-08-09","2021-08-10","2021-08-11","2021-08-12","2021-08-13","2021-08-14","2021-08-15","2021-08-16","2021-08-17","2021-08-18","2021-08-19","2021-08-20","2021-08-21","2021-08-22","2021-08-23","2021-08-24","2021-08-25","2021-08-26","2021-08-27","2021-08-28","2021-08-29","2021-08-30","2021-08-31","2021-09-01","2021-09-02","2021-09-03","2021-09-04","2021-09-05","2021-09-06","2021-09-07","2021-09-08","2021-09-09","2021-09-10","2021-09-11","2021-09-12","2021-09-13","2021-09-14","2021-09-15","2021-09-16","2021-09-17","2021-09-18","2021-09-19","2021-09-20","2021-09-21","2021-09-22","2021-09-23","2021-09-24","2021-09-25","2021-09-26","2021-09-27","2021-09-28","2021-09-29","2021-09-30","2021-10-01","2021-10-02","2021-10-03","2021-10-04","2021-10-05","2021-10-06","2021-10-07","2021-10-08","2021-10-09","2021-10-10","2021-10-11","2021-10-12","2021-10-13","2021-10-14","2021-10-15","2021-10-16","2021-10-17","2021-10-18","2021-10-19","2021-10-20","2021-10-21","2021-10-22","2021-10-23","2021-10-24","2021-10-25","2021-10-26","2021-10-27","2021-10-28","2021-10-29","2021-10-30","2021-10-31","2021-11-01","2021-11-02","2021-11-03","2021-11-04","2021-11-05","2021-11-06","2021-11-07","2021-11-08","2021-11-09","2021-11-10","2021-11-11","2021-11-12","2021-11-13","2021-11-14","2021-11-15","2021-11-16","2021-11-17","2021-11-18","2021-11-19","2021-11-20","2021-11-21","2021-11-22","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27","2021-11-28","2021-11-29","2021-11-30","2021-12-01","2021-12-02","2021-12-03","2021-12-04","2021-12-05","2021-12-06","2021-12-07","2021-12-08","2021-12-09","2021-12-10","2021-12-11","2021-12-12","2021-12-13","2021-12-14","2021-12-15","2021-12-16","2021-12-17","2021-12-18","2021-12-19","2021-12-20","2021-12-21","2021-12-22","2021-12-23","2021-12-24","2021-12-25","2021-12-26","2021-12-27","2021-12-28","2021-12-29","2021-12-30","2021-12-31","2022-01-01","2022-01-02","2022-01-03","2022-01-04","2022-01-05","2022-01-06","2022-01-07","2022-01-08","2022-01-09","2022-01-10","2022-01-11","2022-01-12","2022-01-13","2022-01-14","2022-01-15","2022-01-16","2022-01-17","2022-01-18","2022-01-19","2022-01-20","2022-01-21","2022-01-22","2022-01-23","2022-01-24","2022-01-25","2022-01-26","2022-01-27","2022-01-28","2022-01-29","2022-01-30","2022-01-31","2022-02-01","2022-02-02","2022-02-03","2022-02-04","2022-02-05","2022-02-06","2022-02-07","2022-02-08"],
+y: ["1900544.2864022255","1692568.911730977","1277267.0722413515","1310312.78967087","1059200.8594867473","975113.39654322","751113.5884509172","637258.9418352315","574101.4137768128","228424.67256681","357203.29680790135","400165.5635763314","397241.88278874423","2557677.853694104","2923250.93632194","3156381.011600944","3850578.769705395","3689469.5537925567","3647269.7518207515","3645401.0938527184","1697099.2958925986","1281262.076823813","1057782.58696439","536626.2669251673","526857.6844924244","544850.02863759","810554.1195680643","678082.5066491471","680303.5185699586","675291.65501378","434076.7514943985","491407.80074946705","471603.77753313567","204356.64245384713","161363.30934987","155523.77144178713","201516.21609509428","204896.58867379284","146803.9356656357","153393.1405704357","144221.45371190715","324064.59093279997","530233.0484483457","728926.52273718","846924.70776169","855506.1582717","848127.3992313158","883759.1202761414","657168.6519115487","471870.25162617996","2219792.2184688747","3014318.983289183","3001885.787065633","3045984.288950853","3170400.8823111076","6398002.63633807","6503745.391466163","4628088.042293469","3722945.263834743","3773612.3603235697","3924551.834358227","3850469.6990614845","751156.1767115071","623557.8718028086","505989.0114935529","496852.9835777129","500158.59469403425","3698699.189739519","3642237.1844371813","3705441.7164935847","3726540.0893852175","3765737.0583725628","3781646.5466457126","3735984.5867638616","357678.30048926565","340456.3203170928","149971.1468823357","137205.89663220287","456192.6783541671","668763.7407432799","667537.0393484414","654815.5703894014","651212.287035107","713869.4742862543","890996.00944153","720804.6313068229","796686.4244529787","803355.5812834258","1121055.6998959787","1134125.338132673","1148616.2459739386","1453239.2106947217","1322368.2337692743","1074888.7839094873","1060218.300760043","766672.0863790301","780184.6405830288","715833.6969717843","393864.0211306514","383792.5283717214","844556.8193047985","847293.3002844701","1605371.8741316642","4318591.405668039","4315108.677361214","4174246.9139065333","4132437.310031038","3621370.626004529","3627682.4251822205","4134000.033733859","1384691.5664133087","3662568.720486435","3643513.122714797","3645218.2632068726","3635436.24009952","3638388.538238175","2348840.8419234925","2387521.905734961","265795.7319908658","258189.59524071717","247905.89138591432","1024240.8099443258","1012196.537229093","1065037.2771525744","1084386.0858190416","921028.4516892288","930281.0433051772","1022709.197649813","252541.68268219856","253452.36939594854","199600.48551842858","472705.5662774185","481598.5672692829","473302.8986847643","720114.0372293558","731702.8273290844","732656.5596669886","1071606.9827884387","846179.1712848344","848475.0353588044","857739.8652326559","684612.76176603","1190488.3342048712","1188043.6661168372","848707.3459231856","742311.1970014257","731217.099626087","909810.6874805714","790023.7405751972","269768.10996274004","271948.6630019386","272112.8283688815","518156.54110448714","520056.0685256957","339117.50941129","483002.7547545385","486920.7362367614","8485969.552378457","8488055.66377111","8276959.895640183","9201810.165060708","9861483.85146017","9687948.455056872","9789634.997695517","1794997.4287751454","1801569.90618125","4178243.1476617353","3866122.99190033","3601694.731373002","9483896.964203812","9494253.490307989","9587891.380152836","9580488.991576841","7178752.949514826","6576390.923936225","6214770.340205466","332746.94766267","393944.25663147855","295162.0684745057","501664.1170557871","516133.7615300586","539411.41364814","507564.44952388003","513726.56539040856","333741.50180888","1680172.8991407668","1470845.5417306926","1450042.561539391","1414218.596243227","1433310.4012041597","1406380.6649931096","1521385.4985317956","194331.9468807643","195291.87088526145","759334.9386803657","759349.8764331957","1019389.6350738428","1330509.0559603642","1221743.4995463912","1210597.0536030727","1213825.666901014","666612.2229427242","672493.8755255213","408714.6930904271","177369.55705189","177107.86210142286","227330.7681664114","221997.07566774427","217767.32661097","257417.86628196572","300132.8505637143","680247.9013726561","705923.540260999","656511.5234464604","669493.6787215075","664682.0698891648","812435.7942959447","1148430.1902290334","757848.6872461414","871759.2695234886","863403.7636135828","854555.7539500414","870900.5647500171","683136.2380415371","284941.14734346286","224354.35630129144","104868.38962965572","106401.54430812286","9343983.46693115","9323627.986869287","9320970.335657522","9341741.822840704","9343230.117212065","9331883.75637201","9344811.34830995","105347.26159265857","118611.52947216142","446205.0373538513","576544.0057390528","629121.2713444543","666808.7062148199","654541.07571889","656924.3597947299","649424.85676871","381738.26932625717","240195.48848166427","352804.20793477143","347169.0113094457","346254.6266262372","358575.22284441144","402327.5696702715","1635190.9011714032","1639273.415472239","1777377.5189324475","2735392.1268869243","2738231.0599597045","4314070.426585072","4357181.192298612","3073623.6170141767","3107227.965541497","2807185.676337571","1833983.0619466912","1831062.5628129498","243829.07087797287","153891.33694086","177533.10483122","714694.9431358101","717160.0911900959","700355.5932541101","830285.9849200872","840041.1680981644","892802.1580525329","938435.1425166158","898805.9254947499","1048967.15017547","1068028.1454315255","937849.4078419999","927823.1064819513","900647.163672887","1299769.7008418154","1631149.75935323","1565636.2735313685","1564725.1704233673","1579234.7025049487","1600560.1058835012","1617853.5011063016","1175366.1361210758","450471.6009121157","521487.6683501386","620334.8774548915","608825.0274279629","591383.8757419443","600441.1085630171","599799.64604412","457276.89544960717","360767.82248170144","257499.6623755543","470208.52344896575","468246.80365215434","625445.9136225329","1836568.8633912727","1840703.9963252328","1804240.302761187","1795117.7752726572","1596236.2132013226","1591798.4917557398","1398683.1537204112","153692.93969630997","142122.36110871856","709145.2635166514","745983.8794952956","729735.7247856199","729877.630210447","726979.16312366","742456.711015647","815986.7487121843","1086696.8277037","1038846.7617380883","1177931.1860399027","1185052.3601542814","1165166.917593417","1148350.5736426841","1097950.0877781597","332721.20847134007","329168.7092857244","193311.84393262432","187657.83665543003","206995.6639444272","415364.54559578","509647.4197384029","491373.7691227757","520588.7275320171","523665.9795476243","524658.6923714386","530726.1272651443","387514.9376584315","305586.64932696574","217959.80834714856","190315.96723905858","198668.16584582286","197241.59879358142","190047.44302491998","207917.90195419284","516807.4662946314","607858.1525631829","827312.49166885","824422.2972073758","827090.82196759","890633.501741757","847012.3172233957","534377.3194268886","1524764.441702993","1500061.499492396","1683880.94518322","1727278.0871386959","1644203.5088392159","1978454.0407810987","1945053.222956853","878792.6211327856","692342.4413348127","499042.63322954706","457172.897505387","530532.947026097","163204.91098510142"],
+stackgroup: 'bands',
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(94, 79, 162, 0.8)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 0.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+fillcolor: 'rgba(94, 79, 162, 0.8)',
+type: 'scatter',
+name: '10000 and more (Humpbacks)',
+};
+var trace8={};
+config.scrollZoom=true;
+
+        var data = [ trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8];
+Plotly.newPlot(target_target, data, layout, config);            </script>
+                            </div>
+                    </div>
+    </div>
+</main>
+<script type="text/javascript">
+    var currentPlot = document.getElementById("currentPlot");
+    if (currentPlot) {
+        currentPlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
+<!--Main layout-->
+
+</body>
+</html>
