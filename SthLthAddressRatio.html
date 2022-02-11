@@ -90,6 +90,14 @@ div.cmath {
     }
 }
 
+@media screen and (max-width:1199.98px) {
+    .main-box {
+        height: 70%;
+    }
+    .description-box {
+        height: 30%;
+    }
+}
 
 
   </style>
@@ -575,7 +583,7 @@ div.cmath {
 <main style="margin-top: 58px;" class="h-100">
     <div class="container-fluid pt-4 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 main-box" id="target">
+            <div class="col-12 col-xl-9 m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -744,6 +752,16 @@ config.scrollZoom=true;
         var data = [ trace0, trace1, trace2, trace3, trace4];
 Plotly.newPlot(target_target, data, layout, config);            </script>
                             </div>
+                            <div class="col-12 col-xl-3 bg-light description-box" style="overflow-y: auto;">
+                    As a rule of thumb the longer a coin is sitting in someone's wallet the less likely it is to be spent on emotions.
+In fact, we've conducted a statistical study revealing that ~139d age mark is a point at which the coin holder's probability of spending reduces dramatically.<br/><br/>
+
+The holder behaviour changes so that from around this age mark she can be considered part of a 'smart money' group.
+There is a +/- 20d gradient around the 139d mark to take into account a smooth transitioning of holders from the STH to the LTH group.<br/><br/>
+
+Please refer to this twit for more information about the study:<br/>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A study on short term vs long term <a href="https://twitter.com/hashtag/Bitcoin?src=hash&amp;ref_src=twsrc%5Etfw">#Bitcoin</a> holders delineation👇<br><br>Many know Glassnode defines a coin age of 155d as a cutoff point between STH and LTH. I attempted to validate this number with my own research. <a href="https://t.co/Mj0YUSK8vI">pic.twitter.com/Mj0YUSK8vI</a></p>&mdash; Bull From The Sea (@bullfromsea) <a href="https://twitter.com/bullfromsea/status/1487807140173598726?ref_src=twsrc%5Etfw">January 30, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<br/><br/>                </div>
                     </div>
     </div>
 </main>
