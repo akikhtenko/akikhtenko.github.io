@@ -90,6 +90,14 @@ div.cmath {
     }
 }
 
+@media screen and (max-width:1199.98px) {
+    .main-box {
+        height: 70%;
+    }
+    .description-box {
+        height: 30%;
+    }
+}
 
 
   </style>
@@ -575,7 +583,7 @@ div.cmath {
 <main style="margin-top: 58px;" class="h-100">
     <div class="container-fluid pt-4 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 main-box" id="target">
+            <div class="col-12 col-xl-9 m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -684,6 +692,19 @@ config.scrollZoom=true;
         var data = [ trace0, trace1, trace2];
 Plotly.newPlot(target_target, data, layout, config);            </script>
                             </div>
+                            <div class="col-12 col-xl-3 bg-light description-box" style="overflow-y: auto;">
+                    The sell bubbles show original "purchase" prices (and dates) paid for all <b>Bitcoin</b> spent by the sellers over the last N days.<br/><br/>
+
+The size of a bubble shows a relative quantity of all spent <b>Bitcoin</b> collectively originating from a given purchase price.
+The BTC amount represented by a given size varies depending on N, the number of days selling is aggregated for.<br/><br/>
+
+E.g. if an investor bought a large number of <b>Bitcoin</b> on <b>31 December 2020</b> and has sold it <b>today</b>
+then that would result in a large bubble showing up on the price plot for the 31 December 2020.<br/><br/>
+
+If the amount of spent Bitcoin originating from a certain purchase price is smaller than the smallest bubble's threshold (e.g. 250 BTC for the N=1) then it won't be registered on the chart.<br/><br/>
+
+Also the bubbles for purchase prices of less than 1 week are ignored due to the fact that coins of this young age are statistically spent daily in big quantities.
+See Spending Probability charts for more details.                </div>
                     </div>
     </div>
 </main>
