@@ -25,6 +25,11 @@ main {
     padding-left: 360px;
 }
 
+.render-timestamp {
+    margin-top: 60px;
+    margin-left: 366px;
+}
+
 /* Sidebar */
 .sidebar {
   position: fixed;
@@ -84,6 +89,9 @@ div.cmath {
 @media screen and (max-width:991.98px) {
     main {
         padding-left: 0px;
+    }
+    .render-timestamp {
+        margin-left: 6px;
     }
     .sidebar {
         width: 100%;
@@ -551,7 +559,7 @@ div.cmath {
     <!-- Sidebar -->
 
     <!-- Navbar -->
-    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top p-0">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
                 <h2>ChainExposed</h2>
@@ -561,16 +569,16 @@ div.cmath {
                     The charts will not be updated for about a week starting from 18 December 2021.
                     We will be upgrading our servers and resyncing the Bitcoin node!
                 </div>-->
-                <li class="donation-box nav-item bg-light" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px">
+                <li class="donation-box nav-item bg-light" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
                     <div class="container" style="padding-right: 5px">
-                        <img src="donate.png" height="56px"/>
+                        <img src="donate.png" height="52px"/>
                     </div>
                 </li>
-                <li class="donation-box nav-item bg-light" style="width: 310px; font-size : 12px; border-top-right-radius: 10px; border-bottom-right-radius: 10px">
+                <li class="donation-box nav-item bg-light" style="width: 290px; font-size : 11px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
                     <div class="container">
                         <div class="row">
                             <div class="col-1 p-0 text-center">
-                                <img class="align-text-top" src="btc-logo.svg" height="16px"/>
+                                <img class="align-text-top" src="btc-logo.svg" height="14px"/>
                             </div>
                             <div class="col p-0 text-bottom">
                                 bc1q8lpae55fxyws7ylcu2drpv664s5k5gq437xwmy
@@ -578,7 +586,7 @@ div.cmath {
                         </div>
                         <div class="row">
                             <div class="col-1 p-0 text-center">
-                                <img class="align-text-top" src="ltc-logo.svg" height="16px"/>
+                                <img class="align-text-top" src="ltc-logo.svg" height="14px"/>
                             </div>
                             <div class="col p-0 text-bottom">
                                 ltc1qr8tqx2p2tchxv625wxgpc6u2pxx5r3y035au6c
@@ -586,7 +594,7 @@ div.cmath {
                         </div>
                         <div class="row">
                             <div class="col-1 p-0 text-center">
-                                <img class="align-text-top" src="eth-logo.svg" height="16px"/>
+                                <img class="align-text-top" src="eth-logo.svg" height="14px"/>
                             </div>
                             <div class="col p-0 text-bottom">
                                 0xDf2C345f1806078cd6638c5D6087b99A9dDA725D
@@ -595,7 +603,7 @@ div.cmath {
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="https://twitter.com/bullfromsea" target="_blank" style="white-space: nowrap;"><img src="whale-bull-chainexposed-logo.png" height="40px"/> @bullfromsea</a>
+                    <a class="nav-link active p-1 px-2" href="https://twitter.com/bullfromsea" target="_blank" style="white-space: nowrap;"><img src="whale-bull-chainexposed-logo.png" height="48px"/> @bullfromsea</a>
                 </li>
                 <li class="nav-item">
                     <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar">
@@ -609,6 +617,8 @@ div.cmath {
     </nav>
     <!-- Navbar -->
 </header>
+
+<div class="render-timestamp position-absolute top-0 start-0 badge bg-dark">Rendered: 13/02/2022 15:09 UTC</div>
 
 <!--Main layout-->
 <main style="margin-top: 58px;" class="h-100">
