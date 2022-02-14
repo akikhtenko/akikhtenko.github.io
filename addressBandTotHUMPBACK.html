@@ -25,11 +25,6 @@ main {
     padding-left: 360px;
 }
 
-.render-timestamp {
-    margin-top: 60px;
-    margin-left: 374px;
-}
-
 /* Sidebar */
 .sidebar {
   position: fixed;
@@ -93,9 +88,6 @@ div.cmath {
 @media screen and (max-width:991.98px) {
     main {
         padding-left: 0px;
-    }
-    .render-timestamp {
-        margin-left: 14px;
     }
     .sidebar {
         width: 100%;
@@ -574,10 +566,11 @@ div.cmath {
 
     <!-- Navbar -->
     <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top p-0">
-        <div class="container-fluid">
+        <div class="container-fluid align-items-end">
             <a class="navbar-brand" href="index.html">
                 <h2>ChainExposed</h2>
             </a>
+            <div class="hidden-on-mobile badge bg-dark">Rendered: 14/02/2022 01:13 UTC</div>
             <ul class="navbar-nav ms-auto d-flex flex-row">
                 <!--<div class="alert alert-danger m-0" role="alert">
                     The charts will not be updated for about a week starting from 18 December 2021.
@@ -636,7 +629,7 @@ div.cmath {
 <main style="margin-top: 40px;" class="h-100">
     <div class="container-fluid pt-0 h-100 m-0">
         <div class="row h-100 m-0 p-0">
-            <div class="col-12  m-0 p-0 pt-3 main-box" id="target">
+            <div class="col-12  m-0 p-0 main-box" id="target">
                                     <script>
         var target_target = document.getElementById('target');
         var layout = {
@@ -764,9 +757,6 @@ Plotly.newPlot(target_target, data, layout, config);            </script>
                     </div>
     </div>
 </main>
-
-<div class="render-timestamp position-absolute top-0 start-0 badge bg-dark">Rendered: 14/02/2022 00:25 UTC</div>
-
 <script type="text/javascript">
     var currentPlot = document.getElementById("currentPlot");
     if (currentPlot) {
