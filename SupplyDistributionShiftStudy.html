@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ChainExposed - LTH Realized Price Shift Study</title>
+    <link rel="icon" href="favicon.png">
+    <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="free, bitcoin, crypto, on-chain, market, top, bottom, signal, analytics, chart">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVW2DEJ56"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+  gtag('config', 'G-WJVW2DEJ56');
+    </script>
+    <style type="text/css">
+main {
+    padding-left: 360px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 57px;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 360px;
+  z-index: 600;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.fillRemaining {
+    height: calc(100vh - 82px);
+}
+
+li a {
+    text-decoration: none;
+    white-space: nowrap;
+    display: block;
+}
+
+.tiny-badge {
+    font-size : 9px;
+}
+
+.sidebar .list-group-item-action::before {
+    display: inline-block;
+    width:1.25em;
+    line-height:0;
+    content:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition:transform 0.35s ease;
+    transform-origin:.5em 50%
+}
+
+.sidebar .list-group-item-action[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.main-box {
+    height: 100%;
+}
+
+.description-box {
+    height: 100%;
+}
+
+div.cmath {
+    margin-bottom: 20px;
+    white-space : pre;
+    font-size : smaller;
+}
+
+@media screen and (max-width:991.98px) {
+    main {
+        padding-left: 0px;
+    }
+    .sidebar {
+        width: 100%;
+    }
+    .hidden-on-mobile {
+        display: none;
+    }
+}
+
+
+
+  </style>
+</head>
+<body class="fillRemaining">
+
+<header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#marketWide" aria-expanded="true" aria-controls="marketWide">
+                        <i class="me-1"></i><span><b>Market-wide</b></span>
+                    </a>
+                    <ul id="marketWide" class="collapse show list-group list-group-flush">
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#macro" aria-expanded="false" aria-controls="macro">
+            <i class="me-1"></i><span><b>Macro Picture</b></span>
+        </a>
+        <ul id="macro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceVs20MA.html" class="text-reset">Realized Price vs 200w MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MayerMultiple.html" class="text-reset">Mayer Multiple</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Liveliness.html" class="text-reset">Liveliness</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#spending" aria-expanded="false" aria-controls="spending">
+            <i class="me-1"></i><span><b>Spending</b></span>
+        </a>
+        <ul id="spending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedProfitAndLoss.html" class="text-reset">Realized Profit/Loss (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPnLBands30.html" class="text-reset">Realized Profit/Loss Bands (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPnLBands1.html" class="text-reset">Realized Profit/Loss Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NetRealizedPnl.html" class="text-reset">Net Realized Profit/Loss (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedX.html" class="text-reset">Realized Profit/Loss Crosses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SOPR.html" class="text-reset"> SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ASOL.html" class="text-reset">Average Spent Coin Age (ASOL)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Dormancy.html" class="text-reset">Dormancy (Supply Adjusted)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="DormancyFlow.html" class="text-reset">Dormancy Flow</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="BDDInLoss.html" class="text-reset">Bitcoin Days Destroyed In Loss</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles1.html" class="text-reset">Sell Bubbles (Last 1 Day)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles7.html" class="text-reset">Sell Bubbles (Last 7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles30.html" class="text-reset">Sell Bubbles (Last 30 Days)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#unrealizedPnL" aria-expanded="false" aria-controls="unrealizedPnL">
+            <i class="me-1"></i><span><b>Unrealized Profit/Loss</b></span>
+        </a>
+        <ul id="unrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="PnLBands.html" class="text-reset">Unrealized Profit/Loss Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NUPL.html" class="text-reset">NUPL</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RelativeUnrealizedProfit.html" class="text-reset">Relative Unrealized Profit</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MVRV.html" class="text-reset"> MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#volume" aria-expanded="false" aria-controls="volume">
+            <i class="me-1"></i><span><b>Volume Metrics</b></span>
+        </a>
+        <ul id="volume" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="TransactedVolume.html" class="text-reset">Transacted Volume</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AvgTransactionVolume.html" class="text-reset">Average Transaction Volume</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionVolumeAbsolute.html" class="text-reset">Transaction Volume Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionCountAbsolute.html" class="text-reset">Transaction Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionVolumeRelative.html" class="text-reset">Transaction Volume Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionCountRelative.html" class="text-reset">Transaction Count Bands (Relative)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
+            <i class="me-1"></i><span><b>Network Metrics</b></span>
+        </a>
+        <ul id="network" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Issuance.html" class="text-reset">Supply Issuance</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="FeesPaid.html" class="text-reset">Transaction Fees</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NVTRatio.html" class="text-reset">NVT and RVT Ratios</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="CoinCirculation.html" class="text-reset">Coin circulation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UtxoByAddressType.html" class="text-reset">Transaction Outputs By Type</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyByAddressType.html" class="text-reset">Supply By Transaction Output Type</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#other" aria-expanded="false" aria-controls="other">
+            <i class="me-1"></i><span><b>Other</b></span>
+        </a>
+        <ul id="other" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricCoinsDestroyed.html" class="text-reset">Coins Destroyed In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricAddressesDepleted.html" class="text-reset">Addresses Depleted In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricSupplyMoved.html" class="text-reset">Supply Moved In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpendingProbability.html" class="text-reset">Spending Probability</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpecific" aria-expanded="true" aria-controls="ageSpecific">
+                        <i class="me-1"></i><span><b>Hodler Age Specific</b></span>
+                    </a>
+                    <ul id="ageSpecific" class="collapse show list-group list-group-flush">
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageMacro" aria-expanded="false" aria-controls="ageMacro">
+            <i class="me-1"></i><span><b>Age-Specific Macro Picture</b></span>
+        </a>
+        <ul id="ageMacro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HodlWavesRelative.html" class="text-reset">HODL Waves (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HodlWavesAbsolute.html" class="text-reset">HODL Waves (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HypeCycleWaves.html" class="text-reset">Hype Cycles (&lt;1m RHODL)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SthLthAddressRatio.html" class="text-reset">Short Term to Long Term Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SthVsLthSupply.html" class="text-reset">Short Term vs Long Term Supply</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvCross.html" class="text-reset">MVRV Crosses</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageRealizedPrice" aria-expanded="false" aria-controls="ageRealizedPrice">
+            <i class="me-1"></i><span><b>Age-Specific Realized Price</b></span>
+        </a>
+        <ul id="ageRealizedPrice" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthRealizedPriceShortTermHolder.html" class="text-reset">Short Term Holder Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthRealizedPriceLongTermHolder.html" class="text-reset">Long Term Holder Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonIsolated.html" class="text-reset">Isolated Age Bands Realized Price</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpending" aria-expanded="false" aria-controls="ageSpending">
+            <i class="me-1"></i><span><b>Age-Specific Spending</b></span>
+        </a>
+        <ul id="ageSpending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpentSupplyAgeBands.html" class="text-reset">Spent Supply Age Bands</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LTHAvgSpentCostBasis.html" class="text-reset">Spent Old Coin Cost Basis</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthSupplySpentInLoss.html" class="text-reset">LTH Spent In Loss (% LTH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthRealizedLossPct.html" class="text-reset">LTH Realized Loss (% LTH MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonIsolated.html" class="text-reset">Isolated Age Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSOPRShortTermHolderCoin.html" class="text-reset">Short Term Holder Coin SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSOPRLongTermHolderCoin.html" class="text-reset">Long Term Holder Coin SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSpendingPctSTH.html" class="text-reset">STH Spending (% STH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSpendingPctLTH.html" class="text-reset">LTH Spending (% LTH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo30.html" class="text-reset">Supply Age Shift (30 Days)</a>
+                                    <span class="position-absolute top-50 start-0 translate-middle badge rounded-pill bg-danger tiny-badge">New</span>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo7.html" class="text-reset">Supply Age Shift (7 Days)</a>
+                                    <span class="position-absolute top-50 start-0 translate-middle badge rounded-pill bg-danger tiny-badge">New</span>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo1.html" class="text-reset">Supply Age Shift (1 Days)</a>
+                                    <span class="position-absolute top-50 start-0 translate-middle badge rounded-pill bg-danger tiny-badge">New</span>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SatoshiBagsSpending.html" class="text-reset">Satoshi Bags Spending</a>
+                                    <span class="position-absolute top-50 start-0 translate-middle badge rounded-pill bg-danger tiny-badge">New</span>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageUnrealizedPnL" aria-expanded="false" aria-controls="ageUnrealizedPnL">
+            <i class="me-1"></i><span><b>Age-Specific Unrealized PnL</b></span>
+        </a>
+        <ul id="ageUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthVsSthProfitability.html" class="text-reset">Short Term vs Long Term Holder PnL</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthInProfitPct.html" class="text-reset">Short/Long Term Holder In Profit (%)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonIsolated.html" class="text-reset">Isolated Age Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthMVRVShortTermHolderAddress.html" class="text-reset">Short Term Holder Address MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthMVRVLongTermHolderAddress.html" class="text-reset">Long Term Holder Address MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#supplyDistribution" aria-expanded="true" aria-controls="supplyDistribution">
+            <i class="me-1"></i><span><b>Supply Distribution</b></span>
+        </a>
+        <ul id="supplyDistribution" class="collapse show list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeHistogram.html" class="text-reset">Supply Age Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Realized Price Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftFromAth.html" class="text-reset">LTH/STH Realized Price Shift From Last ATH</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo30.html" class="text-reset">LTH/STH Realized Price Shift (30 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo7.html" class="text-reset">LTH/STH Realized Price Shift (7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo1.html" class="text-reset">LTH/STH Realized Price Shift (1 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative active bg-black" id="currentPlot">
+                <a href="SupplyDistributionShiftStudy.html" class="text-reset">LTH Realized Price Shift Study</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpecific" aria-expanded="true" aria-controls="addressSpecific">
+                        <i class="me-1"></i><span><b>Address Specific</b></span>
+                    </a>
+                    <ul id="addressSpecific" class="collapse show list-group list-group-flush">
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressMacro" aria-expanded="false" aria-controls="addressMacro">
+            <i class="me-1"></i><span><b>Address-Specific Macro Picture</b></span>
+        </a>
+        <ul id="addressMacro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandDistribution.html" class="text-reset">Address Bands Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedDistribution.html" class="text-reset">Address Bands Distribution (Realized Cap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedPrice.html" class="text-reset">Address Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyInAccumulation.html" class="text-reset">Supply In Accumulation-Only Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MinersSupply.html" class="text-reset">Supply In Miner Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsBalances" aria-expanded="false" aria-controls="addressBandsBalances">
+            <i class="me-1"></i><span><b>Address Bands Balances</b></span>
+        </a>
+        <ul id="addressBandsBalances" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotFISH.html" class="text-reset">10 to 100 (Fish)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsCounts" aria-expanded="false" aria-controls="addressBandsCounts">
+            <i class="me-1"></i><span><b>Address Bands Counts</b></span>
+        </a>
+        <ul id="addressBandsCounts" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntFISH.html" class="text-reset">10 to 100 (Fish)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpending" aria-expanded="false" aria-controls="addressSpending">
+            <i class="me-1"></i><span><b>Address-Specific Spending</b></span>
+        </a>
+        <ul id="addressSpending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandBDD7.html" class="text-reset">Bitcoin Days Destroyed Bands 7d MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandBDD90.html" class="text-reset">Bitcoin Days Destroyed Bands 90d MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpentOutputAddressDistribution.html" class="text-reset">Spending Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleSOPR.html" class="text-reset">Whale SOPR</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressUnrealizedPnL" aria-expanded="false" aria-controls="addressUnrealizedPnL">
+            <i class="me-1"></i><span><b>Address-Specific Unrealized PnL</b></span>
+        </a>
+        <ul id="addressUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleMVRV.html" class="text-reset">Whale MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressNetwork" aria-expanded="false" aria-controls="addressNetwork">
+            <i class="me-1"></i><span><b>Address-Specific Network Metrics</b></span>
+        </a>
+        <ul id="addressNetwork" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ActiveAddresses.html" class="text-reset">Active Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ActiveAddressRatio.html" class="text-reset">Active to Total Address Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressNonZeroCount.html" class="text-reset">Non-Zero Address Count</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressCountChange.html" class="text-reset">Net Address Count Change</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NewAddresses.html" class="text-reset">New Addresses Created</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="DepletedAddresses.html" class="text-reset">Addresses Depleted</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressOther" aria-expanded="false" aria-controls="addressOther">
+            <i class="me-1"></i><span><b>Other</b></span>
+        </a>
+        <ul id="addressOther" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="WhaleAccumulationHeatMap.html" class="text-reset">Whale Accumulation Heat Map</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleTxCount.html" class="text-reset">Whale Originating Transaction Count</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressSmallToWhaleRatio.html" class="text-reset">Small/Whale Bands Balance Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressSmallToWhaleRealizedRatio.html" class="text-reset">Small/Whale Bands Realized Cap Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UnspentSatoshiBagDistribution.html" class="text-reset">Unspent Satoshi&#39;s Bags Distribution</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top p-0">
+        <div class="container-fluid align-items-end">
+            <a class="navbar-brand" href="index.html">
+                <h2>ChainExposed</h2>
+            </a>
+            <div class="hidden-on-mobile badge bg-dark">Rendered: 27/04/2023 08:22 UTC</div>
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+                <!--<div class="alert alert-danger m-0" role="alert">
+                    The charts will not be updated for about a week starting from 18 December 2021.
+                    We will be upgrading our servers and resyncing the Bitcoin node!
+                </div>-->
+                <li class="hidden-on-mobile nav-item bg-light" style="margin-right: 7px; border-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container" style="padding-right: 7px; font-size : 12px;">
+                        <img src="ua.png" height="52px"/>
+                        Зроблено в Україні
+                    </div>
+                </li>
+                <li class="hidden-on-mobile nav-item bg-light" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container" style="padding-right: 5px">
+                        <img src="donate.png" height="52px"/>
+                    </div>
+                </li>
+                <li class="hidden-on-mobile nav-item bg-light" style="width: 340px; font-size : 11px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="btc-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                bc1q8lpae55fxyws7ylcu2drpv664s5k5gq437xwmy
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="ltc-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                ltc1qr8tqx2p2tchxv625wxgpc6u2pxx5r3y035au6c
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="eth-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                0xDf2C345f1806078cd6638c5D6087b99A9dDA725D
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active p-1 px-2" href="https://twitter.com/bullfromsea" target="_blank" style="white-space: nowrap;"><img src="whale-bull-chainexposed-logo.png" height="48px"/><span class="hidden-on-mobile"> @bullfromsea</span></a>
+                </li>
+                <li class="nav-item">
+                    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>`
+    <!-- Navbar -->
+</header>
+
+<!--Main layout-->
+<main style="margin-top: 40px;" class="h-100">
+    <div class="container-fluid pt-0 h-100 m-0">
+        <div class="row h-100 m-0 p-0">
+            <div class="col-12  m-0 p-0 main-box" id="target">
+                                    <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    spikedistance: 10000,
+    annotations: [
+        {
+            "opacity": 0.1,
+            "font": {"color": "blue", "size": 50},
+            "showarrow": false,
+            "text": "ChainExposed",
+            "valign": "top",
+            "x": 0.5,
+            "y": 0.5,
+            "xref": "x domain",
+            "yref": "y domain"
+        }
+    ],
+    legend: {
+        x: 0,
+        y: -0.15,
+        orientation: 'h'
+    },
+    title: 'LTH Realized Price Shift Study',
+    autosize: true,
+    margin: {
+  "autoexpand" : true,
+  "b" : 80,
+  "l" : 80,
+  "pad" : 0,
+  "r" : 80,
+  "t" : 40
+},
+    hovermode: 'closest',
+    xaxis: {
+    title: 'Price',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    },
+
+    yaxis: {
+    title: 'Supply',
+    autorange: 'false',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    range: ["0","500000"],
+    },
+    yaxis2: {
+    title: 'Cumulative % of Total',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'tozero',
+    showgrid: false,
+    side: 'right',
+    overlaying: 'y',
+    },
+
+    barmode: 'stack',
+};
+var config = {
+  "displayModeBar" : false,
+  "responsive" : true
+}
+var trace0 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [3484212.16181817, 674488.78176897, 116584.46231716, 28866.0494748, 39880.22350477, 167729.2100907, 71346.35979502, 702948.57544677, 132903.44951627, 59719.84206798, 90885.90804502, 138415.97622069, 175316.14149795, 263108.64733883, 192348.57628375, 124665.10801982, 191176.34614517, 221511.95697086, 215185.43116775, 214626.85559881, 236521.49608061, 149792.23243677, 154455.25793236, 136897.24041687, 21799.3894298, 30959.24910323, 35971.27231555, 135521.66427864, 38272.58279764, 30580.74072874, 27484.92666056, 37472.94742387, 84900.9012397, 26542.56013189, 39819.018945, 29723.17906672, 26393.1338654, 48285.81485315, 108668.83363292, 11168.35033097, 0.0, 0.0, 8169.29824561, 0.0, 0.0, 28813.19250563, 40290.17209191, 47705.78994663, 0.0, 3385.12608184, 16696.51477867, 0.0, 142113.68946115, 0.0, 6109.02581891, 8671.22205412, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(94, 79, 162, 0.8)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Unchanged Pre Jan 1st Supply',
+};
+var trace1 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4185.44643921, 0.0, 9084.11616466, 0.0, 6069.77209436, 15801.30293417, 20219.50870481, 5697.92909351, 19928.42715809, 25083.40645077, 19044.93462683, 0.0, 17600.11664114, 14278.8476531, 39947.74385146, 44349.94709574, 12857.55000114, 9381.21618093, 32753.49934914, 0.0, 62854.30193887, 0.0, 26181.17204997, 28637.86463918, 0.0, 0.0, 0.0, 8908.86679913, 4839.89929047, 0.0, 0.0, 0.0, 41960.2758439, 3704.19856924, 30649.20769917, 37483.7628441, 7990.58231777, 80026.15478971, 14908.19619825, 145816.59037651, 14718.52284023, 39144.34018889, 15135.09194363, 64398.56613655, 3904.08340786, 52685.88076564, 23729.42973446, 8314.14975227, 54213.76418165, 8362.21508439, 37113.16055611, 20984.8826724, 66252.82685917, 53837.72643417, 76384.26420161, 114003.67570477, 85177.41890629, 43129.46750297, 62754.80159082, 4945.37480845, 62118.16657158, 2554.2006316, 0.0, 4940.32107609, 4006.41754317, 0.0, 21081.24629997, 21330.11547626, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(136, 207, 164, 0.8)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Unchanged Jan 1st to May 19th Supply',
+};
+var trace2 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 11545.57663883, 0.0, 0.0, 11034.63297201, 14399.00338994, 0.0, 54203.74078537, 5930.51107481, 48919.986304, 0.0, 38792.73290939, 56225.41724073, 66628.17137877, 54090.53159978, 47961.47017788, 42816.44810953, 0.0, 28856.48470338, 65737.45821029, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(243, 108, 67, 0.8)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Unchanged Post May 19th LTH Supply',
+};
+var trace3 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [-0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 77822.00199895, 258606.83862998, 442312.27337773, 44501.39903096, 42812.64963459, -0.0, 57045.60588873, 225275.16008853, 132603.73689406, 252458.16768101, 132356.04703136, 194483.07107122, 61515.25542184, 61611.23820603, 74388.57493239, 187179.81432871, 50643.99641892, 18463.28451398, -0.0, -0.0, 4393.59469845, -0.0, 3417.83678556, 35774.8357162, 87184.20250562, 74856.78619766, 64550.26758511, 22460.81934203, 34578.86206354, 29929.329930130003, 13355.17931569, 11628.13097107, NaN, 20037.44951706, 23873.40809606, NaN, 17799.913082170002, NaN, 18352.82609342, NaN, 30208.184167100007, NaN, 19960.281148989998, 111758.76966668002, 19282.69452895, 156247.0922902, 84562.56518138999, NaN, 46721.03866865, 48116.55974903, 62222.89022206, 33645.79494055, 163691.64766924, 60700.88260261, 47659.57929385, 26496.39612106, 5371.5463825, 44436.96127005, 51149.90977531, 36220.64229645, 82721.39791002, 38507.67499979, 23139.97881621, 27076.98942586, 40077.54181247, 10161.72918699, 3079.21774403, 56137.61220225, -0.0, 6493.22090555, -0.0, 3322.9884647, 30301.40582071, -0.0, 21491.18377545, 6646.12879577, -0.0, 17781.65453083, 18280.07238508, 41489.61008105, 13677.3474264, 6072.1781709, 4392.62651015, 11894.86979824, 2729.42295021, 17099.53528746, 72846.5776951, 58051.41039454, 11976.725032, 12834.96006223, 26284.09033107, 13635.36408695, 15997.62591239, 19407.08538363, 14211.81088118, 2826.75736781, 10116.83597957, 8817.85241926, 16161.63721474],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(252, 172, 96, 0.8)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Increased Post May 19th LTH Supply',
+};
+var trace4 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [94569.99043013016, 186907.23077348003, 15156.647248650013, 5281.612354149998, 7889.89447621, 26467.870394139987, 16147.235644159999, 263186.70769978, 41758.567924400006, 19264.856246300005, 66471.07030179001, 23940.842185029993, 78915.66138430999, 55673.88242268999, 84082.64286612999, 50813.07815098, 64146.95483859998, 69673.66410217, 144244.48161985, 80908.21687091998, 92322.10969753002, 117796.65796299, 94268.08251026002, 95564.26429526001, 7921.980719259998, 27711.50854546, 10939.770438860003, 28813.654631540005, 8355.031756789998, 10587.59828695, 15305.421310040001, 28434.795138680005, 17921.713450159994, 5426.660727539998, 28592.48029944999, 17679.57912097, 25078.89071952, 40171.69731059, 74592.98806686001, 9581.162615539999, NaN, NaN, 1702.02250069, NaN, NaN, 10632.91028788, 45739.132665920006, 57553.789613789995, NaN, 1814.7448612499998, 14505.554957960001, NaN, 10732.305018869985, NaN, 7143.89237727, 12191.9290214, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(94, 79, 162, 1.0)',
+cauto: false,
+pattern: {
+    shape: 'x',
+    size: 3
+}
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Reduced Pre Jan 1st Supply',
+};
+var trace5 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 12184.09246107, NaN, 15935.45289635, NaN, 8508.36796684, 15179.04236582, 24907.30010089, 16461.47910285, 17290.529726540004, 42396.65411834001, 38516.47796366, NaN, 13801.49820922, 14078.070404340002, 12770.486302930003, 19081.444607200006, 16818.71712052, 2755.0322350799997, 24528.79585087, NaN, 38021.926606019995, NaN, 28969.025103440003, 18709.23354224, NaN, NaN, NaN, 6528.20276147, 7398.062621620001, NaN, NaN, NaN, 14842.866464979998, 3985.9992558, 15602.619381079996, 11174.213369800003, 27070.30271052, 56355.187662860015, 15767.65094837, 42972.71402479999, 11834.945832970001, 25248.124611540006, 2685.03519798, 30432.34325602, 4395.777570820001, 62917.14289894, 11678.193409149997, 6837.164907960001, 84303.15903364, 13512.847801670001, 34449.63704421, 7704.683222449999, 48033.56764988, 52465.44864198, 41695.550098980006, 57502.64139368999, 73778.40857351001, 75672.49050574, 30691.02448588, 5724.769300009999, 15537.418930920008, 6113.408676989999, NaN, 4555.92062653, 19673.3700823, NaN, 20276.112938029997, 15984.061577299999, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(136, 207, 164, 1.0)',
+cauto: false,
+pattern: {
+    shape: 'x',
+    size: 3
+}
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Reduced Jan 1st to May 19th Supply',
+};
+var trace6 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 2775.67541032, NaN, NaN, 256.3733381800048, NaN, 15005.636651300003, NaN, 7862.20485183, NaN, 187.79792681000254, NaN, NaN, NaN, NaN, NaN, 2614.2772587100044, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(243, 108, 67, 1.0)',
+cauto: false,
+pattern: {
+    shape: 'x',
+    size: 3
+}
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'Reduced Post May 19th LTH Supply',
+};
+var trace7 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: ["4.085831987077285","12.161031515351885","12.815864130473425","13.04405259281521","13.384930106696109","14.528456409219013","15.226086720882485","26.596889065287893","28.401039533994016","29.233364519114247","32.10520181146304","33.13954958238129","36.54904695146048","38.95439909977721","42.58713238248013","44.78247679487615","47.553902262522705","50.56410543744897","56.796089963208146","60.2916743341596","64.2803881661158","69.36971249497441","73.44250075612398","77.57128966794646","77.91355344609156","79.11081028740274","79.5834556137592","80.82832992560682","81.18930337870407","81.64673334724262","82.30799364429697","83.53649958994835","84.31079500591328","84.5452501843769","85.7805688099369","86.54440297722374","87.62791935949444","89.36351016478336","92.58624937908436","93.00019698032564","93.00019698032564","93.00019698032564","93.07373170253946","93.07373170253946","93.07373170253946","93.53311934519806","95.50924740080634","97.99581965815764","97.99581965815764","98.07422447313917","98.70092708956088","98.70092708956088","99.1646090138344","99.1646090138344","99.47325601543108","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(74, 163, 177, 1.0)",
+  "dash" : "dot",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total Pre Jan 1st Reduced',
+};
+var trace8 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: ["0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.9049958760734425","0.9049958760734425","2.088630947839211","2.088630947839211","2.720605626848612","3.8480569152972883","5.6980924388663166","6.920799074567611","8.205084970102401","11.354174429083765","14.215056667901312","14.215056667901312","15.240188330590795","16.28586290173406","17.23441425888529","18.651723650964815","19.900964797447358","20.105599883660243","21.927521307928167","21.927521307928167","24.75166983509663","24.75166983509663","26.903397453402874","28.293060184075816","28.293060184075816","28.293060184075816","28.293060184075816","28.777954450610526","29.32745915807162","29.32745915807162","29.32745915807162","29.32745915807162","30.429940363203254","30.72600778882865","31.884921039112772","32.71490628835026","34.72560280886311","38.91148801887689","40.08265929234137","43.274536660342896","44.15359902847678","46.028949919406045","46.22838584695239","48.48880411232157","48.81530857594404","53.48859507962047","54.35601437318192","54.863857371378806","61.12562955582164","62.12932117861531","64.68813132855888","65.26041084507177","68.82819242380896","72.72516011418423","75.82217378268332","80.09328822890852","85.57331521619751","91.1940286225276","93.47366091200148","93.89887868054146","95.05294904747572","95.50703372051191","95.50703372051191","95.84543310412636","97.30670884951614","97.30670884951614","98.8127544290574","100.00000000000001","100.00000000000001","100.00000000000001","100.00000000000001","100.00000000000001","100.00000000000001","100.00000000000001","100.00000000000001"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(169, 220, 164, 1.0)",
+  "dash" : "dot",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total Jan 1st to May 19th Reduced',
+};
+var trace9 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: ["0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","9.670680624286936","9.670680624286936","9.670680624286936","10.563906346899548","10.563906346899548","62.8447743040383","62.8447743040383","90.2373403951871","90.2373403951871","90.89164376413663","90.89164376413663","90.89164376413663","90.89164376413663","90.89164376413663","90.89164376413663","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(227, 84, 73, 1.0)",
+  "dash" : "dot",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total Post May 19th LTH Reduced',
+};
+var trace10 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","26500","27000","27500","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66500","67500","68000"],
+y: ["0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","1.6952951885074912","7.32885533837942","16.964303535731023","17.93373384748343","18.86637599325805","18.86637599325805","20.109072643364318","25.016526643243328","27.905201714049735","33.404817580714386","36.288096909677975","40.524767853168335","41.8648325374187","43.206988136166736","44.82748863632749","48.90506349261902","50.00830577951038","50.41051487972111","50.41051487972111","50.41051487972111","50.50622611512001","50.50622611512001","50.58068118063916","51.36000971629078","53.259253570536984","54.88995370942237","56.296133905806734","56.78542636786642","57.538701495396225","58.190689978376746","58.481622756434156","58.7349330540394","58.7349330540394","59.17143418333047","59.691498854489566","59.691498854489566","60.0792568950044","60.0792568950044","60.47905973960495","60.47905973960495","61.137122857445625","61.137122857445625","61.57194293048354","64.00652569143584","64.42658503733689","67.83031325010423","69.67244665964817","69.67244665964817","70.6902301915869","71.73841412588308","73.09389411481874","73.82684305998973","77.39274544703278","78.71506961720449","79.75329856772989","80.33050310761602","80.44751830258903","81.41554488502038","82.52980812301631","83.31884822777552","85.12087315981675","85.95973459322776","86.4638220458972","87.05367438474536","87.92673421431395","88.14810002546145","88.2151785237233","89.43809519788003","89.43809519788003","89.57954524897539","89.57954524897539","89.65193411344778","90.31202799658324","90.31202799658324","90.78019765958346","90.92497869682563","90.92497869682563","91.31233898820217","91.7105569466712","92.61437764694571","92.91232862080827","93.04460656499461","93.14029670912208","93.39941771627828","93.45887619172272","93.83137701609033","95.41828623833581","96.68289360129295","96.94379776463097","97.22339794811737","97.79597756221108","98.0930139598415","98.4415104973269","98.86427960668837","99.17387347459179","99.23545230887558","99.45584015445318","99.64793059668496","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(248, 140, 81, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total Post May 19th LTH Increased',
+};
+var trace11={};
+config.scrollZoom=true;
+
+        var data = [ trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10, trace11];
+Plotly.newPlot(target_target, data, layout, config);            </script>
+                            </div>
+                    </div>
+    </div>
+</main>
+<script type="text/javascript">
+    var currentPlot = document.getElementById("currentPlot");
+    if (currentPlot) {
+        currentPlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
+<!--Main layout-->
+
+</body>
+</html>

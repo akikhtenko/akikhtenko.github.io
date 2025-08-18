@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ChainExposed - Supply Age Shift (1 Days)</title>
+    <link rel="icon" href="favicon.png">
+    <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="free, bitcoin, crypto, on-chain, market, top, bottom, signal, analytics, chart">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVW2DEJ56"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+  gtag('config', 'G-WJVW2DEJ56');
+    </script>
+    <style type="text/css">
+main {
+    padding-left: 360px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 57px;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 360px;
+  z-index: 600;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.fillRemaining {
+    height: calc(100vh - 82px);
+}
+
+li a {
+    text-decoration: none;
+    white-space: nowrap;
+    display: block;
+}
+
+.tiny-badge {
+    font-size : 9px;
+}
+
+.sidebar .list-group-item-action::before {
+    display: inline-block;
+    width:1.25em;
+    line-height:0;
+    content:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition:transform 0.35s ease;
+    transform-origin:.5em 50%
+}
+
+.sidebar .list-group-item-action[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.main-box {
+    height: 100%;
+}
+
+.description-box {
+    height: 100%;
+}
+
+div.cmath {
+    margin-bottom: 20px;
+    white-space : pre;
+    font-size : smaller;
+}
+
+@media screen and (max-width:991.98px) {
+    main {
+        padding-left: 0px;
+    }
+    .sidebar {
+        width: 100%;
+    }
+    .hidden-on-mobile {
+        display: none;
+    }
+}
+
+
+
+  </style>
+</head>
+<body class="fillRemaining">
+
+<header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#marketWide" aria-expanded="true" aria-controls="marketWide">
+                        <i class="me-1"></i><span><b>Market-wide</b></span>
+                                            </a>
+                    <ul id="marketWide" class="collapse show list-group list-group-flush">
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#macro" aria-expanded="false" aria-controls="macro">
+            <i class="me-1"></i><span><b>Macro Picture</b></span>
+                    </a>
+        <ul id="macro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceVs20MA.html" class="text-reset">Realized Price vs 200w MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MayerMultiple.html" class="text-reset">Mayer Multiple</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Liveliness.html" class="text-reset">Liveliness</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#spending" aria-expanded="false" aria-controls="spending">
+            <i class="me-1"></i><span><b>Spending</b></span>
+                    </a>
+        <ul id="spending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedProfitAndLoss.html" class="text-reset">Realized Profit/Loss (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPnLBands30.html" class="text-reset">Realized Profit/Loss Bands (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPnLBands1.html" class="text-reset">Realized Profit/Loss Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NetRealizedPnl.html" class="text-reset">Net Realized Profit/Loss (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedX.html" class="text-reset">Realized Profit/Loss Crosses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SOPR.html" class="text-reset"> SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ASOL.html" class="text-reset">Average Spent Coin Age (ASOL)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Dormancy.html" class="text-reset">Dormancy (Supply Adjusted)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="DormancyFlow.html" class="text-reset">Dormancy Flow</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="BDDInLoss.html" class="text-reset">Bitcoin Days Destroyed In Loss</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles1.html" class="text-reset">Sell Bubbles (Last 1 Day)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles7.html" class="text-reset">Sell Bubbles (Last 7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles30.html" class="text-reset">Sell Bubbles (Last 30 Days)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#unrealizedPnL" aria-expanded="false" aria-controls="unrealizedPnL">
+            <i class="me-1"></i><span><b>Unrealized Profit/Loss</b></span>
+                    </a>
+        <ul id="unrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="PnLBands.html" class="text-reset">Unrealized Profit/Loss Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NUPL.html" class="text-reset">NUPL</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RelativeUnrealizedProfit.html" class="text-reset">Relative Unrealized Profit</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MVRV.html" class="text-reset"> MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#volume" aria-expanded="false" aria-controls="volume">
+            <i class="me-1"></i><span><b>Volume Metrics</b></span>
+                    </a>
+        <ul id="volume" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="TransactedVolume.html" class="text-reset">Transacted Volume</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AvgTransactionVolume.html" class="text-reset">Average Transaction Volume</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionVolumeAbsolute.html" class="text-reset">Transaction Volume Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionCountAbsolute.html" class="text-reset">Transaction Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionVolumeRelative.html" class="text-reset">Transaction Volume Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionCountRelative.html" class="text-reset">Transaction Count Bands (Relative)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ordinals" aria-expanded="false" aria-controls="ordinals">
+            <i class="me-1"></i><span><b>Ordinal Inscriptions</b></span>
+                    </a>
+        <ul id="ordinals" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionNewAbsolute.html" class="text-reset">New Inscription Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionNewRelative.html" class="text-reset">New Inscription Count Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionTotalAbsolute.html" class="text-reset">Total Inscription Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionTotalRelative.html" class="text-reset">Total Inscription Count Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTransactionsAbsolute.html" class="text-reset">Ordinal Transactions Share (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTransactionsRelative.html" class="text-reset">Ordinal Transactions Share (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalFees.html" class="text-reset">Ordinal Transaction Fees</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
+            <i class="me-1"></i><span><b>Network Metrics</b></span>
+                    </a>
+        <ul id="network" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Issuance.html" class="text-reset">Supply Issuance</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="FeesPaid.html" class="text-reset">Transaction Fees</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NVTRatio.html" class="text-reset">NVT and RVT Ratios</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="CoinCirculation.html" class="text-reset">Coin circulation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UtxoByAddressType.html" class="text-reset">Transaction Outputs By Type</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyByAddressType.html" class="text-reset">Supply By Transaction Output Type</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#other" aria-expanded="false" aria-controls="other">
+            <i class="me-1"></i><span><b>Other</b></span>
+                    </a>
+        <ul id="other" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricCoinsDestroyed.html" class="text-reset">Coins Destroyed In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricAddressesDepleted.html" class="text-reset">Addresses Depleted In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricSupplyMoved.html" class="text-reset">Supply Moved In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpendingProbability.html" class="text-reset">Spending Probability</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpecific" aria-expanded="true" aria-controls="ageSpecific">
+                        <i class="me-1"></i><span><b>Hodler Age Specific</b></span>
+                                            </a>
+                    <ul id="ageSpecific" class="collapse show list-group list-group-flush">
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageMacro" aria-expanded="false" aria-controls="ageMacro">
+            <i class="me-1"></i><span><b>Age-Specific Macro Picture</b></span>
+                    </a>
+        <ul id="ageMacro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HodlWavesRelative.html" class="text-reset">HODL Waves (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HodlWavesAbsolute.html" class="text-reset">HODL Waves (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HypeCycleWaves.html" class="text-reset">Hype Cycles (&lt;1m RHODL)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SthLthAddressRatio.html" class="text-reset">Short Term to Long Term Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SthVsLthSupply.html" class="text-reset">Short Term vs Long Term Supply</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvCross.html" class="text-reset">MVRV Crosses</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageRealizedPrice" aria-expanded="false" aria-controls="ageRealizedPrice">
+            <i class="me-1"></i><span><b>Age-Specific Realized Price</b></span>
+                    </a>
+        <ul id="ageRealizedPrice" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthRealizedPriceShortTermHolder.html" class="text-reset">Short Term Holder Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthRealizedPriceLongTermHolder.html" class="text-reset">Long Term Holder Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonIsolated.html" class="text-reset">Isolated Age Bands Realized Price</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpending" aria-expanded="true" aria-controls="ageSpending">
+            <i class="me-1"></i><span><b>Age-Specific Spending</b></span>
+                    </a>
+        <ul id="ageSpending" class="collapse show list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpentSupplyAgeBands.html" class="text-reset">Spent Supply Age Bands</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LTHAvgSpentCostBasis.html" class="text-reset">Spent Old Coin Cost Basis</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthSupplySpentInLoss.html" class="text-reset">LTH Spent In Loss/At Par</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthRealizedLossPct.html" class="text-reset">LTH Realized Loss (% LTH MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonIsolated.html" class="text-reset">Isolated Age Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSOPRShortTermHolderCoin.html" class="text-reset">Short Term Holder Coin SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSOPRLongTermHolderCoin.html" class="text-reset">Long Term Holder Coin SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSpendingPctSTH.html" class="text-reset">STH Spending (% STH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSpendingPctLTH.html" class="text-reset">LTH Spending (% LTH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo30.html" class="text-reset">Supply Age Shift (30 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo7.html" class="text-reset">Supply Age Shift (7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative active bg-black" id="currentPlot">
+                <a href="SupplyAgeShiftDaysAgo1.html" class="text-reset">Supply Age Shift (1 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SatoshiBagsSpending.html" class="text-reset">Satoshi Bags Spending</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageUnrealizedPnL" aria-expanded="false" aria-controls="ageUnrealizedPnL">
+            <i class="me-1"></i><span><b>Age-Specific Unrealized PnL</b></span>
+                    </a>
+        <ul id="ageUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthVsSthProfitability.html" class="text-reset">Short Term vs Long Term Holder PnL</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthInProfitPct.html" class="text-reset">Short/Long Term Holder In Profit (%)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonIsolated.html" class="text-reset">Isolated Age Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthMVRVShortTermHolderAddress.html" class="text-reset">Short Term Holder Address MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthMVRVLongTermHolderAddress.html" class="text-reset">Long Term Holder Address MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#supplyDistribution" aria-expanded="false" aria-controls="supplyDistribution">
+            <i class="me-1"></i><span><b>Supply Distribution</b></span>
+                    </a>
+        <ul id="supplyDistribution" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeHistogram.html" class="text-reset">Supply Age Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Realized Price Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftFromAth.html" class="text-reset">LTH/STH Realized Price Shift From Last ATH</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo30.html" class="text-reset">LTH/STH Realized Price Shift (30 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo7.html" class="text-reset">LTH/STH Realized Price Shift (7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo1.html" class="text-reset">LTH/STH Realized Price Shift (1 Days)</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpecific" aria-expanded="true" aria-controls="addressSpecific">
+                        <i class="me-1"></i><span><b>Address Specific</b></span>
+                                            </a>
+                    <ul id="addressSpecific" class="collapse show list-group list-group-flush">
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressMacro" aria-expanded="false" aria-controls="addressMacro">
+            <i class="me-1"></i><span><b>Address-Specific Macro Picture</b></span>
+                    </a>
+        <ul id="addressMacro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandDistribution.html" class="text-reset">Address Bands Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedDistribution.html" class="text-reset">Address Bands Distribution (Realized Cap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedPrice.html" class="text-reset">Address Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyInAccumulation.html" class="text-reset">Supply In Accumulation-Only Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MinersSupply.html" class="text-reset">Supply In Miner Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsBalances" aria-expanded="false" aria-controls="addressBandsBalances">
+            <i class="me-1"></i><span><b>Address Bands Balances</b></span>
+                    </a>
+        <ul id="addressBandsBalances" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotFISH.html" class="text-reset">10 to 100 (Fish)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsCounts" aria-expanded="false" aria-controls="addressBandsCounts">
+            <i class="me-1"></i><span><b>Address Bands Counts</b></span>
+                    </a>
+        <ul id="addressBandsCounts" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntFISH.html" class="text-reset">10 to 100 (Fish)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpending" aria-expanded="false" aria-controls="addressSpending">
+            <i class="me-1"></i><span><b>Address-Specific Spending</b></span>
+                    </a>
+        <ul id="addressSpending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandBDD7.html" class="text-reset">Bitcoin Days Destroyed Bands 7d MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandBDD90.html" class="text-reset">Bitcoin Days Destroyed Bands 90d MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpentOutputAddressDistribution.html" class="text-reset">Spending Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleSOPR.html" class="text-reset">Whale SOPR</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressUnrealizedPnL" aria-expanded="false" aria-controls="addressUnrealizedPnL">
+            <i class="me-1"></i><span><b>Address-Specific Unrealized PnL</b></span>
+                    </a>
+        <ul id="addressUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleMVRV.html" class="text-reset">Whale MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressNetwork" aria-expanded="false" aria-controls="addressNetwork">
+            <i class="me-1"></i><span><b>Address-Specific Network Metrics</b></span>
+                    </a>
+        <ul id="addressNetwork" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ActiveAddresses.html" class="text-reset">Active Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ActiveAddressRatio.html" class="text-reset">Active to Total Address Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressNonZeroCount.html" class="text-reset">Non-Zero Address Count</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressCountChange.html" class="text-reset">Net Address Count Change</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NewAddresses.html" class="text-reset">New Addresses Created</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="DepletedAddresses.html" class="text-reset">Addresses Depleted</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressOther" aria-expanded="false" aria-controls="addressOther">
+            <i class="me-1"></i><span><b>Other</b></span>
+                    </a>
+        <ul id="addressOther" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="WhaleAccumulationHeatMap.html" class="text-reset">Whale Accumulation Heat Map</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleTxCount.html" class="text-reset">Whale Originating Transaction Count</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressSmallToWhaleRatio.html" class="text-reset">Small/Whale Bands Balance Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressSmallToWhaleRealizedRatio.html" class="text-reset">Small/Whale Bands Realized Cap Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UnspentSatoshiBagDistribution.html" class="text-reset">Unspent Satoshi&#39;s Bags Distribution</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top p-0">
+        <div class="container-fluid align-items-end">
+            <a class="navbar-brand" href="index.html">
+                <h2>ChainExposed</h2>
+            </a>
+            <div class="hidden-on-mobile badge bg-dark">Rendered: 10/08/2025 04:56 UTC</div>
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+                <!--<div class="alert alert-danger m-0" role="alert">
+                    The charts will not be updated for about a week starting from 18 December 2021.
+                    We will be upgrading our servers and resyncing the Bitcoin node!
+                </div>-->
+                <li class="hidden-on-mobile nav-item bg-light" style="margin-right: 7px; border-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container" style="padding-right: 7px; font-size : 12px;">
+                        <img src="ua.png" height="52px"/>
+                        Зроблено в Україні
+                    </div>
+                </li>
+                <li class="hidden-on-mobile nav-item bg-light" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container" style="padding-right: 5px">
+                        <img src="donate.png" height="52px"/>
+                    </div>
+                </li>
+                <li class="hidden-on-mobile nav-item bg-light" style="width: 340px; font-size : 11px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="btc-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                bc1q8lpae55fxyws7ylcu2drpv664s5k5gq437xwmy
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="ltc-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                ltc1qr8tqx2p2tchxv625wxgpc6u2pxx5r3y035au6c
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="eth-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                0xDf2C345f1806078cd6638c5D6087b99A9dDA725D
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active p-1 px-2" href="https://twitter.com/bullfromsea" target="_blank" style="white-space: nowrap;"><img src="whale-bull-chainexposed-logo.png" height="48px"/><span class="hidden-on-mobile"> @bullfromsea</span></a>
+                </li>
+                <li class="nav-item">
+                    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>`
+    <!-- Navbar -->
+</header>
+
+<!--Main layout-->
+<main style="margin-top: 40px;" class="h-100">
+    <div class="container-fluid pt-0 h-100 m-0">
+        <div class="row h-100 m-0 p-0">
+            <div class="col-12  m-0 p-0 main-box" id="target">
+                                    <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    spikedistance: 10000,
+    annotations: [
+        {
+            "opacity": 0.1,
+            "font": {"color": "blue", "size": 50},
+            "showarrow": false,
+            "text": "ChainExposed",
+            "valign": "top",
+            "x": 0.5,
+            "y": 0.5,
+            "xref": "x domain",
+            "yref": "y domain"
+        }
+    ],
+    legend: {
+        x: 0,
+        y: -0.15,
+        orientation: 'h'
+    },
+    title: 'Supply Age Shift (1 Days)',
+    autosize: true,
+    margin: {
+  "autoexpand" : true,
+  "b" : 80,
+  "l" : 80,
+  "pad" : 0,
+  "r" : 80,
+  "t" : 40
+},
+    hovermode: 'closest',
+    xaxis: {
+    title: 'Date',
+    autorange: 'false',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    range: ["2012-05-21","2025-08-04"],
+    domain: [0.00, 0.90],
+    rangeslider: {thickness: 0.05},
+    },
+
+    yaxis: {
+    title: 'Price',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    type: 'log',
+    overlaying: 'y2',
+    },
+    yaxis2: {
+    title: 'Supply',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    side: 'right',
+    },
+    yaxis3: {
+    title: 'Cumulative % of Total',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'tozero',
+    showgrid: false,
+    anchor: 'free',
+    position: 0.95,
+    side: 'right',
+    overlaying: 'y2',
+    },
+
+    barmode: 'stack',
+};
+var config = {
+  "displayModeBar" : false,
+  "responsive" : true
+}
+var trace0 =
+{
+x: ["2008-12-29","2009-01-05","2009-01-12","2009-01-19","2009-01-26","2009-02-02","2009-02-09","2009-02-16","2009-02-23","2009-03-02","2009-03-09","2009-03-16","2009-03-23","2009-03-30","2009-04-06","2009-04-13","2009-04-20","2009-04-27","2009-05-04","2009-05-11","2009-05-18","2009-05-25","2009-06-01","2009-06-08","2009-06-15","2009-06-22","2009-06-29","2009-07-06","2009-07-13","2009-07-20","2009-07-27","2009-08-03","2009-08-10","2009-08-17","2009-08-24","2009-08-31","2009-09-07","2009-09-14","2009-09-21","2009-09-28","2009-10-05","2009-10-12","2009-10-19","2009-10-26","2009-11-02","2009-11-09","2009-11-16","2009-11-23","2009-11-30","2009-12-07","2009-12-14","2009-12-21","2009-12-28","2010-01-04","2010-01-11","2010-01-18","2010-01-25","2010-02-01","2010-02-08","2010-02-15","2010-02-22","2010-03-01","2010-03-08","2010-03-15","2010-03-22","2010-03-29","2010-04-05","2010-04-12","2010-04-19","2010-04-26","2010-05-03","2010-05-10","2010-05-17","2010-05-24","2010-05-31","2010-06-07","2010-06-14","2010-06-21","2010-06-28","2010-07-05","2010-07-12","2010-07-19","2010-07-26","2010-08-02","2010-08-09","2010-08-16","2010-08-23","2010-08-30","2010-09-06","2010-09-13","2010-09-20","2010-09-27","2010-10-04","2010-10-11","2010-10-18","2010-10-25","2010-11-01","2010-11-08","2010-11-15","2010-11-22","2010-11-29","2010-12-06","2010-12-13","2010-12-20","2010-12-27","2011-01-03","2011-01-10","2011-01-17","2011-01-24","2011-01-31","2011-02-07","2011-02-14","2011-02-21","2011-02-28","2011-03-07","2011-03-14","2011-03-21","2011-03-28","2011-04-04","2011-04-11","2011-04-18","2011-04-25","2011-05-02","2011-05-09","2011-05-16","2011-05-23","2011-05-30","2011-06-06","2011-06-13","2011-06-20","2011-06-27","2011-07-04","2011-07-11","2011-07-18","2011-07-25","2011-08-01","2011-08-08","2011-08-15","2011-08-22","2011-08-29","2011-09-05","2011-09-12","2011-09-19","2011-09-26","2011-10-03","2011-10-10","2011-10-17","2011-10-24","2011-10-31","2011-11-07","2011-11-14","2011-11-21","2011-11-28","2011-12-05","2011-12-12","2011-12-19","2011-12-26","2012-01-02","2012-01-09","2012-01-16","2012-01-23","2012-01-30","2012-02-06","2012-02-13","2012-02-20","2012-02-27","2012-03-05","2012-03-12","2012-03-19","2012-03-26","2012-04-02","2012-04-09","2012-04-16","2012-04-23","2012-04-30","2012-05-07","2012-05-14","2012-05-21","2012-05-28","2012-06-04","2012-06-11","2012-06-18","2012-06-25","2012-07-02","2012-07-09","2012-07-16","2012-07-23","2012-07-30","2012-08-06","2012-08-13","2012-08-20","2012-08-27","2012-09-03","2012-09-10","2012-09-17","2012-09-24","2012-10-01","2012-10-08","2012-10-15","2012-10-22","2012-10-29","2012-11-05","2012-11-12","2012-11-19","2012-11-26","2012-12-03","2012-12-10","2012-12-17","2012-12-24","2012-12-31","2013-01-07","2013-01-14","2013-01-21","2013-01-28","2013-02-04","2013-02-11","2013-02-18","2013-02-25","2013-03-04","2013-03-11","2013-03-18","2013-03-25","2013-04-01","2013-04-08","2013-04-15","2013-04-22","2013-04-29","2013-05-06","2013-05-13","2013-05-20","2013-05-27","2013-06-03","2013-06-10","2013-06-17","2013-06-24","2013-07-01","2013-07-08","2013-07-15","2013-07-22","2013-07-29","2013-08-05","2013-08-12","2013-08-19","2013-08-26","2013-09-02","2013-09-09","2013-09-16","2013-09-23","2013-09-30","2013-10-07","2013-10-14","2013-10-21","2013-10-28","2013-11-04","2013-11-11","2013-11-18","2013-11-25","2013-12-02","2013-12-09","2013-12-16","2013-12-23","2013-12-30","2014-01-06","2014-01-13","2014-01-20","2014-01-27","2014-02-03","2014-02-10","2014-02-17","2014-02-24","2014-03-03","2014-03-10","2014-03-17","2014-03-24","2014-03-31","2014-04-07","2014-04-14","2014-04-21","2014-04-28","2014-05-05","2014-05-12","2014-05-19","2014-05-26","2014-06-02","2014-06-09","2014-06-16","2014-06-23","2014-06-30","2014-07-07","2014-07-14","2014-07-21","2014-07-28","2014-08-04","2014-08-11","2014-08-18","2014-08-25","2014-09-01","2014-09-08","2014-09-15","2014-09-22","2014-09-29","2014-10-06","2014-10-13","2014-10-20","2014-10-27","2014-11-03","2014-11-10","2014-11-17","2014-11-24","2014-12-01","2014-12-08","2014-12-15","2014-12-22","2014-12-29","2015-01-05","2015-01-12","2015-01-19","2015-01-26","2015-02-02","2015-02-09","2015-02-16","2015-02-23","2015-03-02","2015-03-09","2015-03-16","2015-03-23","2015-03-30","2015-04-06","2015-04-13","2015-04-20","2015-04-27","2015-05-04","2015-05-11","2015-05-18","2015-05-25","2015-06-01","2015-06-08","2015-06-15","2015-06-22","2015-06-29","2015-07-06","2015-07-13","2015-07-20","2015-07-27","2015-08-03","2015-08-10","2015-08-17","2015-08-24","2015-08-31","2015-09-07","2015-09-14","2015-09-21","2015-09-28","2015-10-05","2015-10-12","2015-10-19","2015-10-26","2015-11-02","2015-11-09","2015-11-16","2015-11-23","2015-11-30","2015-12-07","2015-12-14","2015-12-21","2015-12-28","2016-01-04","2016-01-11","2016-01-18","2016-01-25","2016-02-01","2016-02-08","2016-02-15","2016-02-22","2016-02-29","2016-03-07","2016-03-14","2016-03-21","2016-03-28","2016-04-04","2016-04-11","2016-04-18","2016-04-25","2016-05-02","2016-05-09","2016-05-16","2016-05-23","2016-05-30","2016-06-06","2016-06-13","2016-06-20","2016-06-27","2016-07-04","2016-07-11","2016-07-18","2016-07-25","2016-08-01","2016-08-08","2016-08-15","2016-08-22","2016-08-29","2016-09-05","2016-09-12","2016-09-19","2016-09-26","2016-10-03","2016-10-10","2016-10-17","2016-10-24","2016-10-31","2016-11-07","2016-11-14","2016-11-21","2016-11-28","2016-12-05","2016-12-12","2016-12-19","2016-12-26","2017-01-02","2017-01-09","2017-01-16","2017-01-23","2017-01-30","2017-02-06","2017-02-13","2017-02-20","2017-02-27","2017-03-06","2017-03-13","2017-03-20","2017-03-27","2017-04-03","2017-04-10","2017-04-17","2017-04-24","2017-05-01","2017-05-08","2017-05-15","2017-05-22","2017-05-29","2017-06-05","2017-06-12","2017-06-19","2017-06-26","2017-07-03","2017-07-10","2017-07-17","2017-07-24","2017-07-31","2017-08-07","2017-08-14","2017-08-21","2017-08-28","2017-09-04","2017-09-11","2017-09-18","2017-09-25","2017-10-02","2017-10-09","2017-10-16","2017-10-23","2017-10-30","2017-11-06","2017-11-13","2017-11-20","2017-11-27","2017-12-04","2017-12-11","2017-12-18","2017-12-25","2018-01-01","2018-01-08","2018-01-15","2018-01-22","2018-01-29","2018-02-05","2018-02-12","2018-02-19","2018-02-26","2018-03-05","2018-03-12","2018-03-19","2018-03-26","2018-04-02","2018-04-09","2018-04-16","2018-04-23","2018-04-30","2018-05-07","2018-05-14","2018-05-21","2018-05-28","2018-06-04","2018-06-11","2018-06-18","2018-06-25","2018-07-02","2018-07-09","2018-07-16","2018-07-23","2018-07-30","2018-08-06","2018-08-13","2018-08-20","2018-08-27","2018-09-03","2018-09-10","2018-09-17","2018-09-24","2018-10-01","2018-10-08","2018-10-15","2018-10-22","2018-10-29","2018-11-05","2018-11-12","2018-11-19","2018-11-26","2018-12-03","2018-12-10","2018-12-17","2018-12-24","2018-12-31","2019-01-07","2019-01-14","2019-01-21","2019-01-28","2019-02-04","2019-02-11","2019-02-18","2019-02-25","2019-03-04","2019-03-11","2019-03-18","2019-03-25","2019-04-01","2019-04-08","2019-04-15","2019-04-22","2019-04-29","2019-05-06","2019-05-13","2019-05-20","2019-05-27","2019-06-03","2019-06-10","2019-06-17","2019-06-24","2019-07-01","2019-07-08","2019-07-15","2019-07-22","2019-07-29","2019-08-05","2019-08-12","2019-08-19","2019-08-26","2019-09-02","2019-09-09","2019-09-16","2019-09-23","2019-09-30","2019-10-07","2019-10-14","2019-10-21","2019-10-28","2019-11-04","2019-11-11","2019-11-18","2019-11-25","2019-12-02","2019-12-09","2019-12-16","2019-12-23","2019-12-30","2020-01-06","2020-01-13","2020-01-20","2020-01-27","2020-02-03","2020-02-10","2020-02-17","2020-02-24","2020-03-02","2020-03-09","2020-03-16","2020-03-23","2020-03-30","2020-04-06","2020-04-13","2020-04-20","2020-04-27","2020-05-04","2020-05-11","2020-05-18","2020-05-25","2020-06-01","2020-06-08","2020-06-15","2020-06-22","2020-06-29","2020-07-06","2020-07-13","2020-07-20","2020-07-27","2020-08-03","2020-08-10","2020-08-17","2020-08-24","2020-08-31","2020-09-07","2020-09-14","2020-09-21","2020-09-28","2020-10-05","2020-10-12","2020-10-19","2020-10-26","2020-11-02","2020-11-09","2020-11-16","2020-11-23","2020-11-30","2020-12-07","2020-12-14","2020-12-21","2020-12-28","2021-01-04","2021-01-11","2021-01-18","2021-01-25","2021-02-01","2021-02-08","2021-02-15","2021-02-22","2021-03-01","2021-03-08","2021-03-15","2021-03-22","2021-03-29","2021-04-05","2021-04-12","2021-04-19","2021-04-26","2021-05-03","2021-05-10","2021-05-17","2021-05-24","2021-05-31","2021-06-07","2021-06-14","2021-06-21","2021-06-28","2021-07-05","2021-07-12","2021-07-19","2021-07-26","2021-08-02","2021-08-09","2021-08-16","2021-08-23","2021-08-30","2021-09-06","2021-09-13","2021-09-20","2021-09-27","2021-10-04","2021-10-11","2021-10-18","2021-10-25","2021-11-01","2021-11-08","2021-11-15","2021-11-22","2021-11-29","2021-12-06","2021-12-13","2021-12-20","2021-12-27","2022-01-03","2022-01-10","2022-01-17","2022-01-24","2022-01-31","2022-02-07","2022-02-14","2022-02-21","2022-02-28","2022-03-07","2022-03-14","2022-03-21","2022-03-28","2022-04-04","2022-04-11","2022-04-18","2022-04-25","2022-05-02","2022-05-09","2022-05-16","2022-05-23","2022-05-30","2022-06-06","2022-06-13","2022-06-20","2022-06-27","2022-07-04","2022-07-11","2022-07-18","2022-07-25","2022-08-01","2022-08-08","2022-08-15","2022-08-22","2022-08-29","2022-09-05","2022-09-12","2022-09-19","2022-09-26","2022-10-03","2022-10-10","2022-10-17","2022-10-24","2022-10-31","2022-11-07","2022-11-14","2022-11-21","2022-11-28","2022-12-05","2022-12-12","2022-12-19","2022-12-26","2023-01-02","2023-01-09","2023-01-16","2023-01-23","2023-01-30","2023-02-06","2023-02-13","2023-02-20","2023-02-27","2023-03-06","2023-03-13","2023-03-20","2023-03-27","2023-04-03","2023-04-10","2023-04-17","2023-04-24","2023-05-01","2023-05-08","2023-05-15","2023-05-22","2023-05-29","2023-06-05","2023-06-12","2023-06-19","2023-06-26","2023-07-03","2023-07-10","2023-07-17","2023-07-24","2023-07-31","2023-08-07","2023-08-14","2023-08-21","2023-08-28","2023-09-04","2023-09-11","2023-09-18","2023-09-25","2023-10-02","2023-10-09","2023-10-16","2023-10-23","2023-10-30","2023-11-06","2023-11-13","2023-11-20","2023-11-27","2023-12-04","2023-12-11","2023-12-18","2023-12-25","2024-01-01","2024-01-08","2024-01-15","2024-01-22","2024-01-29","2024-02-05","2024-02-12","2024-02-19","2024-02-26","2024-03-04","2024-03-11","2024-03-18","2024-03-25","2024-04-01","2024-04-08","2024-04-15","2024-04-22","2024-04-29","2024-05-06","2024-05-13","2024-05-20","2024-05-27","2024-06-03","2024-06-10","2024-06-17","2024-06-24","2024-07-01","2024-07-08","2024-07-15","2024-07-22","2024-07-29","2024-08-05","2024-08-12","2024-08-19","2024-08-26","2024-09-02","2024-09-09","2024-09-16","2024-09-23","2024-09-30","2024-10-07","2024-10-14","2024-10-21","2024-10-28","2024-11-04","2024-11-11","2024-11-18","2024-11-25","2024-12-02","2024-12-09","2024-12-16","2024-12-23","2024-12-30","2025-01-06","2025-01-13","2025-01-20","2025-01-27","2025-02-03","2025-02-10","2025-02-17","2025-02-24","2025-03-03","2025-03-10","2025-03-17","2025-03-24","2025-03-31","2025-04-07","2025-04-14","2025-04-21","2025-04-28","2025-05-05","2025-05-12","2025-05-19","2025-05-26","2025-06-02","2025-06-09","2025-06-16","2025-06-23","2025-06-30","2025-07-07","2025-07-14","2025-07-21","2025-07-28","2025-08-04"],
+y: ["null","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.08584","0.050540618351841","0.0611","0.0609","0.0651179322033898","0.0659289888953828","0.064","0.06165","0.0615","0.0627","0.062","0.0610648684979544","0.0971462010520164","0.102","0.11501","0.1925","0.34","0.27904","0.27675","0.271358679135009","0.202850017533606","0.219853611922852","0.2401","0.264962127410871","0.29997","0.323","0.38679","0.4424","0.477142033898305","0.898","1.05","0.865","0.895033114552893","0.884770973115138","0.89249","0.7415","0.822","0.779","0.733156820572765","1.09812209789597","1.63198421975453","3.0942275534775","3.84866837697253","6.92492484453536","6.71195603974284","8.40095347223846","16.5433423962595","18.8501447311514","17.5107167913501","16.3613420157802","15.4575505604909","14.6229375511397","13.2581353109293","13.992515176505","13.3729061022794","8.50179329222677","10.8068207665108","11.3544813407364","9.03086639976622","8.20347060227937","5.85290397253068","5.23673227819988","5.34115488135593","5.00706259672706","4.11163464348334","3.60974171654003","3.14775092986558","3.25740372296902","2.96272057685564","2.98637330333139","2.20198950964348","2.47756495119813","2.81969397603741","3.2492688471654","3.19401080888369","4.23386687784921","5.2948427773232","7.09665056633548","7.04692255815312","6.30296722676797","5.39142945733489","5.67811571712449","5.51909716949152","4.38955145821157","4.9264208515488","4.83414448158971","4.89202875160724","5.27014898538866","4.55227026241964","4.79332567738165","4.77881884921099","4.9616003383986","5.19560899473992","4.90260617767387","5.0478007729398","4.94479505376973","5.09420096843951","5.13461613500877","5.21270498480421","5.45789356925774","6.1999664880187","6.35049403857393","6.62686009234366","6.79631768790181","7.62723485973115","8.50656254412624","8.74768065926359","10.805117377557","11.5925523898305","7.83062184190532","10.545530742256","10.2261162016365","11.0620954932788","11.8869112238457","12.1654630263004","12.3916224728229","11.8739970853302","11.6505779608416","11.657411405903","10.7099620838691","10.7968828924605","10.8418406388077","11.6656310321449","12.5296894897721","12.4979447565751","13.3465108907072","13.3328610765634","13.3181057568673","13.445013798948","13.5044965078901","14.1607882670953","15.7195921373466","17.8646280148217","20.5789396832262","23.9002893571011","26.9272513763881","29.8828484924021","34.451740484512","46.0660384590181","47.3334997837522","71.6904242064758","93.8992384231444","162.852214576856","88.8614913997663","118.483243756283","134.62356956166","116.488715827002","114.885675559614","117.033880187025","130.158601110462","122.626708942139","99.9036034482759","99.0383512565751","100.314744593805","89.4809076563413","72.1095223728814","89.892269275862","85.6643502618352","92.7458421975453","96.3654821741672","94.271312390415","99.1780397428405","113.082563413209","130.536372004676","118.057386323787","125.076417884278","123.124935125658","127.108627703098","122.475261250731","132.415658679135","166.500151081239","194.546133255406","210.275382611748","327.558653499708","485.33657685564","807.166695499708","964.485793687902","783.573348334307","864.0616578609","615.013035271771","727.271215663355","902.487380263004","845.191332220924","838.428474734073","814.499381373466","814.490870426651","687.406054576271","623.250321948568","610.082323746347","558.527707156633","640.578889322034","634.168900970894","558.958861691408","458.966328275862","458.633480544535","416.362321654004","501.55718444916","438.709363717287","436.675398644705","439.114476037405","446.962641437756","573.312458796026","630.074953535944","657.819974868498","589.724646405611","599.634633547633","600.840518410286","634.67267445938","629.87575043834","625.248676212741","591.575444184687","586.753736703682","589.373502045587","497.764658971362","508.430741963764","478.511425482174","478.36550087668","475.648063997662","400.404530683811","375.549989772063","322.826261542957","377.871243717124","388.684497954413","353.081956165985","324.248566627703","363.610051724138","390.205823495032","367.773242255991","378.690397136178","376.639793103448","356.07972150789","320.992670075979","317.010480420807","263.334574810053","268.755515488019","211.132518410286","254.51794126242","227.111301285798","224.035988895383","234.445803039158","236.690668322618","260.651330800701","275.338033898305","287.270142022209","268.899415838691","242.967614260666","261.112136177674","237.141042372881","223.284135300994","220.503406779661","240.464248977206","240.731483927528","236.963682933957","240.711758328463","229.45054792519","223.411685856225","232.507108708358","244.300260081824","249.058285797779","271.302458211572","311.481879894798","275.281989479836","293.314842781999","282.423006428989","266.342020455874","258.930817389831","228.673073933372","229.019572472238","240.805472238457","230.548837317358","231.362323787259","233.243309760374","239.516924897721","248.528165400351","263.481677381648","286.04969345412","329.854227644652","372.400129748685","319.928021624781","323.716966101695","371.707612507306","393.319129748685","434.403466393922","442.15399006429","422.705894506137","430.136180011689","448.580216247808","382.482086499123","403.446926651081","366.341687609585","375.153917592051","406.150669491525","438.718612681473","433.102262711864","403.705187463472","411.805882466394","412.056953828171","425.454959848042","420.073578901227","421.954488544711","429.339968731736","463.382871420222","455.010731151374","461.378872296902","460.85772063121","440.558668848627","527.54971244886","575.137638047925","670.39237434249","766.767132670952","630.4342421391","662.55008591467","649.959340970193","681.089601987142","661.393979836353","624.804487142022","594.73232402104","571.387062536528","580.79219257744","575.105232554062","610.538913325541","608.246675920514","611.533460315605","600.610054880187","611.748578316774","617.101041320865","642.913042548217","651.961956750438","699.333410987726","715.896879777908","703.626435300994","730.350813617767","727.741115838691","766.380139099942","770.496150496786","790.632966526008","896.003279310345","997.257357977791","912.484997077732","824.547065166569","922.467077381648","915.63202314436","1014.56787574518","1006.29646487434","1058.78640035067","1181.71086586791","1276.27368293396","1231.74835663355","1020.22025353594","962.95805458796","1105.56295575687","1213.63413980129","1173.6913798948","1250.00148322618","1381.9563722969","1526.26777171245","1794.59355055523","2045.22249316189","2225.7008666277","2524.99383354763","2974.21455920514","2508.21420742256","2497.72894137931","2518.8721873758","2506.17321355932","1910.74954161309","2753.24386493279","2749.3845277031","3230.11670894214","4063.80105271771","4085.8103943308","4344.90344476914","4625.296314436","4261.84352104033","3711.85620397428","3676.89694418469","4382.08689801286","4600.73979661017","5689.86505961426","5996.59813880772","6174.72884482758","7371.13902980713","5829.09782758621","8018.32068848626","9319.90331472823","11213.9426554646","15474.9995432496","19250.467650789","14026.3468661601","13921.4806414378","16231.6949994155","13681.0654611338","11422.3942589129","11615.95871128","8250.52689596727","8096.72848129749","10452.0919772063","9603.22747749854","11462.5831975453","9513.53539976622","8189.01671917008","8440.61092255991","6804.52487931035","7009.99610432496","8342.27110140269","8800.95908708358","9396.99762974869","9595.08681940386","8695.83309380479","8511.44883021625","7338.19304441847","7702.15793308007","6744.73580099357","6450.69397282291","6146.48719491526","6361.40253886616","6704.91998012858","6347.60427381648","7399.48374693162","8229.60583869083","7031.58775102279","6314.69165575687","6490.71612711865","6689.86933313852","7286.66779105786","6249.24631034483","6497.40470134424","6703.13684950321","6604.485028346","6564.56826008182","6182.87934424313","6415.34050292227","6406.63325306838","6420.42200029223","6335.41420397428","5555.3763383986","3946.85087434249","4098.74676388077","3540.43957597896","3195.41455523086","3942.66699590883","3825.4074628872","4045.99377498539","3508.6701081239","3538.31372296903","3537.61413062536","3413.02161630625","3642.0223591467","3622.7574289889","3754.18378988895","3782.38187025132","3903.9119509059","3967.14349444769","3970.6669880187","4094.31781472823","5189.11195558153","5156.80404061952","5295.73382817066","5148.66961542957","5728.35170222092","6942.62317451783","8219.74278696669","8731.52495587376","8744.35374547049","7634.06575073057","9019.51700672121","10794.4276963764","10842.6167109877","11456.1836039158","10283.0757891292","10589.7064907656","9529.78879193454","10986.5089291058","11530.195242256","10331.3099760374","10100.3567783752","9762.93655689655","10407.2656573933","10306.1696674459","10047.0134748685","8064.50806236119","7854.60981297487","8291.25065143191","8213.70903927528","9558.15604400935","9209.63869608416","9042.89072320281","8505.16122326125","6943.38065604909","7417.72720601987","7528.94026943308","7111.28666995909","7479.40240789012","7391.578521391","7345.53069181765","8164.54999316189","8687.35483664524","8573.87480958504","9339.38706312098","10151.0832026885","9952.04661157218","9972.84242308591","8541.77389392169","8109.61454114553","5358.61066335476","5830.56097960257","5904.85758679135","6790.81247264758","6978.66628661601","7150.2442154588","7684.06852168322","8896.7956383986","8715.03329322034","9682.5324811806","8806.23065715956","9433.94384663939","9747.58011104617","9342.955635301","9284.76937182934","9108.06567457627","9079.61401808884","9289.09797691408","9218.84231081239","9933.90655423729","11094.0206841321","11680.5173661601","11899.6427535944","11665.6092735243","11698.9758329632","10253.2998980129","10322.5236148451","10921.2180998247","10758.8242899474","10665.618622443","11378.2625284629","11489.6225650497","13041.6410374635","13736.89941128","15500.000707188785","15986.7549905903","18482.692631735823","18190.866880420806","19356.313676797196","19156.0825055523","23528.5506135593","26430.8565971946","33277.8353050848","38329.3401665693","36069.939466803","32216.1042904734","33157.8325745178","39003.0121817651","48829.8275096435","57500.7161102864","45359.4641642314","51086.4681794272","59905.6184704851","57447.9330198714","55713.0381396844","58202.199391993","59932.9306469901","56389.5579812975","48946.9407428404","56572.5968410286","58288.4256303916","46022.5037090006","34774.207221917","35652.1687703098","35720.6043546464","38925.4194289889","35599.9418784337","34506.4911975453","35355.6078883694","34258.4413898305","31707.7038527177","35119.9374360023","39968.9689544126","43972.3010181181","47074.370710111","49363.3160952659","48948.3479579193","51747.6438565167","46180.6124563998","47218.4739964933","43131.2941773816","48202.6229177089","54701.2797022209","61462.2223722969","60865.4470523086","61432.9700628287","63043.8290590298","65032.2256548217","59032.6241017534","57248.5696963764","49327.0935999416","50136.5722568673","46876.426924021","50798.3065859147","47352.5577565751","41886.4985569842","43168.8596671537","36271.0502650497","37983.5063845704","42358.2251732905","42195.5947451782","38551.6224967855","37664.7792828755","38399.3426268264","37808.3174004091","41294.7235129164","46777.2056265342","46440.5438538866","42264.4633909994","39704.7839798364","39511.6456928697","38459.226979135","34058.9066861484","31182.6212460549","30331.87514173","29430.0689800117","29915.4093009936","26830.2839456458","20492.2951683226","21066.6209430158","19276.5146639392","20831.2733915839","20827.8886085915","22653.3570260082","23356.1722215079","23153.6584713618","24314.2021315021","21553.9961717125","19673.5412188778","19961.9118907072","21732.7705686733","19427.1002626534","18793.1561531268","19015.2928050847","19428.3671323787","19261.7497878434","19565.4123243717","20616.7033766803","20946.8030359439","16320.4983375219","16246.8446992987","16436.0707688486","17121.7149824664","17094.3606592636","16776.1159254822","16824.8389736996","16606.7520432496","17059.2399444769","20876.0085561075","22716.2771966686","23774.9963679135","22957.2251905319","21772.1373252484","24366.9907606663","23542.0964281122","22419.8171390999","22065.9800359439","28185.2043319696","28049.3916911163","28161.9980362361","28357.8072703098","30312.9308533022","27604.6855742256","29362.0867974868","28761.738434249","26918.261597896","26777.0977831677","28097.5211259497","27158.25456955","25906.8281516657","26353.962682934","30467.4403705435","30594.2164736996","30163.2210563998","30249.7729658095","30066.5724482759","29262.8367337814","29048.0433275862","29286.1176110462","26176.4721642315","26086.3612594974","25962.5475689655","25831.4647802455","26502.4321189363","26286.6410488019","27950.1453594389","27936.3261157218","27130.3067092344","29984.1593196961","34574.3377206312","35105.0420265926","37053.3410514319","37442.7285119813","37482.7055260082","39978.2226104617","43732.7120900059","41428.6657855056","43097.8093258329","42217.1587913501","43844.195949737","41888.1513068381","41537.1123562244","41983.0202744009","42576.2913050847","48200.7986057861","52148.0645365283","51746.4789669784","62991.4422913501","68882.2513395675","68285.0891691993","67289.5658310929","71227.4517939801","69392.6830108124","65648.8099602572","64968.192619813","62978.5770049678","64067.5959918177","61431.2746879018","66259.4704260666","68445.0069532437","67805.4855742256","69644.0190894214","66622.5999336645","63345.0218760959","62763.2796861485","56112.5725587376","61015.0339412624","68056.6201215663","68170.6691309176","58306.2644786675","58836.1043722969","58793.2061458212","64498.0183413209","57349.0807180012","54859.2584082408","59129.9197536528","63571.9521729983","65617.7610689655","62789.8814555815","62759.431113384","69012.3532089421","68000.1475008767","68742.7546227352","80409.2865666277","89732.9704292811","97980.2082819988","97469.6044529515","100798.98356429","104551.367141146","95149.1058252484","93457.5783202806","98414.8120964348","94353.7752586207","100954.572281999","102833.369273232","97424.7809000584","96309.7532405026","96182.2661706604","96091.6329774985","94328.0094444769","80647.7964108709","82492.1028287551","85760.8814506137","82216.4666765049","77949.0884926943","83568.9544360023","85101.7461545879","93812.876534775","94377.7899196376","103976.137798948","106015.689848919","108914.876558445","105750.15972443","105727.739632379","105512.797437756","100899.234151958","108360.901696376","109180.005545587","118899.737107832","117305.680953828","119438.164235535","114263.693947691","null"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "black",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y',
+type: 'scatter',
+name: 'Price',
+};
+var trace1 =
+{
+x: ["2008-12-29","2009-01-05","2009-01-12","2009-01-19","2009-01-26","2009-02-02","2009-02-09","2009-02-16","2009-02-23","2009-03-02","2009-03-09","2009-03-16","2009-03-23","2009-03-30","2009-04-06","2009-04-13","2009-04-20","2009-04-27","2009-05-04","2009-05-11","2009-05-18","2009-05-25","2009-06-01","2009-06-08","2009-06-15","2009-06-22","2009-06-29","2009-07-06","2009-07-13","2009-07-20","2009-07-27","2009-08-03","2009-08-10","2009-08-17","2009-08-24","2009-08-31","2009-09-07","2009-09-14","2009-09-21","2009-09-28","2009-10-05","2009-10-12","2009-10-19","2009-10-26","2009-11-02","2009-11-09","2009-11-16","2009-11-23","2009-11-30","2009-12-07","2009-12-14","2009-12-21","2009-12-28","2010-01-04","2010-01-11","2010-01-18","2010-01-25","2010-02-01","2010-02-08","2010-02-15","2010-02-22","2010-03-01","2010-03-08","2010-03-15","2010-03-22","2010-03-29","2010-04-05","2010-04-12","2010-04-19","2010-04-26","2010-05-03","2010-05-10","2010-05-17","2010-05-24","2010-05-31","2010-06-07","2010-06-14","2010-06-21","2010-06-28","2010-07-05","2010-07-12","2010-07-19","2010-07-26","2010-08-02","2010-08-09","2010-08-16","2010-08-23","2010-08-30","2010-09-06","2010-09-13","2010-09-20","2010-09-27","2010-10-04","2010-10-11","2010-10-18","2010-10-25","2010-11-01","2010-11-08","2010-11-15","2010-11-22","2010-11-29","2010-12-06","2010-12-13","2010-12-20","2010-12-27","2011-01-03","2011-01-10","2011-01-17","2011-01-24","2011-01-31","2011-02-07","2011-02-14","2011-02-21","2011-02-28","2011-03-07","2011-03-14","2011-03-21","2011-03-28","2011-04-04","2011-04-11","2011-04-18","2011-04-25","2011-05-02","2011-05-09","2011-05-16","2011-05-23","2011-05-30","2011-06-06","2011-06-13","2011-06-20","2011-06-27","2011-07-04","2011-07-11","2011-07-18","2011-07-25","2011-08-01","2011-08-08","2011-08-15","2011-08-22","2011-08-29","2011-09-05","2011-09-12","2011-09-19","2011-09-26","2011-10-03","2011-10-10","2011-10-17","2011-10-24","2011-10-31","2011-11-07","2011-11-14","2011-11-21","2011-11-28","2011-12-05","2011-12-12","2011-12-19","2011-12-26","2012-01-02","2012-01-09","2012-01-16","2012-01-23","2012-01-30","2012-02-06","2012-02-13","2012-02-20","2012-02-27","2012-03-05","2012-03-12","2012-03-19","2012-03-26","2012-04-02","2012-04-09","2012-04-16","2012-04-23","2012-04-30","2012-05-07","2012-05-14","2012-05-21","2012-05-28","2012-06-04","2012-06-11","2012-06-18","2012-06-25","2012-07-02","2012-07-09","2012-07-16","2012-07-23","2012-07-30","2012-08-06","2012-08-13","2012-08-20","2012-08-27","2012-09-03","2012-09-10","2012-09-17","2012-09-24","2012-10-01","2012-10-08","2012-10-15","2012-10-22","2012-10-29","2012-11-05","2012-11-12","2012-11-19","2012-11-26","2012-12-03","2012-12-10","2012-12-17","2012-12-24","2012-12-31","2013-01-07","2013-01-14","2013-01-21","2013-01-28","2013-02-04","2013-02-11","2013-02-18","2013-02-25","2013-03-04","2013-03-11","2013-03-18","2013-03-25","2013-04-01","2013-04-08","2013-04-15","2013-04-22","2013-04-29","2013-05-06","2013-05-13","2013-05-20","2013-05-27","2013-06-03","2013-06-10","2013-06-17","2013-06-24","2013-07-01","2013-07-08","2013-07-15","2013-07-22","2013-07-29","2013-08-05","2013-08-12","2013-08-19","2013-08-26","2013-09-02","2013-09-09","2013-09-16","2013-09-23","2013-09-30","2013-10-07","2013-10-14","2013-10-21","2013-10-28","2013-11-04","2013-11-11","2013-11-18","2013-11-25","2013-12-02","2013-12-09","2013-12-16","2013-12-23","2013-12-30","2014-01-06","2014-01-13","2014-01-20","2014-01-27","2014-02-03","2014-02-10","2014-02-17","2014-02-24","2014-03-03","2014-03-10","2014-03-17","2014-03-24","2014-03-31","2014-04-07","2014-04-14","2014-04-21","2014-04-28","2014-05-05","2014-05-12","2014-05-19","2014-05-26","2014-06-02","2014-06-09","2014-06-16","2014-06-23","2014-06-30","2014-07-07","2014-07-14","2014-07-21","2014-07-28","2014-08-04","2014-08-11","2014-08-18","2014-08-25","2014-09-01","2014-09-08","2014-09-15","2014-09-22","2014-09-29","2014-10-06","2014-10-13","2014-10-20","2014-10-27","2014-11-03","2014-11-10","2014-11-17","2014-11-24","2014-12-01","2014-12-08","2014-12-15","2014-12-22","2014-12-29","2015-01-05","2015-01-12","2015-01-19","2015-01-26","2015-02-02","2015-02-09","2015-02-16","2015-02-23","2015-03-02","2015-03-09","2015-03-16","2015-03-23","2015-03-30","2015-04-06","2015-04-13","2015-04-20","2015-04-27","2015-05-04","2015-05-11","2015-05-18","2015-05-25","2015-06-01","2015-06-08","2015-06-15","2015-06-22","2015-06-29","2015-07-06","2015-07-13","2015-07-20","2015-07-27","2015-08-03","2015-08-10","2015-08-17","2015-08-24","2015-08-31","2015-09-07","2015-09-14","2015-09-21","2015-09-28","2015-10-05","2015-10-12","2015-10-19","2015-10-26","2015-11-02","2015-11-09","2015-11-16","2015-11-23","2015-11-30","2015-12-07","2015-12-14","2015-12-21","2015-12-28","2016-01-04","2016-01-11","2016-01-18","2016-01-25","2016-02-01","2016-02-08","2016-02-15","2016-02-22","2016-02-29","2016-03-07","2016-03-14","2016-03-21","2016-03-28","2016-04-04","2016-04-11","2016-04-18","2016-04-25","2016-05-02","2016-05-09","2016-05-16","2016-05-23","2016-05-30","2016-06-06","2016-06-13","2016-06-20","2016-06-27","2016-07-04","2016-07-11","2016-07-18","2016-07-25","2016-08-01","2016-08-08","2016-08-15","2016-08-22","2016-08-29","2016-09-05","2016-09-12","2016-09-19","2016-09-26","2016-10-03","2016-10-10","2016-10-17","2016-10-24","2016-10-31","2016-11-07","2016-11-14","2016-11-21","2016-11-28","2016-12-05","2016-12-12","2016-12-19","2016-12-26","2017-01-02","2017-01-09","2017-01-16","2017-01-23","2017-01-30","2017-02-06","2017-02-13","2017-02-20","2017-02-27","2017-03-06","2017-03-13","2017-03-20","2017-03-27","2017-04-03","2017-04-10","2017-04-17","2017-04-24","2017-05-01","2017-05-08","2017-05-15","2017-05-22","2017-05-29","2017-06-05","2017-06-12","2017-06-19","2017-06-26","2017-07-03","2017-07-10","2017-07-17","2017-07-24","2017-07-31","2017-08-07","2017-08-14","2017-08-21","2017-08-28","2017-09-04","2017-09-11","2017-09-18","2017-09-25","2017-10-02","2017-10-09","2017-10-16","2017-10-23","2017-10-30","2017-11-06","2017-11-13","2017-11-20","2017-11-27","2017-12-04","2017-12-11","2017-12-18","2017-12-25","2018-01-01","2018-01-08","2018-01-15","2018-01-22","2018-01-29","2018-02-05","2018-02-12","2018-02-19","2018-02-26","2018-03-05","2018-03-12","2018-03-19","2018-03-26","2018-04-02","2018-04-09","2018-04-16","2018-04-23","2018-04-30","2018-05-07","2018-05-14","2018-05-21","2018-05-28","2018-06-04","2018-06-11","2018-06-18","2018-06-25","2018-07-02","2018-07-09","2018-07-16","2018-07-23","2018-07-30","2018-08-06","2018-08-13","2018-08-20","2018-08-27","2018-09-03","2018-09-10","2018-09-17","2018-09-24","2018-10-01","2018-10-08","2018-10-15","2018-10-22","2018-10-29","2018-11-05","2018-11-12","2018-11-19","2018-11-26","2018-12-03","2018-12-10","2018-12-17","2018-12-24","2018-12-31","2019-01-07","2019-01-14","2019-01-21","2019-01-28","2019-02-04","2019-02-11","2019-02-18","2019-02-25","2019-03-04","2019-03-11","2019-03-18","2019-03-25","2019-04-01","2019-04-08","2019-04-15","2019-04-22","2019-04-29","2019-05-06","2019-05-13","2019-05-20","2019-05-27","2019-06-03","2019-06-10","2019-06-17","2019-06-24","2019-07-01","2019-07-08","2019-07-15","2019-07-22","2019-07-29","2019-08-05","2019-08-12","2019-08-19","2019-08-26","2019-09-02","2019-09-09","2019-09-16","2019-09-23","2019-09-30","2019-10-07","2019-10-14","2019-10-21","2019-10-28","2019-11-04","2019-11-11","2019-11-18","2019-11-25","2019-12-02","2019-12-09","2019-12-16","2019-12-23","2019-12-30","2020-01-06","2020-01-13","2020-01-20","2020-01-27","2020-02-03","2020-02-10","2020-02-17","2020-02-24","2020-03-02","2020-03-09","2020-03-16","2020-03-23","2020-03-30","2020-04-06","2020-04-13","2020-04-20","2020-04-27","2020-05-04","2020-05-11","2020-05-18","2020-05-25","2020-06-01","2020-06-08","2020-06-15","2020-06-22","2020-06-29","2020-07-06","2020-07-13","2020-07-20","2020-07-27","2020-08-03","2020-08-10","2020-08-17","2020-08-24","2020-08-31","2020-09-07","2020-09-14","2020-09-21","2020-09-28","2020-10-05","2020-10-12","2020-10-19","2020-10-26","2020-11-02","2020-11-09","2020-11-16","2020-11-23","2020-11-30","2020-12-07","2020-12-14","2020-12-21","2020-12-28","2021-01-04","2021-01-11","2021-01-18","2021-01-25","2021-02-01","2021-02-08","2021-02-15","2021-02-22","2021-03-01","2021-03-08","2021-03-15","2021-03-22","2021-03-29","2021-04-05","2021-04-12","2021-04-19","2021-04-26","2021-05-03","2021-05-10","2021-05-17","2021-05-24","2021-05-31","2021-06-07","2021-06-14","2021-06-21","2021-06-28","2021-07-05","2021-07-12","2021-07-19","2021-07-26","2021-08-02","2021-08-09","2021-08-16","2021-08-23","2021-08-30","2021-09-06","2021-09-13","2021-09-20","2021-09-27","2021-10-04","2021-10-11","2021-10-18","2021-10-25","2021-11-01","2021-11-08","2021-11-15","2021-11-22","2021-11-29","2021-12-06","2021-12-13","2021-12-20","2021-12-27","2022-01-03","2022-01-10","2022-01-17","2022-01-24","2022-01-31","2022-02-07","2022-02-14","2022-02-21","2022-02-28","2022-03-07","2022-03-14","2022-03-21","2022-03-28","2022-04-04","2022-04-11","2022-04-18","2022-04-25","2022-05-02","2022-05-09","2022-05-16","2022-05-23","2022-05-30","2022-06-06","2022-06-13","2022-06-20","2022-06-27","2022-07-04","2022-07-11","2022-07-18","2022-07-25","2022-08-01","2022-08-08","2022-08-15","2022-08-22","2022-08-29","2022-09-05","2022-09-12","2022-09-19","2022-09-26","2022-10-03","2022-10-10","2022-10-17","2022-10-24","2022-10-31","2022-11-07","2022-11-14","2022-11-21","2022-11-28","2022-12-05","2022-12-12","2022-12-19","2022-12-26","2023-01-02","2023-01-09","2023-01-16","2023-01-23","2023-01-30","2023-02-06","2023-02-13","2023-02-20","2023-02-27","2023-03-06","2023-03-13","2023-03-20","2023-03-27","2023-04-03","2023-04-10","2023-04-17","2023-04-24","2023-05-01","2023-05-08","2023-05-15","2023-05-22","2023-05-29","2023-06-05","2023-06-12","2023-06-19","2023-06-26","2023-07-03","2023-07-10","2023-07-17","2023-07-24","2023-07-31","2023-08-07","2023-08-14","2023-08-21","2023-08-28","2023-09-04","2023-09-11","2023-09-18","2023-09-25","2023-10-02","2023-10-09","2023-10-16","2023-10-23","2023-10-30","2023-11-06","2023-11-13","2023-11-20","2023-11-27","2023-12-04","2023-12-11","2023-12-18","2023-12-25","2024-01-01","2024-01-08","2024-01-15","2024-01-22","2024-01-29","2024-02-05","2024-02-12","2024-02-19","2024-02-26","2024-03-04","2024-03-11","2024-03-18","2024-03-25","2024-04-01","2024-04-08","2024-04-15","2024-04-22","2024-04-29","2024-05-06","2024-05-13","2024-05-20","2024-05-27","2024-06-03","2024-06-10","2024-06-17","2024-06-24","2024-07-01","2024-07-08","2024-07-15","2024-07-22","2024-07-29","2024-08-05","2024-08-12","2024-08-19","2024-08-26","2024-09-02","2024-09-09","2024-09-16","2024-09-23","2024-09-30","2024-10-07","2024-10-14","2024-10-21","2024-10-28","2024-11-04","2024-11-11","2024-11-18","2024-11-25","2024-12-02","2024-12-09","2024-12-16","2024-12-23","2024-12-30","2025-01-06","2025-01-13","2025-01-20","2025-01-27","2025-02-03","2025-02-10","2025-02-17","2025-02-24","2025-03-03","2025-03-10","2025-03-17","2025-03-24","2025-03-31","2025-04-07","2025-04-14","2025-04-21","2025-04-28","2025-05-05","2025-05-12","2025-05-19","2025-05-26","2025-06-02","2025-06-09","2025-06-16","2025-06-23","2025-06-30","2025-07-07","2025-07-14","2025-07-21","2025-07-28","2025-08-04"],
+y: ["0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","0.0","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","3.536379656610703E-4","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7076295692852286","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523493985911","0.7585523847623867","0.7587646099783446","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7587732741085031","0.7588440017016366","0.7588440017016366","0.7588440017016366","0.7588440017016366","0.7588440017016366","0.7588440017016366","0.7588440017016366","1.183209560493377","1.183210371880313","1.1832116224148814","1.1832120294521915","1.1832120294521915","1.1832158479642125","1.1832166732844978","1.1832178890210852","1.1832186683684323","1.1832186683684323","1.1832186683684323","1.1832186683684323","1.1832186683684323","1.183685206456997","1.183685206456997","1.1836859776706732","1.1836867072257937","1.1836874161284567","1.1836874161284567","1.183688556045075","1.1837810507622666","1.183782933884431","1.183783698732627","1.183783698732627","1.183784612320948","1.1837857860453564","1.1837866120021898","1.1837866120021898","1.1837870492401652","1.18381760582368","1.183820281024162","1.1838216480470825","1.1838220792024914","1.1838234905008833","1.183824406281759","1.1838248685573076","1.183825333237595","1.1838257902793057","1.1838615430776314","1.1838624164219527","1.1838628257932615","1.183863711939277","1.1838650815083929","1.1838655691044224","1.1852876329447277","1.1852880700412525","1.1852885239709434","1.1852909533223128","1.1852913827095313","1.1852924632856994","1.1852929962888394","1.1852934268784272","1.1852934268784272","1.1852947667419529","1.1852952015751963","1.1852957495725884","1.1852962418366377","1.185299659252484","1.185302307364298","1.193235679040536","1.1932430913630236","1.1932437100880071","1.1932460351161736","1.1932485926259409","1.1932485926259409","1.1932495792758644","1.1932512996538376","1.193251757968641","1.1933260680558173","1.193326605585524","1.1933292648722986","1.1933357880782143","1.1933372744893136","1.19333835365093","1.19333835365093","1.1933394449069645","1.1933398919053535","1.1933398919053535","1.1933398919053535","1.1933398919053535","1.1933405991812867","1.1989291399526099","1.1989296039256223","1.198930090531463","1.1990164086079467","1.1990164086079467","1.1990170894317596","1.1990170894317596","1.1990175515658532","1.1990184310634724","1.1990184310634724","1.1990242478421875","1.1990918207724803","1.1990918207724803","1.1990918207724803","1.1991269934630915","1.1991269934630915","1.1991269934630915","1.1994235395497548","1.199424428524873","1.1994326851226398","1.199434288304992","1.199436348529052","1.1994375980027112","1.1994385750336842","1.1994393070642735","1.1994405134648303","1.1994461691260874","1.1994501303663998","1.1994507263171013","1.1994532974065675","1.1995313607949314","1.1995325364997127","1.1995325364997127","1.1995429468941528","1.1995453238363702","1.2000660332494295","1.2060587505295353","1.206342553413565","1.206342553413565","1.2063431928617327","1.2063435442364177","1.206343771625637","1.2063612285394494","1.2063622419244036","1.20813046499468","1.2081306777432688","1.2081321628812718","1.2081327710678458","1.2081342309560954","1.2081342309560954","1.208225414312982","1.2082265365477025","1.2121372832251356","1.21213751436291","1.2121394797412672","1.2121530445156277","1.2121560440021233","1.2122242329697601","1.2122242329697601","1.2122249484500907","1.2123560995454916","1.2123563322392727","1.2123677758223828","1.2123751248436752","1.2123751248436752","1.2123774872867383","1.2123774872867383","1.2123781395366002","1.2123783952168472","1.2124070015577102","1.2124070015577102","1.2124075107963797","1.2124075107963797","1.2124756525887026","1.2124761879965842","1.2124761879965842","1.2124781379563283","1.2189698783670682","1.21908028413995","1.2190889312954853","1.219091449127071","1.2190915205619435","1.2193170852848736","1.2193170852848736","1.2193227255275176","1.219661179622758","1.2196658540801164","1.219969611552174","1.220005265685509","1.220006644873572","1.2200214548779296","1.2205907178642141","1.220689735645871","1.220720298241232","1.2254533016372249","1.2255273528614012","1.2284713950080934","1.228474366981557","1.2284888319767229","1.2287078424443207","1.2287198870705232","1.2287322919123496","1.2289709456251159","1.231393351402913","1.2348725914393874","1.2351393911271156","1.2356038626968862","1.2359541939353749","1.2417023554265298","1.2417456719751236","1.248507423035599","1.2485194631352319","1.2633775629696933","1.2750442370378383","1.29275012194748","1.3042550783641502","1.3129321052043483","1.3376277953672204","1.3377642217508783","1.3419571245617892","1.5181257633535445","1.5380873974109317","1.5399489325264615","1.5685501345346995","1.5799765508590453","1.580955704577811","1.5833802293543005","1.742715499336291","1.7548385030258973","1.7636281810278605","1.768013546633553","1.778843943369491","1.8059515030205977","1.8169670410430572","1.8201077742922156","1.8337535569245422","1.8351819902797173","1.8432302690450515","1.904299911306391","1.9379650187256463","1.9513601032312038","1.9693155799466078","2.002143652187437","2.0216432051262725","2.0232920666129117","2.035763150423178","2.036430307188209","2.0385389201679436","2.060366868050682","2.0631133670395667","2.0632717380028285","2.076863932318227","2.0922274098039404","2.0947020506676375","2.102824981063724","2.1233616622099576","2.14051822075655","2.149851219005082","2.150063739225825","2.1544641494393098","2.1593755957236698","2.1607122842155717","2.1612745827972195","2.1621510900551795","2.1632267093504134","2.1746374127619372","2.176181446548779","2.1761906826529875","2.176193523638957","2.5385045797947203","2.538505999156057","2.581824402863014","2.5833727651078275","2.5841280691063577","2.5842755592659596","2.5843101503635735","2.5843282085326518","2.585323534822869","2.585638917435772","2.6149610281896254","2.6150320171919446","2.615106312284869","2.615107034979415","2.6151973932282035","2.627413615744103","2.627932291880313","2.628149972669161","2.6281516636244575","2.629272969974295","2.632863678324322","2.6394313186370852","2.6406207603430385","2.645749209492269","2.6490202148343207","2.6621816411877437","2.6633794343371604","2.6640579558240454","2.664101674954097","2.6716879270611096","2.685572208795698","2.6883447799557887","2.689619906301901","2.689752340820207","2.7059700472915025","2.706084053735419","2.7088833273202906","2.7174555483155056","2.728591820744179","2.8390888914880326","2.846402632724908","2.8477520538103227","2.8686312328312065","2.8790309886319334","2.898527197145789","2.8986172700087147","2.9049276457742246","2.904991566826706","2.906705621047947","2.936708777556472","2.9388419594631374","2.9396259768841095","2.9400989112225555","2.9430058194732083","2.9555736492948395","2.968240567272078","2.973868719809944","2.9802974736918943","2.9909879846868557","2.998707540907941","3.0294182050513836","3.03039706949431","3.0316169646629474","3.031787185327155","3.034424707523467","3.0478369902212967","3.048341084944725","3.0580354736811333","3.0586175823543407","3.0590615905217557","3.0838817792133524","3.097986663705844","3.1043644041796012","3.105652585707764","3.106248770940193","3.1151011310593812","3.1167755212463977","3.12762874036211","3.1296235433791746","3.1402196609747035","3.160913286791558","3.162353176390077","3.170807963977312","3.1932510506728926","3.1936807682593877","3.220441680872333","3.2239330671705604","3.228814532806195","3.251699985728112","3.2663475668619983","3.2746111265582134","3.285895722812638","3.3063016480185263","3.3069360819553193","3.308219654519883","3.3088644222531194","3.3251388185170434","3.3440920053962153","3.344244976802835","3.3449007393526142","3.3469621541827097","3.4616839656220595","3.4660671654073996","3.491612892672867","3.4960597742392308","3.5065079272344626","3.5121126929863795","3.5344270968380984","3.5579034664232956","3.5589210219009457","3.5619804144572824","3.5659529009482287","3.5730276460800585","3.5774588778933483","3.602724576582021","3.6286744626743763","3.6656754349018787","3.6714110909058197","3.6833714709941745","3.806470163081862","3.880213267108096","3.893834242885869","3.905016064025968","3.920291942982823","3.9458239012127048","3.947718652410695","3.950955949901328","3.9694143576590712","4.047986950885872","4.069610624536538","4.081280106702328","4.092427406270029","4.143304574512212","4.192371698670506","4.198833550449117","4.208261908589629","4.2687314873416975","4.288714000608944","4.2993850725493","4.302778109088005","4.3464899040531115","4.370489249587815","4.400073891972788","4.403408379714784","4.450608655630036","4.463510637894691","4.464334169053753","4.517108683489342","4.542835275638877","4.547293282231289","4.555358106868294","4.560754353459413","4.561637891464556","4.586943924260725","4.615219109479495","4.619777234233451","4.624804733606092","4.636698968895716","4.64188930956914","4.652239093425475","4.688225125328068","4.706236960618817","4.728571859558852","4.747717637461942","4.768871928218733","4.77753342009673","4.8124642949040854","4.824932582357504","4.8311911237089165","4.8651744958905","4.898802883311575","4.920272802176773","4.933457734209219","4.9614330768696915","4.972958207129926","4.983874767048907","5.0022520952400935","5.010936337426406","5.0519594054688515","5.056252349772673","5.141527312445812","5.165298661430758","5.252700604827379","5.284508805120418","5.328570974326346","5.363206798864895","5.403315918654137","5.454678122160142","5.475938096632794","5.483686550309522","5.4867986127849955","5.537861709299636","5.557868902253217","5.6222683188990175","5.660180897659834","5.687911605670081","5.711168228442725","5.718541981830187","6.173407775110781","6.231139153483915","6.284148505595696","6.327127626987291","6.349311179416424","6.409250014702543","6.470244690100282","6.517017811738449","6.534450869130522","6.558050595701089","6.608193277338682","6.6534356280282765","6.680982525562381","6.686882065957657","6.695313922386084","6.699022624589505","6.70068968485167","6.743876121620441","6.76457990887059","6.834273328723246","6.850839257548457","7.012413583975959","7.150988195357424","7.199417781486306","7.234707884285354","7.308577727278284","7.358434226048356","7.403250844792812","7.4981552714546105","7.648171111145158","7.844203485901171","7.9650736170937195","8.158134276824958","8.196506072095346","8.237059048977853","8.276907057275322","8.35927067339989","8.406431891416322","8.462468999561304","8.565549385975936","8.63461512057732","8.674125173974891","8.728987120739331","9.055023526195919","9.137929109265318","9.213000697948468","9.23124185472897","9.30552831486065","9.312439062083381","9.39646074998322","9.44721480242111","9.531295729772564","9.63913036537414","9.712390316622178","9.735942533346593","9.76860767311879","9.818725720830798","9.82921580885254","9.85778547660973","9.948417239468563","10.722318639409131","10.78251964087687","11.034008265427047","11.048316409281414","11.189963451992451","11.220922474735357","11.297823844390917","11.332634145980231","11.423952068127994","11.446813993516027","11.474568511475402","11.551129389656666","11.610083469740067","11.683872125589733","11.708026517537201","11.794466410773838","11.882198900354975","11.95402952474618","12.027983964164509","12.137226523675258","12.201044321436465","12.315199910398002","12.485802520445501","12.509513863433167","12.540673213525556","12.566053566381502","12.686378585019542","13.132825163297348","13.216423987185223","13.391842952955747","13.63894398086911","13.948625603342732","15.316881633167988","15.442643921532785","15.68209455653594","15.708963246330764","15.767243803529187","15.836703443224607","15.955342338887338","16.03261273513536","16.23048066704483","16.304583632428365","16.407947544687037","16.55513417130752","16.581612111166205","16.63045084312451","16.732388758452203","16.764543981417702","16.794054231742212","16.900637990377348","16.931560068349807","18.177632787635194","18.29456689417922","18.442343037268742","18.536333326481014","18.598192305019754","18.84381784995615","18.896871522948356","18.96637615883127","19.469976226841663","19.521928832962796","19.662263733193075","19.713251310815217","20.11899709663328","20.25860492548136","20.513561777003726","22.3021070597225","22.51705487913373","24.22140771292951","28.116716151833007","28.596550925352485","28.788856032902192","28.916678228821368","29.088217167595797","30.19327639825565","30.66192212856981","30.83214768805015","31.252088399184107","31.44306821542765","31.679492597712592","31.928668839480114","32.41571368088184","33.49128392758987","37.65325309437371","38.03242184595344","38.1725798876642","38.53266624755131","41.048351112539244","41.64629369169044","41.85957055084922","42.541700367855505","45.133763436575286","45.51881945490816","50.22886131326877","50.89454798844166","52.537026007578454","53.739280707541184","55.78843088730446","57.26057324093172","64.71692160664175","67.59334482888302","78.93823436264229","83.72589749330399","100.0","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(101, 193, 165, 1.0)",
+  "dash" : "dot",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y3',
+type: 'scatter',
+name: '% of Total Reduced',
+};
+var trace2 =
+{
+x: ["2008-12-29","2009-01-05","2009-01-12","2009-01-19","2009-01-26","2009-02-02","2009-02-09","2009-02-16","2009-02-23","2009-03-02","2009-03-09","2009-03-16","2009-03-23","2009-03-30","2009-04-06","2009-04-13","2009-04-20","2009-04-27","2009-05-04","2009-05-11","2009-05-18","2009-05-25","2009-06-01","2009-06-08","2009-06-15","2009-06-22","2009-06-29","2009-07-06","2009-07-13","2009-07-20","2009-07-27","2009-08-03","2009-08-10","2009-08-17","2009-08-24","2009-08-31","2009-09-07","2009-09-14","2009-09-21","2009-09-28","2009-10-05","2009-10-12","2009-10-19","2009-10-26","2009-11-02","2009-11-09","2009-11-16","2009-11-23","2009-11-30","2009-12-07","2009-12-14","2009-12-21","2009-12-28","2010-01-04","2010-01-11","2010-01-18","2010-01-25","2010-02-01","2010-02-08","2010-02-15","2010-02-22","2010-03-01","2010-03-08","2010-03-15","2010-03-22","2010-03-29","2010-04-05","2010-04-12","2010-04-19","2010-04-26","2010-05-03","2010-05-10","2010-05-17","2010-05-24","2010-05-31","2010-06-07","2010-06-14","2010-06-21","2010-06-28","2010-07-05","2010-07-12","2010-07-19","2010-07-26","2010-08-02","2010-08-09","2010-08-16","2010-08-23","2010-08-30","2010-09-06","2010-09-13","2010-09-20","2010-09-27","2010-10-04","2010-10-11","2010-10-18","2010-10-25","2010-11-01","2010-11-08","2010-11-15","2010-11-22","2010-11-29","2010-12-06","2010-12-13","2010-12-20","2010-12-27","2011-01-03","2011-01-10","2011-01-17","2011-01-24","2011-01-31","2011-02-07","2011-02-14","2011-02-21","2011-02-28","2011-03-07","2011-03-14","2011-03-21","2011-03-28","2011-04-04","2011-04-11","2011-04-18","2011-04-25","2011-05-02","2011-05-09","2011-05-16","2011-05-23","2011-05-30","2011-06-06","2011-06-13","2011-06-20","2011-06-27","2011-07-04","2011-07-11","2011-07-18","2011-07-25","2011-08-01","2011-08-08","2011-08-15","2011-08-22","2011-08-29","2011-09-05","2011-09-12","2011-09-19","2011-09-26","2011-10-03","2011-10-10","2011-10-17","2011-10-24","2011-10-31","2011-11-07","2011-11-14","2011-11-21","2011-11-28","2011-12-05","2011-12-12","2011-12-19","2011-12-26","2012-01-02","2012-01-09","2012-01-16","2012-01-23","2012-01-30","2012-02-06","2012-02-13","2012-02-20","2012-02-27","2012-03-05","2012-03-12","2012-03-19","2012-03-26","2012-04-02","2012-04-09","2012-04-16","2012-04-23","2012-04-30","2012-05-07","2012-05-14","2012-05-21","2012-05-28","2012-06-04","2012-06-11","2012-06-18","2012-06-25","2012-07-02","2012-07-09","2012-07-16","2012-07-23","2012-07-30","2012-08-06","2012-08-13","2012-08-20","2012-08-27","2012-09-03","2012-09-10","2012-09-17","2012-09-24","2012-10-01","2012-10-08","2012-10-15","2012-10-22","2012-10-29","2012-11-05","2012-11-12","2012-11-19","2012-11-26","2012-12-03","2012-12-10","2012-12-17","2012-12-24","2012-12-31","2013-01-07","2013-01-14","2013-01-21","2013-01-28","2013-02-04","2013-02-11","2013-02-18","2013-02-25","2013-03-04","2013-03-11","2013-03-18","2013-03-25","2013-04-01","2013-04-08","2013-04-15","2013-04-22","2013-04-29","2013-05-06","2013-05-13","2013-05-20","2013-05-27","2013-06-03","2013-06-10","2013-06-17","2013-06-24","2013-07-01","2013-07-08","2013-07-15","2013-07-22","2013-07-29","2013-08-05","2013-08-12","2013-08-19","2013-08-26","2013-09-02","2013-09-09","2013-09-16","2013-09-23","2013-09-30","2013-10-07","2013-10-14","2013-10-21","2013-10-28","2013-11-04","2013-11-11","2013-11-18","2013-11-25","2013-12-02","2013-12-09","2013-12-16","2013-12-23","2013-12-30","2014-01-06","2014-01-13","2014-01-20","2014-01-27","2014-02-03","2014-02-10","2014-02-17","2014-02-24","2014-03-03","2014-03-10","2014-03-17","2014-03-24","2014-03-31","2014-04-07","2014-04-14","2014-04-21","2014-04-28","2014-05-05","2014-05-12","2014-05-19","2014-05-26","2014-06-02","2014-06-09","2014-06-16","2014-06-23","2014-06-30","2014-07-07","2014-07-14","2014-07-21","2014-07-28","2014-08-04","2014-08-11","2014-08-18","2014-08-25","2014-09-01","2014-09-08","2014-09-15","2014-09-22","2014-09-29","2014-10-06","2014-10-13","2014-10-20","2014-10-27","2014-11-03","2014-11-10","2014-11-17","2014-11-24","2014-12-01","2014-12-08","2014-12-15","2014-12-22","2014-12-29","2015-01-05","2015-01-12","2015-01-19","2015-01-26","2015-02-02","2015-02-09","2015-02-16","2015-02-23","2015-03-02","2015-03-09","2015-03-16","2015-03-23","2015-03-30","2015-04-06","2015-04-13","2015-04-20","2015-04-27","2015-05-04","2015-05-11","2015-05-18","2015-05-25","2015-06-01","2015-06-08","2015-06-15","2015-06-22","2015-06-29","2015-07-06","2015-07-13","2015-07-20","2015-07-27","2015-08-03","2015-08-10","2015-08-17","2015-08-24","2015-08-31","2015-09-07","2015-09-14","2015-09-21","2015-09-28","2015-10-05","2015-10-12","2015-10-19","2015-10-26","2015-11-02","2015-11-09","2015-11-16","2015-11-23","2015-11-30","2015-12-07","2015-12-14","2015-12-21","2015-12-28","2016-01-04","2016-01-11","2016-01-18","2016-01-25","2016-02-01","2016-02-08","2016-02-15","2016-02-22","2016-02-29","2016-03-07","2016-03-14","2016-03-21","2016-03-28","2016-04-04","2016-04-11","2016-04-18","2016-04-25","2016-05-02","2016-05-09","2016-05-16","2016-05-23","2016-05-30","2016-06-06","2016-06-13","2016-06-20","2016-06-27","2016-07-04","2016-07-11","2016-07-18","2016-07-25","2016-08-01","2016-08-08","2016-08-15","2016-08-22","2016-08-29","2016-09-05","2016-09-12","2016-09-19","2016-09-26","2016-10-03","2016-10-10","2016-10-17","2016-10-24","2016-10-31","2016-11-07","2016-11-14","2016-11-21","2016-11-28","2016-12-05","2016-12-12","2016-12-19","2016-12-26","2017-01-02","2017-01-09","2017-01-16","2017-01-23","2017-01-30","2017-02-06","2017-02-13","2017-02-20","2017-02-27","2017-03-06","2017-03-13","2017-03-20","2017-03-27","2017-04-03","2017-04-10","2017-04-17","2017-04-24","2017-05-01","2017-05-08","2017-05-15","2017-05-22","2017-05-29","2017-06-05","2017-06-12","2017-06-19","2017-06-26","2017-07-03","2017-07-10","2017-07-17","2017-07-24","2017-07-31","2017-08-07","2017-08-14","2017-08-21","2017-08-28","2017-09-04","2017-09-11","2017-09-18","2017-09-25","2017-10-02","2017-10-09","2017-10-16","2017-10-23","2017-10-30","2017-11-06","2017-11-13","2017-11-20","2017-11-27","2017-12-04","2017-12-11","2017-12-18","2017-12-25","2018-01-01","2018-01-08","2018-01-15","2018-01-22","2018-01-29","2018-02-05","2018-02-12","2018-02-19","2018-02-26","2018-03-05","2018-03-12","2018-03-19","2018-03-26","2018-04-02","2018-04-09","2018-04-16","2018-04-23","2018-04-30","2018-05-07","2018-05-14","2018-05-21","2018-05-28","2018-06-04","2018-06-11","2018-06-18","2018-06-25","2018-07-02","2018-07-09","2018-07-16","2018-07-23","2018-07-30","2018-08-06","2018-08-13","2018-08-20","2018-08-27","2018-09-03","2018-09-10","2018-09-17","2018-09-24","2018-10-01","2018-10-08","2018-10-15","2018-10-22","2018-10-29","2018-11-05","2018-11-12","2018-11-19","2018-11-26","2018-12-03","2018-12-10","2018-12-17","2018-12-24","2018-12-31","2019-01-07","2019-01-14","2019-01-21","2019-01-28","2019-02-04","2019-02-11","2019-02-18","2019-02-25","2019-03-04","2019-03-11","2019-03-18","2019-03-25","2019-04-01","2019-04-08","2019-04-15","2019-04-22","2019-04-29","2019-05-06","2019-05-13","2019-05-20","2019-05-27","2019-06-03","2019-06-10","2019-06-17","2019-06-24","2019-07-01","2019-07-08","2019-07-15","2019-07-22","2019-07-29","2019-08-05","2019-08-12","2019-08-19","2019-08-26","2019-09-02","2019-09-09","2019-09-16","2019-09-23","2019-09-30","2019-10-07","2019-10-14","2019-10-21","2019-10-28","2019-11-04","2019-11-11","2019-11-18","2019-11-25","2019-12-02","2019-12-09","2019-12-16","2019-12-23","2019-12-30","2020-01-06","2020-01-13","2020-01-20","2020-01-27","2020-02-03","2020-02-10","2020-02-17","2020-02-24","2020-03-02","2020-03-09","2020-03-16","2020-03-23","2020-03-30","2020-04-06","2020-04-13","2020-04-20","2020-04-27","2020-05-04","2020-05-11","2020-05-18","2020-05-25","2020-06-01","2020-06-08","2020-06-15","2020-06-22","2020-06-29","2020-07-06","2020-07-13","2020-07-20","2020-07-27","2020-08-03","2020-08-10","2020-08-17","2020-08-24","2020-08-31","2020-09-07","2020-09-14","2020-09-21","2020-09-28","2020-10-05","2020-10-12","2020-10-19","2020-10-26","2020-11-02","2020-11-09","2020-11-16","2020-11-23","2020-11-30","2020-12-07","2020-12-14","2020-12-21","2020-12-28","2021-01-04","2021-01-11","2021-01-18","2021-01-25","2021-02-01","2021-02-08","2021-02-15","2021-02-22","2021-03-01","2021-03-08","2021-03-15","2021-03-22","2021-03-29","2021-04-05","2021-04-12","2021-04-19","2021-04-26","2021-05-03","2021-05-10","2021-05-17","2021-05-24","2021-05-31","2021-06-07","2021-06-14","2021-06-21","2021-06-28","2021-07-05","2021-07-12","2021-07-19","2021-07-26","2021-08-02","2021-08-09","2021-08-16","2021-08-23","2021-08-30","2021-09-06","2021-09-13","2021-09-20","2021-09-27","2021-10-04","2021-10-11","2021-10-18","2021-10-25","2021-11-01","2021-11-08","2021-11-15","2021-11-22","2021-11-29","2021-12-06","2021-12-13","2021-12-20","2021-12-27","2022-01-03","2022-01-10","2022-01-17","2022-01-24","2022-01-31","2022-02-07","2022-02-14","2022-02-21","2022-02-28","2022-03-07","2022-03-14","2022-03-21","2022-03-28","2022-04-04","2022-04-11","2022-04-18","2022-04-25","2022-05-02","2022-05-09","2022-05-16","2022-05-23","2022-05-30","2022-06-06","2022-06-13","2022-06-20","2022-06-27","2022-07-04","2022-07-11","2022-07-18","2022-07-25","2022-08-01","2022-08-08","2022-08-15","2022-08-22","2022-08-29","2022-09-05","2022-09-12","2022-09-19","2022-09-26","2022-10-03","2022-10-10","2022-10-17","2022-10-24","2022-10-31","2022-11-07","2022-11-14","2022-11-21","2022-11-28","2022-12-05","2022-12-12","2022-12-19","2022-12-26","2023-01-02","2023-01-09","2023-01-16","2023-01-23","2023-01-30","2023-02-06","2023-02-13","2023-02-20","2023-02-27","2023-03-06","2023-03-13","2023-03-20","2023-03-27","2023-04-03","2023-04-10","2023-04-17","2023-04-24","2023-05-01","2023-05-08","2023-05-15","2023-05-22","2023-05-29","2023-06-05","2023-06-12","2023-06-19","2023-06-26","2023-07-03","2023-07-10","2023-07-17","2023-07-24","2023-07-31","2023-08-07","2023-08-14","2023-08-21","2023-08-28","2023-09-04","2023-09-11","2023-09-18","2023-09-25","2023-10-02","2023-10-09","2023-10-16","2023-10-23","2023-10-30","2023-11-06","2023-11-13","2023-11-20","2023-11-27","2023-12-04","2023-12-11","2023-12-18","2023-12-25","2024-01-01","2024-01-08","2024-01-15","2024-01-22","2024-01-29","2024-02-05","2024-02-12","2024-02-19","2024-02-26","2024-03-04","2024-03-11","2024-03-18","2024-03-25","2024-04-01","2024-04-08","2024-04-15","2024-04-22","2024-04-29","2024-05-06","2024-05-13","2024-05-20","2024-05-27","2024-06-03","2024-06-10","2024-06-17","2024-06-24","2024-07-01","2024-07-08","2024-07-15","2024-07-22","2024-07-29","2024-08-05","2024-08-12","2024-08-19","2024-08-26","2024-09-02","2024-09-09","2024-09-16","2024-09-23","2024-09-30","2024-10-07","2024-10-14","2024-10-21","2024-10-28","2024-11-04","2024-11-11","2024-11-18","2024-11-25","2024-12-02","2024-12-09","2024-12-16","2024-12-23","2024-12-30","2025-01-06","2025-01-13","2025-01-20","2025-01-27","2025-02-03","2025-02-10","2025-02-17","2025-02-24","2025-03-03","2025-03-10","2025-03-17","2025-03-24","2025-03-31","2025-04-07","2025-04-14","2025-04-21","2025-04-28","2025-05-05","2025-05-12","2025-05-19","2025-05-26","2025-06-02","2025-06-09","2025-06-16","2025-06-23","2025-06-30","2025-07-07","2025-07-14","2025-07-21","2025-07-28","2025-08-04"],
+y: [50.0, 8300.0, 35815.0, 39400.0, 31150.0, 32752.02, 35750.04, 32800.0, 31700.0, 32750.0, 32150.0, 30250.0, 32750.0, 32050.0, 31450.0, 33350.0, 31900.0, 32150.0, 29150.0, 34600.0, 24050.0, 29250.0, 17100.0, 20250.0, 20000.0, 18800.0, 19250.0, 18600.0, 14200.0, 14100.14, 3955.0, 16450.0, 13150.0, 750.0, 13150.0, 17350.0, 18200.0, 18150.12, 15600.0, 15200.0, 10600.0, 10699.5, 14400.0, 6449.56, 8914.09, 12150.0, 12000.0, 12700.0, 11245.87, 13810.0, 19001.0, 18000.0, 15950.0, 18750.0, 13900.0, 9351.0, 13050.0, 13600.0, 15500.0, 19518.8, 17750.0, 16550.0, 12150.01, 14240.0, 19503.42, 20900.0, 27668.85, 19364.49, 23410.06, 22109.02, 11450.0, 12500.0, 7390.99, 9255.0, 4493.41, 14453.74, 29843.84, 10396.0, 8559.5, 10635.0, 47450.95763653, 38852.745, 18819.26956, 17226.75, 25259.06, 10497.09, 12902.2300003, 10332.6500004, 10622.20056537, 9305.78039648, 7067.06, 9740.07007198, 10844.08, 8241.36, 11310.95776615, 13408.97, 8925.7, 17908.51014492, 5755.54, 6371.72, 6958.146393, 7516.930032, 5786.51001139, 4091.20864465, 3411.74574567, 3005.66490058, 4421.21128664, 4679.25228224, 5148.4909778, 6617.61465507, 7587.87718898, 6586.47905572, 6346.33791856, 83710.940825, 6165.43530286, 2409.1182637, 2331.71738663, 2815.67311419, 1962.73390347, 2052.18806479, 9934.49098159, 1786.2075786, 2158.2128804, 5346.37175035, 15511.44525207, 8689.63626679, 18596.07972111, 11011.73270711, 11952.6840043, 9405.54205802, 10848.48434554, 7315.11088285, 6949.33858329, 4425.98184928, 11765.02784708, 3146.72254999, 52444.87825201, 3005.72882356, 2425.39574182, 2924.17527969, 2522.69763273, 2468.25775021, 2979.98808446, 3689.32786552, 4135.56657239, 3963.68743365, 7875.22690241, 6134.25143774, 3122.88735129, 2187.16536314, 5163.2019253, 2347.39980876, 4908.17265381, 3554.9927712, 3611.61795531, 3628.94584848, 2350.05937938, 3673.91558572, 3802.95653119, 2572.55528737, 2691.76332264, 2726.52004323, 1615.64888676, 4386.99062797, 1406.15053352, 4674.65582606, 3618.28480632, 3976.77866484, 8741.36005878, 5416.39478594, 4024.40146741, 2459.0353433, 4826.23441752, 1467.59450672, 4103.2239537, 4637.94502271, 3962.49607669, 2256.15451388, 2628.70116815, 3359.44368503, 2585.67416762, 3616.53612722, 4713.64088407, 8326.33156191, 4559.37090131, 6481.17940152, 3812.32579532, 4488.18236009, 3764.49597231, 5113.32441682, 4116.48497187, 2503.15528868, 4255.92283844, 2498.36548341, 2943.42239892, 2049.90964576, 3063.53124766, 5529.80798846, 3711.38610083, 2724.80033462, 2126.33321692, 2351.85750582, 6421.29548434, 3128.19977135, 3721.11635116, 27126.82607253, 5834.91299132, 4048.92519723, 3887.00012309, 11056.67912858, 2957.47161611, 4317.33057551, 9943.82743164, 5576.07909555, 5770.1943257, 4324.36981527, 3996.2546315, 3121.26168142, 4290.28125591, 8020.46695135, 13056.24289041, 9194.88648431, 9674.32580574, 14571.47957623, 17139.73047599, 57071.93708797, 19162.2757369, 5298.35638499, 11190.51498323, 6384.52491287, 4667.01652316, 4886.01403819, 6263.87112272, 7229.07332046, 5345.21965647, 10739.17500956, 3601.73734214, 4328.64146337, 2361.20552443, 8023.41219867, 4243.53156403, 4846.64856672, 6119.97373911, 3996.80196107, 4793.46576412, 4713.90242626, 5370.01519409, 12767.73567045, 6842.18292326, 2090.70358052, 7376.79488784, 10215.33226158, 3403.14772658, 13086.76197355, 12380.89598482, 12415.81845944, 13188.13435075, 19279.89632401, 11930.27225771, 22020.48174819, 12709.63456024, 16533.78977527, 11457.13991189, 7883.54222381, 6567.32510785, 8275.79614208, 5121.7617596, 3448.06740304, 2709.02952821, 4744.74131422, 7110.12251137, 4781.9160958, 4416.36830668, 5867.09589087, 3824.83157771, 3611.08680472, 25379.6035049, 3860.32227148, 2894.96198154, 1776.15255577, 3428.61033107, 3004.72393441, 56657.90189655, 2626.58888582, 2963.9977118, 1448.51854682, 2081.36472887, 4315.17418306, 1543.40191423, 2273.59513973, 2038.54684306, 5061.9657565, 4352.64241665, 3292.71250624, 2537.35570396, 1851.42255568, 5029.18488765, 4303.22060961, 2849.77512975, 2030.04566537, 4160.77578943, 4908.60136812, 2042.62337101, 2452.69443483, 3200.74433825, 2877.23277574, 3413.63661601, 4360.23469638, 5855.92313404, 4765.73214207, 3334.17841469, 3272.91457349, 3393.28885572, 1452.45640761, 2911.65327422, 5137.22975432, 4315.67058994, 3215.29696392, 5394.16709218, 7745.82991331, 3017.68647658, 4027.20869261, 4634.25935328, 3204.14487616, 2527.57383416, 2719.35960674, 2068.16025844, 1476.82496967, 2032.99598395, 2358.52178915, 2444.64000717, 1738.16299806, 1875.41976953, 3121.9272092, 2508.34868703, 2824.41413347, 2128.59664137, 2942.17425647, 3487.26839808, 3096.39621772, 2308.28990011, 2473.59477592, 2023.33428158, 1855.10299834, 2673.80961296, 4934.95243086, 2785.12007105, 9711.60770899, 4244.03445765, 4400.62565146, 2224.17744489, 2742.70632822, 2523.78087701, 2609.00823117, 4836.08544246, 3988.98665635, 4004.43597328, 5083.1195655, 3085.46081457, 2846.3366586, 3295.28661582, 4003.13038026, 9654.42659755, 5470.50687044, 4831.05159614, 4154.30173051, 4162.62365643, 4316.01656076, 8506.92723878, 4360.78490742, 2928.67436355, 4836.55770886, 10439.16767728, 7728.26122046, 11909.66302991, 5404.37038975, 8624.42123957, 6791.8062252, 5615.88341383, 10689.47950362, 12912.26432071, 7639.73462604, 6145.57183, 7453.58522672, 5772.35081757, 5039.86227321, 5194.3330048, 3881.38747568, 4117.19138006, 4542.16372785, 5848.26858773, 7371.60774587, 9291.75991117, 4632.9755151, 4993.33660604, 6511.58935454, 4044.14855916, 5058.25099562, 3166.33499947, 2913.78608915, 3942.64139112, 2906.68898936, 4790.10854653, 3193.67185452, 3466.23446242, 7251.17433887, 4146.50715735, 5113.78246291, 5614.5215561, 3796.66745771, 6932.72218574, 5716.7407957, 8468.72807875, 4579.44545844, 7110.1967913, 5731.25959699, 6222.96910005, 6361.35863164, 6791.91327733, 5762.00317966, 3413.04026404, 3115.5745073, 5715.43424014, 5061.27660575, 2642.01123356, 8905.09526317, 3243.96750716, 5177.85401672, 4060.37091998, 10422.08745282, 23610.90712943, 4418.80738519, 4287.35646607, 6657.89136941, 7263.80052046, 8589.67475943, 9380.22943081, 8954.88631072, 9186.44541229, 7797.38374867, 10494.07627042, 49187.90382971, 17488.47679892, 5326.15585072, 3879.1647014, 7895.00310569, 7945.50670901, 31123.45045934, 33847.56036159, 23283.51228261, 19105.91086191, 16923.88589852, 15053.43313485, 16357.71795304, 20659.81577137, 14809.09862217, 16331.5320758, 22087.62133262, 22212.68649036, 32093.01702172, 18218.0230653, 18500.51620707, 20874.83018573, 26411.99863107, 25055.57926776, 26142.32389867, 29656.49219273, 30712.30162719, 24223.0595421, 33809.78356566, 82962.84624852, 18911.2014034, 18018.62587955, 16983.51202443, 16789.63109882, 27724.28305069, 18059.3135823, 12194.30279976, 13931.22326494, 10744.2069891, 12651.76594904, 9797.85027024, 7232.34849607, 7093.54436302, 5434.51377856, 11853.94975949, 14177.47554617, 6215.74200676, 10248.5770248, 34520.71066056, 3392.89263297, 5996.26017219, 5491.17069236, 4857.7106537, 7580.47707684, 5626.44809288, 10569.23371711, 5040.81868306, 8212.27291303, 4061.22786718, 3486.74523689, 3830.40233943, 15497.17352151, 30561.70472553, 28748.00297996, 5123.74998201, 4519.89761675, 4279.47718169, 5814.14632935, 3840.66260724, 8305.79650363, 6570.81599862, 6317.7719739, 5085.43105196, 8422.66129024, 10467.41262659, 12774.60894654, 5727.39345355, 7736.30484982, 11074.70419648, 7110.05150435, 5145.96834166, 6527.23451395, 3548.86719029, 53017.54287724, 9089.8579506, 4318.44947639, 8600.36741089, 24583.59866475, 4888.99041484, 46364.98593435, 10126.87704052, 4925.50101664, 5983.63173177, 5965.21396745, 6676.54016146, 4378.19416918, 4579.66690386, 6226.67961689, 9463.01447052, 10056.60290063, 11271.67573251, 13569.63636555, 14076.96184708, 4881.79813209, 8590.81865125, 7968.44085293, 16129.74600319, 11336.29404674, 17191.47072467, 9775.18311989, 15610.74663397, 5268.41785969, 8436.72996841, 4257.93049437, 5008.21769652, 10259.9444931, 29606.35741538, 6465.28687879, 4852.65040399, 14596.32610968, 4579.35117813, 6300.81963301, 7452.13500534, 6012.75867334, 7146.97364022, 6536.26176495, 7016.07427316, 56983.4123049, 5668.88519968, 8622.35835803, 4049.08342273, 7215.79053397, 8956.35752295, 5385.30811054, 9514.14765209, 19327.60094592, 5707.33725665, 9173.8762451, 5908.68418311, 11870.2027802, 29094.09186174, 5882.42738914, 13440.33968719, 13604.10612133, 10435.59895389, 8542.61881936, 6630.74529226, 5480.3607801, 4988.51655017, 6973.59436645, 9092.33716259, 9589.78443792, 7499.64957094, 11454.09914809, 6550.57017323, 6228.71451674, 4798.65260093, 6724.02141712, 7332.46886417, 5079.535472, 6596.62664189, 12697.44138026, 5605.17619434, 9256.69739932, 5970.6656867, 12204.18851962, 6667.89351173, 11644.53219361, 11586.46783326, 6514.09402325, 7679.43823231, 7626.2077095, 6880.82245218, 6814.51519124, 8067.81427835, 16080.50634493, 12958.76278427, 85607.40707184, 14467.2235578, 19507.54942425, 16764.87542679, 12660.34552604, 62365.01185513, 42149.06291155, 32039.00155642, 30150.24878239, 42455.62906199, 66333.69897226, 34194.95704763, 23126.98361006, 37100.46329418, 52919.82259569, 38439.58488379, 56646.29060908, 56056.98273172, 29134.08737807, 21239.96641618, 43629.86144837, 27756.41806834, 56484.08151916, 18430.33970393, 77013.68156265, 37952.13395785, 49661.01575619, 57300.74270661, 78373.03184894, 46823.84253757, 16836.55449321, 13931.33965792, 36436.19709124, 22102.43522878, 24292.90826698, 11465.94781749, 13924.64529767, 10531.98977292, 102281.63702543, 9230.35845985, 19306.41629091, 8911.00946453, 11874.37629274, 10376.4691974, 9907.94001312, 8709.84702133, 9902.00750076, 19092.67906077, 19252.42201485, 14280.25910449, 72298.88755775, 19087.13215843, 22716.4932255, 26968.52662634, 14742.72166761, 23208.20600553, 19795.07281448, 27887.13950741, 14466.69836555, 14592.66492428, 20064.56901573, 16897.47865384, 12515.91980059, 12393.54213675, 15230.18465658, 106113.8767668, 25720.88462864, 13315.78467622, 19331.16674182, 17424.64434156, 18980.56202362, 11778.81380649, 18987.44689515, 11394.88956749, 14248.70800351, 13399.49047779, 85195.42487018, 11839.08124059, 15662.52194722, 33651.95289936, 17368.76335389, 17586.32693449, 22538.48568613, 14734.27728505, 45591.74754542, 31075.23176845, 27398.69167397, 29341.87840614, 16158.03049161, 17637.72365057, 16009.13230759, 12555.80423985, 20943.4070621, 13749.03246154, 16840.28301793, 13300.98398028, 10029.96887187, 7659.62145907, 10937.9788884, 8846.85271226, 11298.5033984, 12940.9404528, 12321.1611121, 11276.95726642, 112859.07122397, 63833.26512578, 131958.97022437, 34992.95333477, 31029.91631407, 21304.70909215, 33289.98010257, 39559.79041068, 25174.55328361, 23110.0232946, 20344.46961022, 18862.3683924, 18037.57644511, 21955.81020964, 12995.492582, 12891.2175839, 13138.60364187, 49799.39257632, 24484.5372696, 23913.54583331, 34263.56382151, 26425.62233561, 18413.93199334, 29387.537508, 24031.19081396, 14443.64094974, 13268.77472561, 32172.91271191, 26301.48624236, 52470.91639038, 40794.25783042, 32330.94119833, 41539.00499613, 35149.32576839, 34319.33562631, 24787.83336166, 28308.32834642, 24910.59958578, 15626.20658869, 13593.35406199, 18355.12970492, 19861.30424425, 26009.07807078, 29231.91503938, 20422.62074441, 14491.06154182, 29867.07950307, 21809.27619903, 33106.91640675, 16514.39641376, 15853.62944153, 31411.64253339, 25166.06794739, 23493.80417095, 22596.4155187, 37568.22081583, 28740.63291608, 35865.1373064, 25987.45575458, 42415.03109974, 44616.4071013, 173766.83592818, 46165.98758525, 28472.46494134, 40166.07818442, 25065.62404024, 37285.40785146, 42880.20924594, 33863.90413381, 85933.46690427, 71259.439227, 91739.96901524, 151846.42827781, 54132.08447685, 36516.51870114, 24351.13089662, 34504.18803017, 21888.05187611, 40722.87800945, 24674.58120981, 41508.35991914, 34121.3389127, 25071.19548943, 68893.351839, 27825.41553148, 76590.49357987, 81469.65384211, 97399.58623108, 44799.52310391, 43794.27056545, 64740.19159281, 33635.31908509, 73814.10247414, 26437.39147057, 38824.11299906, 38858.77149156, 41186.40995015, 25196.12903069, 53972.09972031, 51855.42395829, 27245.22028301, 326431.25628722, 85878.57668844, 71203.18973567, 41941.81199053, 73044.09169499, 130056.81713288, 239033.28936144, 156975.88007327, 389658.63230753, 393029.61624496, 191002.4128305, 87139.99489027, 119109.73540878, 125334.10084537, 77930.35114851, 98471.0018076, 66782.52770297, 117628.83514333, 63371.58815388, 57451.85634803, 117022.86012283, 66969.71729804, 153254.76416909, 56762.85871742, 92941.31459368, 113968.05231795, 146661.88476997, 129557.39390538, 131103.83315274, 142304.19552581, 123181.44227802, 139965.91144034, 193840.87090621, 130654.36813923, 157414.85286582, 133606.51674989, 154225.50360074, 171557.01584279, 137501.82190244, 202115.05669821, 412652.21420718, 316187.07978644, 272611.4105834, 377279.39845329],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(50, 134, 188, 0.8)',
+},
+orientation: 'v',
+visible: 'legendonly',
+xaxis: 'x',
+yaxis: 'y2',
+type: 'bar',
+name: 'Unchanged Supply',
+};
+var trace3 =
+{
+x: ["2008-12-29","2009-01-05","2009-01-12","2009-01-19","2009-01-26","2009-02-02","2009-02-09","2009-02-16","2009-02-23","2009-03-02","2009-03-09","2009-03-16","2009-03-23","2009-03-30","2009-04-06","2009-04-13","2009-04-20","2009-04-27","2009-05-04","2009-05-11","2009-05-18","2009-05-25","2009-06-01","2009-06-08","2009-06-15","2009-06-22","2009-06-29","2009-07-06","2009-07-13","2009-07-20","2009-07-27","2009-08-03","2009-08-10","2009-08-17","2009-08-24","2009-08-31","2009-09-07","2009-09-14","2009-09-21","2009-09-28","2009-10-05","2009-10-12","2009-10-19","2009-10-26","2009-11-02","2009-11-09","2009-11-16","2009-11-23","2009-11-30","2009-12-07","2009-12-14","2009-12-21","2009-12-28","2010-01-04","2010-01-11","2010-01-18","2010-01-25","2010-02-01","2010-02-08","2010-02-15","2010-02-22","2010-03-01","2010-03-08","2010-03-15","2010-03-22","2010-03-29","2010-04-05","2010-04-12","2010-04-19","2010-04-26","2010-05-03","2010-05-10","2010-05-17","2010-05-24","2010-05-31","2010-06-07","2010-06-14","2010-06-21","2010-06-28","2010-07-05","2010-07-12","2010-07-19","2010-07-26","2010-08-02","2010-08-09","2010-08-16","2010-08-23","2010-08-30","2010-09-06","2010-09-13","2010-09-20","2010-09-27","2010-10-04","2010-10-11","2010-10-18","2010-10-25","2010-11-01","2010-11-08","2010-11-15","2010-11-22","2010-11-29","2010-12-06","2010-12-13","2010-12-20","2010-12-27","2011-01-03","2011-01-10","2011-01-17","2011-01-24","2011-01-31","2011-02-07","2011-02-14","2011-02-21","2011-02-28","2011-03-07","2011-03-14","2011-03-21","2011-03-28","2011-04-04","2011-04-11","2011-04-18","2011-04-25","2011-05-02","2011-05-09","2011-05-16","2011-05-23","2011-05-30","2011-06-06","2011-06-13","2011-06-20","2011-06-27","2011-07-04","2011-07-11","2011-07-18","2011-07-25","2011-08-01","2011-08-08","2011-08-15","2011-08-22","2011-08-29","2011-09-05","2011-09-12","2011-09-19","2011-09-26","2011-10-03","2011-10-10","2011-10-17","2011-10-24","2011-10-31","2011-11-07","2011-11-14","2011-11-21","2011-11-28","2011-12-05","2011-12-12","2011-12-19","2011-12-26","2012-01-02","2012-01-09","2012-01-16","2012-01-23","2012-01-30","2012-02-06","2012-02-13","2012-02-20","2012-02-27","2012-03-05","2012-03-12","2012-03-19","2012-03-26","2012-04-02","2012-04-09","2012-04-16","2012-04-23","2012-04-30","2012-05-07","2012-05-14","2012-05-21","2012-05-28","2012-06-04","2012-06-11","2012-06-18","2012-06-25","2012-07-02","2012-07-09","2012-07-16","2012-07-23","2012-07-30","2012-08-06","2012-08-13","2012-08-20","2012-08-27","2012-09-03","2012-09-10","2012-09-17","2012-09-24","2012-10-01","2012-10-08","2012-10-15","2012-10-22","2012-10-29","2012-11-05","2012-11-12","2012-11-19","2012-11-26","2012-12-03","2012-12-10","2012-12-17","2012-12-24","2012-12-31","2013-01-07","2013-01-14","2013-01-21","2013-01-28","2013-02-04","2013-02-11","2013-02-18","2013-02-25","2013-03-04","2013-03-11","2013-03-18","2013-03-25","2013-04-01","2013-04-08","2013-04-15","2013-04-22","2013-04-29","2013-05-06","2013-05-13","2013-05-20","2013-05-27","2013-06-03","2013-06-10","2013-06-17","2013-06-24","2013-07-01","2013-07-08","2013-07-15","2013-07-22","2013-07-29","2013-08-05","2013-08-12","2013-08-19","2013-08-26","2013-09-02","2013-09-09","2013-09-16","2013-09-23","2013-09-30","2013-10-07","2013-10-14","2013-10-21","2013-10-28","2013-11-04","2013-11-11","2013-11-18","2013-11-25","2013-12-02","2013-12-09","2013-12-16","2013-12-23","2013-12-30","2014-01-06","2014-01-13","2014-01-20","2014-01-27","2014-02-03","2014-02-10","2014-02-17","2014-02-24","2014-03-03","2014-03-10","2014-03-17","2014-03-24","2014-03-31","2014-04-07","2014-04-14","2014-04-21","2014-04-28","2014-05-05","2014-05-12","2014-05-19","2014-05-26","2014-06-02","2014-06-09","2014-06-16","2014-06-23","2014-06-30","2014-07-07","2014-07-14","2014-07-21","2014-07-28","2014-08-04","2014-08-11","2014-08-18","2014-08-25","2014-09-01","2014-09-08","2014-09-15","2014-09-22","2014-09-29","2014-10-06","2014-10-13","2014-10-20","2014-10-27","2014-11-03","2014-11-10","2014-11-17","2014-11-24","2014-12-01","2014-12-08","2014-12-15","2014-12-22","2014-12-29","2015-01-05","2015-01-12","2015-01-19","2015-01-26","2015-02-02","2015-02-09","2015-02-16","2015-02-23","2015-03-02","2015-03-09","2015-03-16","2015-03-23","2015-03-30","2015-04-06","2015-04-13","2015-04-20","2015-04-27","2015-05-04","2015-05-11","2015-05-18","2015-05-25","2015-06-01","2015-06-08","2015-06-15","2015-06-22","2015-06-29","2015-07-06","2015-07-13","2015-07-20","2015-07-27","2015-08-03","2015-08-10","2015-08-17","2015-08-24","2015-08-31","2015-09-07","2015-09-14","2015-09-21","2015-09-28","2015-10-05","2015-10-12","2015-10-19","2015-10-26","2015-11-02","2015-11-09","2015-11-16","2015-11-23","2015-11-30","2015-12-07","2015-12-14","2015-12-21","2015-12-28","2016-01-04","2016-01-11","2016-01-18","2016-01-25","2016-02-01","2016-02-08","2016-02-15","2016-02-22","2016-02-29","2016-03-07","2016-03-14","2016-03-21","2016-03-28","2016-04-04","2016-04-11","2016-04-18","2016-04-25","2016-05-02","2016-05-09","2016-05-16","2016-05-23","2016-05-30","2016-06-06","2016-06-13","2016-06-20","2016-06-27","2016-07-04","2016-07-11","2016-07-18","2016-07-25","2016-08-01","2016-08-08","2016-08-15","2016-08-22","2016-08-29","2016-09-05","2016-09-12","2016-09-19","2016-09-26","2016-10-03","2016-10-10","2016-10-17","2016-10-24","2016-10-31","2016-11-07","2016-11-14","2016-11-21","2016-11-28","2016-12-05","2016-12-12","2016-12-19","2016-12-26","2017-01-02","2017-01-09","2017-01-16","2017-01-23","2017-01-30","2017-02-06","2017-02-13","2017-02-20","2017-02-27","2017-03-06","2017-03-13","2017-03-20","2017-03-27","2017-04-03","2017-04-10","2017-04-17","2017-04-24","2017-05-01","2017-05-08","2017-05-15","2017-05-22","2017-05-29","2017-06-05","2017-06-12","2017-06-19","2017-06-26","2017-07-03","2017-07-10","2017-07-17","2017-07-24","2017-07-31","2017-08-07","2017-08-14","2017-08-21","2017-08-28","2017-09-04","2017-09-11","2017-09-18","2017-09-25","2017-10-02","2017-10-09","2017-10-16","2017-10-23","2017-10-30","2017-11-06","2017-11-13","2017-11-20","2017-11-27","2017-12-04","2017-12-11","2017-12-18","2017-12-25","2018-01-01","2018-01-08","2018-01-15","2018-01-22","2018-01-29","2018-02-05","2018-02-12","2018-02-19","2018-02-26","2018-03-05","2018-03-12","2018-03-19","2018-03-26","2018-04-02","2018-04-09","2018-04-16","2018-04-23","2018-04-30","2018-05-07","2018-05-14","2018-05-21","2018-05-28","2018-06-04","2018-06-11","2018-06-18","2018-06-25","2018-07-02","2018-07-09","2018-07-16","2018-07-23","2018-07-30","2018-08-06","2018-08-13","2018-08-20","2018-08-27","2018-09-03","2018-09-10","2018-09-17","2018-09-24","2018-10-01","2018-10-08","2018-10-15","2018-10-22","2018-10-29","2018-11-05","2018-11-12","2018-11-19","2018-11-26","2018-12-03","2018-12-10","2018-12-17","2018-12-24","2018-12-31","2019-01-07","2019-01-14","2019-01-21","2019-01-28","2019-02-04","2019-02-11","2019-02-18","2019-02-25","2019-03-04","2019-03-11","2019-03-18","2019-03-25","2019-04-01","2019-04-08","2019-04-15","2019-04-22","2019-04-29","2019-05-06","2019-05-13","2019-05-20","2019-05-27","2019-06-03","2019-06-10","2019-06-17","2019-06-24","2019-07-01","2019-07-08","2019-07-15","2019-07-22","2019-07-29","2019-08-05","2019-08-12","2019-08-19","2019-08-26","2019-09-02","2019-09-09","2019-09-16","2019-09-23","2019-09-30","2019-10-07","2019-10-14","2019-10-21","2019-10-28","2019-11-04","2019-11-11","2019-11-18","2019-11-25","2019-12-02","2019-12-09","2019-12-16","2019-12-23","2019-12-30","2020-01-06","2020-01-13","2020-01-20","2020-01-27","2020-02-03","2020-02-10","2020-02-17","2020-02-24","2020-03-02","2020-03-09","2020-03-16","2020-03-23","2020-03-30","2020-04-06","2020-04-13","2020-04-20","2020-04-27","2020-05-04","2020-05-11","2020-05-18","2020-05-25","2020-06-01","2020-06-08","2020-06-15","2020-06-22","2020-06-29","2020-07-06","2020-07-13","2020-07-20","2020-07-27","2020-08-03","2020-08-10","2020-08-17","2020-08-24","2020-08-31","2020-09-07","2020-09-14","2020-09-21","2020-09-28","2020-10-05","2020-10-12","2020-10-19","2020-10-26","2020-11-02","2020-11-09","2020-11-16","2020-11-23","2020-11-30","2020-12-07","2020-12-14","2020-12-21","2020-12-28","2021-01-04","2021-01-11","2021-01-18","2021-01-25","2021-02-01","2021-02-08","2021-02-15","2021-02-22","2021-03-01","2021-03-08","2021-03-15","2021-03-22","2021-03-29","2021-04-05","2021-04-12","2021-04-19","2021-04-26","2021-05-03","2021-05-10","2021-05-17","2021-05-24","2021-05-31","2021-06-07","2021-06-14","2021-06-21","2021-06-28","2021-07-05","2021-07-12","2021-07-19","2021-07-26","2021-08-02","2021-08-09","2021-08-16","2021-08-23","2021-08-30","2021-09-06","2021-09-13","2021-09-20","2021-09-27","2021-10-04","2021-10-11","2021-10-18","2021-10-25","2021-11-01","2021-11-08","2021-11-15","2021-11-22","2021-11-29","2021-12-06","2021-12-13","2021-12-20","2021-12-27","2022-01-03","2022-01-10","2022-01-17","2022-01-24","2022-01-31","2022-02-07","2022-02-14","2022-02-21","2022-02-28","2022-03-07","2022-03-14","2022-03-21","2022-03-28","2022-04-04","2022-04-11","2022-04-18","2022-04-25","2022-05-02","2022-05-09","2022-05-16","2022-05-23","2022-05-30","2022-06-06","2022-06-13","2022-06-20","2022-06-27","2022-07-04","2022-07-11","2022-07-18","2022-07-25","2022-08-01","2022-08-08","2022-08-15","2022-08-22","2022-08-29","2022-09-05","2022-09-12","2022-09-19","2022-09-26","2022-10-03","2022-10-10","2022-10-17","2022-10-24","2022-10-31","2022-11-07","2022-11-14","2022-11-21","2022-11-28","2022-12-05","2022-12-12","2022-12-19","2022-12-26","2023-01-02","2023-01-09","2023-01-16","2023-01-23","2023-01-30","2023-02-06","2023-02-13","2023-02-20","2023-02-27","2023-03-06","2023-03-13","2023-03-20","2023-03-27","2023-04-03","2023-04-10","2023-04-17","2023-04-24","2023-05-01","2023-05-08","2023-05-15","2023-05-22","2023-05-29","2023-06-05","2023-06-12","2023-06-19","2023-06-26","2023-07-03","2023-07-10","2023-07-17","2023-07-24","2023-07-31","2023-08-07","2023-08-14","2023-08-21","2023-08-28","2023-09-04","2023-09-11","2023-09-18","2023-09-25","2023-10-02","2023-10-09","2023-10-16","2023-10-23","2023-10-30","2023-11-06","2023-11-13","2023-11-20","2023-11-27","2023-12-04","2023-12-11","2023-12-18","2023-12-25","2024-01-01","2024-01-08","2024-01-15","2024-01-22","2024-01-29","2024-02-05","2024-02-12","2024-02-19","2024-02-26","2024-03-04","2024-03-11","2024-03-18","2024-03-25","2024-04-01","2024-04-08","2024-04-15","2024-04-22","2024-04-29","2024-05-06","2024-05-13","2024-05-20","2024-05-27","2024-06-03","2024-06-10","2024-06-17","2024-06-24","2024-07-01","2024-07-08","2024-07-15","2024-07-22","2024-07-29","2024-08-05","2024-08-12","2024-08-19","2024-08-26","2024-09-02","2024-09-09","2024-09-16","2024-09-23","2024-09-30","2024-10-07","2024-10-14","2024-10-21","2024-10-28","2024-11-04","2024-11-11","2024-11-18","2024-11-25","2024-12-02","2024-12-09","2024-12-16","2024-12-23","2024-12-30","2025-01-06","2025-01-13","2025-01-20","2025-01-27","2025-02-03","2025-02-10","2025-02-17","2025-02-24","2025-03-03","2025-03-10","2025-03-17","2025-03-24","2025-03-31","2025-04-07","2025-04-14","2025-04-21","2025-04-28","2025-05-05","2025-05-12","2025-05-19","2025-05-26","2025-06-02","2025-06-09","2025-06-16","2025-06-23","2025-06-30","2025-07-07","2025-07-14","2025-07-21","2025-07-28","2025-08-04"],
+y: [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 0.0500000000001819, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 100.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 7.199846320000688, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 4.999999873689376E-6, 0.03000600000086706, 0.001224999999976717, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 0.010000000000218279, NaN, NaN, NaN, NaN, NaN, NaN, 60.0, 1.1471999823697843E-4, 1.768099991750205E-4, 5.7550001656636596E-5, NaN, 5.398899993451778E-4, 1.1669000014080666E-4, 1.7188999845529906E-4, 1.1018999975931365E-4, NaN, NaN, NaN, NaN, 0.06596266999986256, NaN, 1.0904000009759329E-4, 1.0314999963156879E-4, 1.0022999958891887E-4, NaN, 1.6116999995574588E-4, 0.013077599999633094, 2.662499996404222E-4, 1.0814000052050687E-4, NaN, 1.291700000365381E-4, 1.6595000010966032E-4, 1.167800000985153E-4, NaN, 6.181999924592674E-5, 0.004320319999806088, 3.782399999181507E-4, 1.9328000007590163E-4, 6.0960000155318994E-5, 1.9953999981225934E-4, 1.2947999994139536E-4, 6.536000000778586E-5, 6.570000005012844E-5, 6.462000055762473E-5, 0.005054999999629217, 1.2348000018391758E-4, 5.787999998574378E-5, 1.2529000014183111E-4, 1.9364000036148354E-4, 6.894000034662895E-5, 0.20106209999994462, 6.17999999121821E-5, 6.417999975383282E-5, 3.4348000008321833E-4, 6.0710000070685055E-5, 1.5278000000762404E-4, 7.535999975516461E-5, 6.0880000091856346E-5, NaN, 1.8944000021292595E-4, 6.148000011307886E-5, 7.748000007268274E-5, 6.960000018807477E-5, 4.831800001738884E-4, 3.7440999994942104E-4, 1.1216798599998583, 0.0010480099999767845, 8.74799998200615E-5, 3.2872999963728944E-4, 3.61599999905593E-4, NaN, 1.3949999993201345E-4, 2.4323999969055876E-4, 6.480000001829467E-5, 0.010506519999580632, 7.599999980811845E-5, 3.7599000006593997E-4, 9.223000001838955E-4, 2.101600002788473E-4, 1.525800000763411E-4, NaN, 1.5428999995492632E-4, 6.320000011328375E-5, NaN, NaN, NaN, 1.0000000020227162E-4, 0.790150000000267, 6.56000001981738E-5, 6.880000000819564E-5, 0.012204299999666546, NaN, 9.626000019125058E-5, NaN, 6.53399999919202E-5, 1.2434999985089235E-4, NaN, 8.224200000768178E-4, 0.00955396999961522, NaN, NaN, 0.004972980000275129, NaN, NaN, 0.041927920000034646, 1.25690000004397E-4, 0.001167379999969853, 2.266699998472177E-4, 2.912899999500951E-4, 1.766599998518359E-4, 1.3814000021739048E-4, 1.0350000002290471E-4, 1.7057000013664947E-4, 7.99639999968349E-4, 5.60070000574342E-4, 8.426000022154767E-5, 3.635200000644545E-4, 0.011037190000024566, 1.6623000010440592E-4, NaN, 0.0014719000009790761, 3.360699993208982E-4, 0.0736218199999712, 0.847295519999534, 0.04012619000059203, NaN, 9.04099997569574E-5, 4.968000030203257E-5, 3.215000106138177E-5, 0.0024681900003997725, 1.4327999997476581E-4, 0.2500047000012273, 3.00799983961042E-5, 2.0998000036343E-4, 8.599000011599855E-5, 2.064099999188329E-4, NaN, 0.012892189999547554, 1.586700000189012E-4, 0.5529308299996956, 3.268000000389293E-5, 2.778799998850445E-4, 0.001917890000186162, 4.2408999979670625E-4, 0.009641070000725449, NaN, 1.0115999975823797E-4, 0.018543129999670782, 3.2899999951041536E-5, 0.0016179799995370558, 0.0010390600000391714, NaN, 3.340199996273441E-4, NaN, 9.221999971487094E-5, 3.614999968704069E-5, 0.004044580000027054, NaN, 7.199999981821747E-5, NaN, 0.00963439999941329, 7.570000025225454E-5, NaN, 2.7570000020205043E-4, 0.9178511699992669, 0.015610000000378932, 0.0012225999998918269, 3.5598999966168776E-4, 1.0100000508828089E-5, 0.0318920400004572, NaN, 7.974600002853549E-4, 0.04785319000029631, 6.609100000787294E-4, 0.042947519999870565, 0.005041049999817915, 1.9499999962135917E-4, 0.0020939499991072807, 0.08048668999981601, 0.013999880000483245, 0.004321169999911945, 0.6691876799995953, 0.010469919998286059, 0.4162508600002184, 4.2020000000775326E-4, 0.002045170000201324, 0.030965349999860337, 0.0017029600003297674, 0.0017538899992359802, 0.033742659999916214, 0.3424979800001893, 0.49192116999984137, 0.037722150000263355, 0.0656704900029581, 0.049532469998666784, 0.8127183800006605, 0.0061244200001056015, 0.9560273100005361, 0.0017023199998220662, 2.1007500999985496, 1.649522279993107, 2.503391409998585, 1.6266574199980823, 1.2268234300026961, 3.4916627399998106, 0.019288989999040496, 0.5928241900001012, 24.908049460000257, 2.822326220000832, 0.2631978600002185, 4.043853430001036, 1.6155528300005244, 0.13844012999834376, 0.3427975800004788, 22.52802095000152, 1.7140416000002006, 1.2427509000008286, 0.620036029999028, 1.5312830900002155, 3.832671019998088, 1.557459759998892, 0.444060529996932, 1.9293435599975055, 0.20196267000210355, 1.1379262900009053, 8.634486139999353, 4.759826530000282, 1.8938979699996707, 2.5386805799971626, 4.641480189999129, 2.7569937100015522, 0.23312846000044374, 1.7632557899996755, 0.09432765000019572, 0.29813159000059386, 3.086199729999862, 0.3883207199996832, 0.02239168000050995, 1.921766839999691, 2.172204200000124, 0.34988336999958847, 1.1484811000045738, 2.903630710000016, 2.4257235100003527, 1.3195696099992347, 0.030047709999962535, 0.6221631499993237, 0.6944172799994703, 0.18899108999903547, 0.0795020100003967, 0.12392720000025292, 0.1520791600000848, 1.6133312199999637, 0.21830712999962998, 0.0013058700005785795, 4.016800012323074E-4, 51.22626687999946, 2.006799995797337E-4, 6.124682289999328, 0.21891911999955482, 0.10679057000015746, 0.020853269999861368, 0.004890750000413391, 0.0025531999999657273, 0.14072672999918723, 0.044591169999876, 4.145780939999895, 0.010036960000434192, 0.010504399999263114, 1.0217999988526572E-4, 0.01277552999999898, 1.7272215800003323, 0.07333433999974659, 0.030777349999880244, 2.3908000002847984E-4, 0.15853874000003998, 0.5076814000058221, 0.9285824700000376, 0.16817222999998194, 0.7250987799998256, 0.46247937999942224, 1.8608616199999233, 0.16935301999910735, 0.09593448000123317, 0.006181339999784541, 1.0726014799993209, 1.9630643599994073, 0.39200700000037614, 0.18028696999954263, 0.018724589999692398, 2.292981530000361, 0.016119089999847347, 0.39578239000002213, 1.2120051900001272, 1.5745300999988103, 15.622908380000808, 1.0340718400002515, 0.1907913200011535, 2.9520556400002533, 1.4703958300015074, 2.7565208500000153, 0.012735179996525403, 0.8922084700006963, 0.00903764000031515, 0.24234590000014578, 4.242072319999352, 0.30160532999980205, 0.11085029000059876, 0.06686701999933575, 0.4110005900001852, 1.7769344700000147, 1.7909442999998646, 0.7957506100010505, 0.9089456599995174, 1.5115049899995938, 1.0914490200002547, 4.342105079999783, 0.13839923000068666, 0.17247796999981801, 0.024067079999440466, 0.37291276000178186, 1.896329579999474, 0.07127270999990287, 1.3706657200000336, 0.08230291000018042, 0.06277722000049835, 3.5092652800003634, 1.9942548399994848, 0.9017329999987851, 0.18213280999952985, 0.08429316000001563, 1.2516133700000864, 0.2367379000006622, 1.5345098900033918, 0.2820402799998192, 1.4981589399994846, 2.9258207300008507, 0.20358244000090053, 1.195401570001195, 3.1731726900006834, 0.06075671000053262, 3.7836594499995044, 0.49363850000008824, 0.6901783899993461, 3.2357177600006253, 2.070985379999911, 1.1683643300002586, 1.595501239999976, 2.8851434499993047, 0.08970105000025796, 0.18148116000065784, 0.09116211999935331, 2.300996760000089, 2.6797443599998587, 0.021628250000503613, 0.09271665000051144, 0.29145835999952396, 16.220234049999817, 0.619729809999626, 3.6118473900005483, 0.6287336199984566, 1.4772385899996152, 0.7924440100005086, 3.1549785400002293, 3.31926600999941, 0.14386965999983659, 0.4325599700005114, 0.561660070000471, 1.000280770000245, 0.6265209399989544, 3.5722548399935476, 3.668990410000333, 5.231476230001135, 0.8109502599982079, 1.6910486500000843, 17.404620550005347, 10.426355650000914, 1.9258361799984414, 1.5809701199978008, 2.1598188599964487, 3.6099006200092845, 0.267894199998409, 0.4577135100007581, 2.6097887599971727, 11.109185220004292, 3.057317900005728, 1.6499193099953118, 1.5760891999962041, 7.19339736999973, 6.937479700001859, 0.9136252899988904, 1.3330523099975835, 8.549644639999315, 2.82527828000093, 1.5087565499998163, 0.47973307000211207, 6.180302910004684, 3.3932082899991656, 4.18289963999996, 0.47145499999896856, 6.67353063000337, 1.8241794599998684, 0.11643704000016442, 7.4616584700015665, 3.637419430000591, 0.6303065600004629, 1.1402656699992804, 0.762962000000698, 0.12492126000870485, 3.577957580000657, 3.997758719997364, 0.6444620199999918, 0.7108257399995637, 1.6816966000005777, 0.7338494699997682, 1.4633304199996928, 5.087976319999143, 2.546648980001919, 3.157876290002605, 2.7069743299998663, 2.990953009997611, 1.2246269800016307, 4.938790260002861, 1.7628604199999245, 0.8848797299997386, 4.804825200000778, 4.754634779998014, 3.0355788900014886, 1.8641850299991347, 3.9553647200009436, 1.6295097499969415, 1.5434654899981979, 2.598325119999572, 1.2278435899988835, 5.800150439999925, 0.606968810010585, 12.056816709999111, 3.360972419999598, 12.357545269998809, 4.497283009997773, 6.22984145999726, 4.897073830001318, 5.670929550000437, 7.261975310000707, 3.0058953699990525, 1.095534760001101, 0.44000683999911416, 7.219685309999477, 2.828767679999146, 9.1052747299982, 5.360366029999568, 3.920776430000842, 3.288196550001885, 1.042556809999951, 64.31235294999351, 8.162497239998629, 7.494861589999346, 6.076711999998224, 3.1364777800008596, 8.474604130002263, 8.62388676000046, 6.613136339999983, 2.464817000000039, 3.336707149999711, 7.0895501199993305, 6.396704410000893, 3.8947879200004536, 0.8341214699994453, 1.1921593899987784, 0.5243642599998566, 0.23570153999935428, 6.106023809999897, 2.927257429999372, 9.853780789999291, 2.3422158300090814, 22.844595619993925, 19.59272262000013, 6.847339769999962, 4.989580620000197, 10.444274960002076, 7.0490874300012365, 6.336511220004468, 13.418302879999828, 21.21036968000044, 27.716534110000794, 17.08952982000119, 27.296370650001336, 5.425293519998377, 5.7336854099994525, 5.634011640000608, 11.645188599999528, 6.668008329994336, 7.922948550000001, 14.574281670000346, 9.765033920004498, 5.586229029999231, 7.756795379998948, 46.09748345999833, 11.721815970002353, 10.614186819999304, 2.5790721800003666, 10.503179429997545, 0.9770935100023053, 11.879619280000043, 7.175990329997148, 11.887994999997318, 15.246473239996703, 10.358043870000984, 3.3299898499972187, 4.618443570001546, 7.086067190000904, 1.4831676799985871, 4.039394879999236, 12.81420147999961, 109.42001072999847, 8.511671159998514, 35.557356530000106, 2.0229931799985934, 20.02712610999879, 4.3772198900005606, 10.872895040000003, 4.921742710001126, 12.91121584999928, 3.2323912599968025, 3.924142859999847, 10.824753789998795, 8.33537201999934, 10.43279610999889, 3.415129920002073, 12.221523370004434, 12.404280380000273, 10.15595487000246, 10.456235839999863, 15.4455361299988, 9.023041070002364, 16.14017724999576, 24.12108237999928, 3.3524883200007025, 4.4055436799972085, 3.588465510001697, 17.012457700002415, 63.12198089999583, 11.819831580003665, 24.80205503999605, 34.93700506001187, 43.78512102000241, 193.45434635001584, 17.78121986000042, 33.85533487000066, 3.798897799999395, 8.240144279996457, 9.820727189999161, 16.774060929994448, 10.925070799999958, 27.976059009997698, 10.477235559999826, 14.614368689999537, 20.810354220011504, 3.7436506300000474, 6.905187889991794, 14.41275050000695, 4.5463476900040405, 4.172381529999257, 15.06961482999759, 4.3719963600015035, 176.17914934000146, 16.533024999996996, 20.89370449999842, 13.28905523999856, 8.746088449996023, 34.72839015999489, 7.501128010000684, 9.827089090002119, 71.20277189000626, 7.34545087999868, 19.8416055199923, 7.2090078799956245, 57.36739621000015, 19.738806690002093, 36.04772058999515, 252.8780075100076, 30.390942190017086, 240.97424474998843, 550.7480555200018, 67.84265549998963, 27.189544990018476, 18.072465110002668, 24.253467589995125, 156.24159987999883, 66.2606642699975, 24.067772130001686, 59.37438170000678, 27.002165320009226, 33.427460459999566, 35.230414429999655, 68.86206922000565, 152.0722251499974, 588.4505583300197, 53.60973486999865, 19.8165999299963, 50.91172256000573, 355.68648013999336, 84.54162692000682, 30.15468924000743, 96.44465289998334, 366.4854060400103, 54.44212100000004, 665.9412048099912, 94.119797619991, 232.22591726999963, 169.98382762999972, 289.7242913299997, 208.14257752001868, 1054.2347103200154, 406.69038699998055, 1604.0259580999846, 676.9158851099783, 2300.9552263899823, NaN],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(50, 134, 188, 1.0)',
+cauto: false,
+pattern: {
+    shape: 'x',
+    size: 3
+}
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y2',
+type: 'bar',
+name: 'Reduced Supply',
+};
+var trace4 =
+{
+x: ["2008-12-29","2009-01-05","2009-01-12","2009-01-19","2009-01-26","2009-02-02","2009-02-09","2009-02-16","2009-02-23","2009-03-02","2009-03-09","2009-03-16","2009-03-23","2009-03-30","2009-04-06","2009-04-13","2009-04-20","2009-04-27","2009-05-04","2009-05-11","2009-05-18","2009-05-25","2009-06-01","2009-06-08","2009-06-15","2009-06-22","2009-06-29","2009-07-06","2009-07-13","2009-07-20","2009-07-27","2009-08-03","2009-08-10","2009-08-17","2009-08-24","2009-08-31","2009-09-07","2009-09-14","2009-09-21","2009-09-28","2009-10-05","2009-10-12","2009-10-19","2009-10-26","2009-11-02","2009-11-09","2009-11-16","2009-11-23","2009-11-30","2009-12-07","2009-12-14","2009-12-21","2009-12-28","2010-01-04","2010-01-11","2010-01-18","2010-01-25","2010-02-01","2010-02-08","2010-02-15","2010-02-22","2010-03-01","2010-03-08","2010-03-15","2010-03-22","2010-03-29","2010-04-05","2010-04-12","2010-04-19","2010-04-26","2010-05-03","2010-05-10","2010-05-17","2010-05-24","2010-05-31","2010-06-07","2010-06-14","2010-06-21","2010-06-28","2010-07-05","2010-07-12","2010-07-19","2010-07-26","2010-08-02","2010-08-09","2010-08-16","2010-08-23","2010-08-30","2010-09-06","2010-09-13","2010-09-20","2010-09-27","2010-10-04","2010-10-11","2010-10-18","2010-10-25","2010-11-01","2010-11-08","2010-11-15","2010-11-22","2010-11-29","2010-12-06","2010-12-13","2010-12-20","2010-12-27","2011-01-03","2011-01-10","2011-01-17","2011-01-24","2011-01-31","2011-02-07","2011-02-14","2011-02-21","2011-02-28","2011-03-07","2011-03-14","2011-03-21","2011-03-28","2011-04-04","2011-04-11","2011-04-18","2011-04-25","2011-05-02","2011-05-09","2011-05-16","2011-05-23","2011-05-30","2011-06-06","2011-06-13","2011-06-20","2011-06-27","2011-07-04","2011-07-11","2011-07-18","2011-07-25","2011-08-01","2011-08-08","2011-08-15","2011-08-22","2011-08-29","2011-09-05","2011-09-12","2011-09-19","2011-09-26","2011-10-03","2011-10-10","2011-10-17","2011-10-24","2011-10-31","2011-11-07","2011-11-14","2011-11-21","2011-11-28","2011-12-05","2011-12-12","2011-12-19","2011-12-26","2012-01-02","2012-01-09","2012-01-16","2012-01-23","2012-01-30","2012-02-06","2012-02-13","2012-02-20","2012-02-27","2012-03-05","2012-03-12","2012-03-19","2012-03-26","2012-04-02","2012-04-09","2012-04-16","2012-04-23","2012-04-30","2012-05-07","2012-05-14","2012-05-21","2012-05-28","2012-06-04","2012-06-11","2012-06-18","2012-06-25","2012-07-02","2012-07-09","2012-07-16","2012-07-23","2012-07-30","2012-08-06","2012-08-13","2012-08-20","2012-08-27","2012-09-03","2012-09-10","2012-09-17","2012-09-24","2012-10-01","2012-10-08","2012-10-15","2012-10-22","2012-10-29","2012-11-05","2012-11-12","2012-11-19","2012-11-26","2012-12-03","2012-12-10","2012-12-17","2012-12-24","2012-12-31","2013-01-07","2013-01-14","2013-01-21","2013-01-28","2013-02-04","2013-02-11","2013-02-18","2013-02-25","2013-03-04","2013-03-11","2013-03-18","2013-03-25","2013-04-01","2013-04-08","2013-04-15","2013-04-22","2013-04-29","2013-05-06","2013-05-13","2013-05-20","2013-05-27","2013-06-03","2013-06-10","2013-06-17","2013-06-24","2013-07-01","2013-07-08","2013-07-15","2013-07-22","2013-07-29","2013-08-05","2013-08-12","2013-08-19","2013-08-26","2013-09-02","2013-09-09","2013-09-16","2013-09-23","2013-09-30","2013-10-07","2013-10-14","2013-10-21","2013-10-28","2013-11-04","2013-11-11","2013-11-18","2013-11-25","2013-12-02","2013-12-09","2013-12-16","2013-12-23","2013-12-30","2014-01-06","2014-01-13","2014-01-20","2014-01-27","2014-02-03","2014-02-10","2014-02-17","2014-02-24","2014-03-03","2014-03-10","2014-03-17","2014-03-24","2014-03-31","2014-04-07","2014-04-14","2014-04-21","2014-04-28","2014-05-05","2014-05-12","2014-05-19","2014-05-26","2014-06-02","2014-06-09","2014-06-16","2014-06-23","2014-06-30","2014-07-07","2014-07-14","2014-07-21","2014-07-28","2014-08-04","2014-08-11","2014-08-18","2014-08-25","2014-09-01","2014-09-08","2014-09-15","2014-09-22","2014-09-29","2014-10-06","2014-10-13","2014-10-20","2014-10-27","2014-11-03","2014-11-10","2014-11-17","2014-11-24","2014-12-01","2014-12-08","2014-12-15","2014-12-22","2014-12-29","2015-01-05","2015-01-12","2015-01-19","2015-01-26","2015-02-02","2015-02-09","2015-02-16","2015-02-23","2015-03-02","2015-03-09","2015-03-16","2015-03-23","2015-03-30","2015-04-06","2015-04-13","2015-04-20","2015-04-27","2015-05-04","2015-05-11","2015-05-18","2015-05-25","2015-06-01","2015-06-08","2015-06-15","2015-06-22","2015-06-29","2015-07-06","2015-07-13","2015-07-20","2015-07-27","2015-08-03","2015-08-10","2015-08-17","2015-08-24","2015-08-31","2015-09-07","2015-09-14","2015-09-21","2015-09-28","2015-10-05","2015-10-12","2015-10-19","2015-10-26","2015-11-02","2015-11-09","2015-11-16","2015-11-23","2015-11-30","2015-12-07","2015-12-14","2015-12-21","2015-12-28","2016-01-04","2016-01-11","2016-01-18","2016-01-25","2016-02-01","2016-02-08","2016-02-15","2016-02-22","2016-02-29","2016-03-07","2016-03-14","2016-03-21","2016-03-28","2016-04-04","2016-04-11","2016-04-18","2016-04-25","2016-05-02","2016-05-09","2016-05-16","2016-05-23","2016-05-30","2016-06-06","2016-06-13","2016-06-20","2016-06-27","2016-07-04","2016-07-11","2016-07-18","2016-07-25","2016-08-01","2016-08-08","2016-08-15","2016-08-22","2016-08-29","2016-09-05","2016-09-12","2016-09-19","2016-09-26","2016-10-03","2016-10-10","2016-10-17","2016-10-24","2016-10-31","2016-11-07","2016-11-14","2016-11-21","2016-11-28","2016-12-05","2016-12-12","2016-12-19","2016-12-26","2017-01-02","2017-01-09","2017-01-16","2017-01-23","2017-01-30","2017-02-06","2017-02-13","2017-02-20","2017-02-27","2017-03-06","2017-03-13","2017-03-20","2017-03-27","2017-04-03","2017-04-10","2017-04-17","2017-04-24","2017-05-01","2017-05-08","2017-05-15","2017-05-22","2017-05-29","2017-06-05","2017-06-12","2017-06-19","2017-06-26","2017-07-03","2017-07-10","2017-07-17","2017-07-24","2017-07-31","2017-08-07","2017-08-14","2017-08-21","2017-08-28","2017-09-04","2017-09-11","2017-09-18","2017-09-25","2017-10-02","2017-10-09","2017-10-16","2017-10-23","2017-10-30","2017-11-06","2017-11-13","2017-11-20","2017-11-27","2017-12-04","2017-12-11","2017-12-18","2017-12-25","2018-01-01","2018-01-08","2018-01-15","2018-01-22","2018-01-29","2018-02-05","2018-02-12","2018-02-19","2018-02-26","2018-03-05","2018-03-12","2018-03-19","2018-03-26","2018-04-02","2018-04-09","2018-04-16","2018-04-23","2018-04-30","2018-05-07","2018-05-14","2018-05-21","2018-05-28","2018-06-04","2018-06-11","2018-06-18","2018-06-25","2018-07-02","2018-07-09","2018-07-16","2018-07-23","2018-07-30","2018-08-06","2018-08-13","2018-08-20","2018-08-27","2018-09-03","2018-09-10","2018-09-17","2018-09-24","2018-10-01","2018-10-08","2018-10-15","2018-10-22","2018-10-29","2018-11-05","2018-11-12","2018-11-19","2018-11-26","2018-12-03","2018-12-10","2018-12-17","2018-12-24","2018-12-31","2019-01-07","2019-01-14","2019-01-21","2019-01-28","2019-02-04","2019-02-11","2019-02-18","2019-02-25","2019-03-04","2019-03-11","2019-03-18","2019-03-25","2019-04-01","2019-04-08","2019-04-15","2019-04-22","2019-04-29","2019-05-06","2019-05-13","2019-05-20","2019-05-27","2019-06-03","2019-06-10","2019-06-17","2019-06-24","2019-07-01","2019-07-08","2019-07-15","2019-07-22","2019-07-29","2019-08-05","2019-08-12","2019-08-19","2019-08-26","2019-09-02","2019-09-09","2019-09-16","2019-09-23","2019-09-30","2019-10-07","2019-10-14","2019-10-21","2019-10-28","2019-11-04","2019-11-11","2019-11-18","2019-11-25","2019-12-02","2019-12-09","2019-12-16","2019-12-23","2019-12-30","2020-01-06","2020-01-13","2020-01-20","2020-01-27","2020-02-03","2020-02-10","2020-02-17","2020-02-24","2020-03-02","2020-03-09","2020-03-16","2020-03-23","2020-03-30","2020-04-06","2020-04-13","2020-04-20","2020-04-27","2020-05-04","2020-05-11","2020-05-18","2020-05-25","2020-06-01","2020-06-08","2020-06-15","2020-06-22","2020-06-29","2020-07-06","2020-07-13","2020-07-20","2020-07-27","2020-08-03","2020-08-10","2020-08-17","2020-08-24","2020-08-31","2020-09-07","2020-09-14","2020-09-21","2020-09-28","2020-10-05","2020-10-12","2020-10-19","2020-10-26","2020-11-02","2020-11-09","2020-11-16","2020-11-23","2020-11-30","2020-12-07","2020-12-14","2020-12-21","2020-12-28","2021-01-04","2021-01-11","2021-01-18","2021-01-25","2021-02-01","2021-02-08","2021-02-15","2021-02-22","2021-03-01","2021-03-08","2021-03-15","2021-03-22","2021-03-29","2021-04-05","2021-04-12","2021-04-19","2021-04-26","2021-05-03","2021-05-10","2021-05-17","2021-05-24","2021-05-31","2021-06-07","2021-06-14","2021-06-21","2021-06-28","2021-07-05","2021-07-12","2021-07-19","2021-07-26","2021-08-02","2021-08-09","2021-08-16","2021-08-23","2021-08-30","2021-09-06","2021-09-13","2021-09-20","2021-09-27","2021-10-04","2021-10-11","2021-10-18","2021-10-25","2021-11-01","2021-11-08","2021-11-15","2021-11-22","2021-11-29","2021-12-06","2021-12-13","2021-12-20","2021-12-27","2022-01-03","2022-01-10","2022-01-17","2022-01-24","2022-01-31","2022-02-07","2022-02-14","2022-02-21","2022-02-28","2022-03-07","2022-03-14","2022-03-21","2022-03-28","2022-04-04","2022-04-11","2022-04-18","2022-04-25","2022-05-02","2022-05-09","2022-05-16","2022-05-23","2022-05-30","2022-06-06","2022-06-13","2022-06-20","2022-06-27","2022-07-04","2022-07-11","2022-07-18","2022-07-25","2022-08-01","2022-08-08","2022-08-15","2022-08-22","2022-08-29","2022-09-05","2022-09-12","2022-09-19","2022-09-26","2022-10-03","2022-10-10","2022-10-17","2022-10-24","2022-10-31","2022-11-07","2022-11-14","2022-11-21","2022-11-28","2022-12-05","2022-12-12","2022-12-19","2022-12-26","2023-01-02","2023-01-09","2023-01-16","2023-01-23","2023-01-30","2023-02-06","2023-02-13","2023-02-20","2023-02-27","2023-03-06","2023-03-13","2023-03-20","2023-03-27","2023-04-03","2023-04-10","2023-04-17","2023-04-24","2023-05-01","2023-05-08","2023-05-15","2023-05-22","2023-05-29","2023-06-05","2023-06-12","2023-06-19","2023-06-26","2023-07-03","2023-07-10","2023-07-17","2023-07-24","2023-07-31","2023-08-07","2023-08-14","2023-08-21","2023-08-28","2023-09-04","2023-09-11","2023-09-18","2023-09-25","2023-10-02","2023-10-09","2023-10-16","2023-10-23","2023-10-30","2023-11-06","2023-11-13","2023-11-20","2023-11-27","2023-12-04","2023-12-11","2023-12-18","2023-12-25","2024-01-01","2024-01-08","2024-01-15","2024-01-22","2024-01-29","2024-02-05","2024-02-12","2024-02-19","2024-02-26","2024-03-04","2024-03-11","2024-03-18","2024-03-25","2024-04-01","2024-04-08","2024-04-15","2024-04-22","2024-04-29","2024-05-06","2024-05-13","2024-05-20","2024-05-27","2024-06-03","2024-06-10","2024-06-17","2024-06-24","2024-07-01","2024-07-08","2024-07-15","2024-07-22","2024-07-29","2024-08-05","2024-08-12","2024-08-19","2024-08-26","2024-09-02","2024-09-09","2024-09-16","2024-09-23","2024-09-30","2024-10-07","2024-10-14","2024-10-21","2024-10-28","2024-11-04","2024-11-11","2024-11-18","2024-11-25","2024-12-02","2024-12-09","2024-12-16","2024-12-23","2024-12-30","2025-01-06","2025-01-13","2025-01-20","2025-01-27","2025-02-03","2025-02-10","2025-02-17","2025-02-24","2025-03-03","2025-03-10","2025-03-17","2025-03-24","2025-03-31","2025-04-07","2025-04-14","2025-04-21","2025-04-28","2025-05-05","2025-05-12","2025-05-19","2025-05-26","2025-06-02","2025-06-09","2025-06-16","2025-06-23","2025-06-30","2025-07-07","2025-07-14","2025-07-21","2025-07-28","2025-08-04"],
+y: [-0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, NaN, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, NaN, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, NaN, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, NaN, NaN, NaN, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, NaN, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, -0.0, -0.0, -0.0, -0.0, NaN, -0.0, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, -0.0, -0.0, -0.0, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, -0.0, NaN, NaN, -0.0, NaN, NaN, -0.0, -0.0, NaN, -0.0, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, -0.0, NaN, NaN, NaN, -0.0, NaN, -0.0, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, -0.0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 14501.253124640032],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(243, 108, 67, 1.0)',
+cauto: false,
+pattern: {
+    shape: 'x',
+    size: 3
+}
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y2',
+type: 'bar',
+name: 'Increased Supply',
+};
+var trace5={};
+config.scrollZoom=true;
+
+        var data = [ trace0, trace1, trace2, trace3, trace4, trace5];
+Plotly.newPlot(target_target, data, layout, config);            </script>
+                            </div>
+                    </div>
+    </div>
+</main>
+<script type="text/javascript">
+    var currentPlot = document.getElementById("currentPlot");
+    if (currentPlot) {
+        currentPlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
+<!--Main layout-->
+
+</body>
+</html>

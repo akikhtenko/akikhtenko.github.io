@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>ChainExposed - Address Bands Cost Basis Distribution</title>
+    <link rel="icon" href="favicon.png">
+    <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="free, bitcoin, crypto, on-chain, market, top, bottom, signal, analytics, chart">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVW2DEJ56"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+  gtag('config', 'G-WJVW2DEJ56');
+    </script>
+    <style type="text/css">
+main {
+    padding-left: 360px;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 57px;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 360px;
+  z-index: 600;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.fillRemaining {
+    height: calc(100vh - 82px);
+}
+
+li a {
+    text-decoration: none;
+    white-space: nowrap;
+    display: block;
+}
+
+.tiny-badge {
+    font-size : 9px;
+}
+
+.sidebar .list-group-item-action::before {
+    display: inline-block;
+    width:1.25em;
+    line-height:0;
+    content:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition:transform 0.35s ease;
+    transform-origin:.5em 50%
+}
+
+.sidebar .list-group-item-action[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.main-box {
+    height: 100%;
+}
+
+.description-box {
+    height: 100%;
+}
+
+div.cmath {
+    margin-bottom: 20px;
+    white-space : pre;
+    font-size : smaller;
+}
+
+@media screen and (max-width:991.98px) {
+    main {
+        padding-left: 0px;
+    }
+    .sidebar {
+        width: 100%;
+    }
+    .hidden-on-mobile {
+        display: none;
+    }
+}
+
+
+
+  </style>
+</head>
+<body class="fillRemaining">
+
+<header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#marketWide" aria-expanded="true" aria-controls="marketWide">
+                        <i class="me-1"></i><span><b>Market-wide</b></span>
+                                            </a>
+                    <ul id="marketWide" class="collapse show list-group list-group-flush">
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#macro" aria-expanded="false" aria-controls="macro">
+            <i class="me-1"></i><span><b>Macro Picture</b></span>
+                    </a>
+        <ul id="macro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedCap.html" class="text-reset">Realized Cap vs Market Cap</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceVs20MA.html" class="text-reset">Realized Price vs 200w MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MayerMultiple.html" class="text-reset">Mayer Multiple</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Liveliness.html" class="text-reset">Liveliness</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UnspentDormancy.html" class="text-reset">Average Unspent 1BTC Age</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#spending" aria-expanded="false" aria-controls="spending">
+            <i class="me-1"></i><span><b>Spending</b></span>
+                    </a>
+        <ul id="spending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedProfitAndLoss.html" class="text-reset">Realized Profit/Loss (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPnLBands30.html" class="text-reset">Realized Profit/Loss Bands (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPnLBands1.html" class="text-reset">Realized Profit/Loss Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NetRealizedPnl.html" class="text-reset">Net Realized Profit/Loss (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedX.html" class="text-reset">Realized Profit/Loss Crosses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SOPR.html" class="text-reset"> SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ASOL.html" class="text-reset">Average Spent Coin Age (ASOL)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Dormancy.html" class="text-reset">Dormancy (Supply Adjusted)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="DormancyFlow.html" class="text-reset">Dormancy Flow</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="BDD.html" class="text-reset">Bitcoin Days Destroyed</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="BDDInLoss.html" class="text-reset">Bitcoin Days Destroyed In Loss</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles1.html" class="text-reset">Sell Bubbles (Last 1 Day)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles7.html" class="text-reset">Sell Bubbles (Last 7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SellBubbles30.html" class="text-reset">Sell Bubbles (Last 30 Days)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#unrealizedPnL" aria-expanded="false" aria-controls="unrealizedPnL">
+            <i class="me-1"></i><span><b>Unrealized Profit/Loss</b></span>
+                    </a>
+        <ul id="unrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyInProfit.html" class="text-reset">Supply In Profit/Loss (%)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="PnLBands.html" class="text-reset">Unrealized Profit/Loss Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NUPL.html" class="text-reset">NUPL</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RelativeUnrealizedProfit.html" class="text-reset">Relative Unrealized Profit</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MVRV.html" class="text-reset"> MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#volume" aria-expanded="false" aria-controls="volume">
+            <i class="me-1"></i><span><b>Volume Metrics</b></span>
+                    </a>
+        <ul id="volume" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="TransactedVolume.html" class="text-reset">Transacted Volume</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AvgTransactionVolume.html" class="text-reset">Average Transaction Volume</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionVolumeAbsolute.html" class="text-reset">Transaction Volume Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionCountAbsolute.html" class="text-reset">Transaction Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionVolumeRelative.html" class="text-reset">Transaction Volume Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="VolumeBandDistributionCountRelative.html" class="text-reset">Transaction Count Bands (Relative)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ordinals" aria-expanded="false" aria-controls="ordinals">
+            <i class="me-1"></i><span><b>Ordinal Inscriptions</b></span>
+                    </a>
+        <ul id="ordinals" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionNewAbsolute.html" class="text-reset">New Inscription Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionNewRelative.html" class="text-reset">New Inscription Count Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionTotalAbsolute.html" class="text-reset">Total Inscription Count Bands (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTypeDistributionTotalRelative.html" class="text-reset">Total Inscription Count Bands (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTransactionsAbsolute.html" class="text-reset">Ordinal Transactions Share (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalTransactionsRelative.html" class="text-reset">Ordinal Transactions Share (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="OrdinalFees.html" class="text-reset">Ordinal Transaction Fees</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#network" aria-expanded="false" aria-controls="network">
+            <i class="me-1"></i><span><b>Network Metrics</b></span>
+                    </a>
+        <ul id="network" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="Issuance.html" class="text-reset">Supply Issuance</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="FeesPaid.html" class="text-reset">Transaction Fees</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NVTRatio.html" class="text-reset">NVT and RVT Ratios</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="CoinCirculation.html" class="text-reset">Coin circulation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UtxoByAddressType.html" class="text-reset">Transaction Outputs By Type</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyByAddressType.html" class="text-reset">Supply By Transaction Output Type</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="TransactionOutputs.html" class="text-reset">Transaction outputs</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#other" aria-expanded="false" aria-controls="other">
+            <i class="me-1"></i><span><b>Other</b></span>
+                    </a>
+        <ul id="other" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricCoinsDestroyed.html" class="text-reset">Coins Destroyed In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricAddressesDepleted.html" class="text-reset">Addresses Depleted In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ConsolidatedMetricSupplyMoved.html" class="text-reset">Supply Moved In Consolidation</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="FearAndGreedHeatMap.html" class="text-reset">Fear And Greed Heat Map</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="InvestmentReturns.html" class="text-reset">Investment Returns</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="InvestmentReturnsDcaVsLumpSum.html" class="text-reset">DCA vs Lump Sum Comparison</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpendingProbability.html" class="text-reset">Spending Probability</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpecific" aria-expanded="true" aria-controls="ageSpecific">
+                        <i class="me-1"></i><span><b>Hodler Age Specific</b></span>
+                                            </a>
+                    <ul id="ageSpecific" class="collapse show list-group list-group-flush">
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageMacro" aria-expanded="false" aria-controls="ageMacro">
+            <i class="me-1"></i><span><b>Age-Specific Macro Picture</b></span>
+                    </a>
+        <ul id="ageMacro" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HodlWavesRelative.html" class="text-reset">HODL Waves (Relative)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HodlWavesAbsolute.html" class="text-reset">HODL Waves (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HoldWavesRealized.html" class="text-reset">HODL Waves (Realized Cap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="HypeCycleWaves.html" class="text-reset">Hype Cycles (&lt;1m RHODL)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SthLthAddressRatio.html" class="text-reset">Short Term to Long Term Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SthVsLthSupply.html" class="text-reset">Short Term vs Long Term Supply</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvCross.html" class="text-reset">MVRV Crosses</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageRealizedPrice" aria-expanded="false" aria-controls="ageRealizedPrice">
+            <i class="me-1"></i><span><b>Age-Specific Realized Price</b></span>
+                    </a>
+        <ul id="ageRealizedPrice" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthRealizedPriceShortTermHolder.html" class="text-reset">Short Term Holder Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthRealizedPriceLongTermHolder.html" class="text-reset">Long Term Holder Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="RealizedPriceRibbonIsolated.html" class="text-reset">Isolated Age Bands Realized Price</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageSpending" aria-expanded="false" aria-controls="ageSpending">
+            <i class="me-1"></i><span><b>Age-Specific Spending</b></span>
+                    </a>
+        <ul id="ageSpending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpentSupplyAgeBands.html" class="text-reset">Spent Supply Age Bands</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LTHAvgSpentCostBasis.html" class="text-reset">Spent Old Coin Cost Basis</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthSupplySpentInLoss.html" class="text-reset">LTH Spent In Loss/At Par</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthRealizedLossPct.html" class="text-reset">LTH Realized Loss (% LTH MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SoprRibbonIsolated.html" class="text-reset">Isolated Age Bands SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSOPRShortTermHolderCoin.html" class="text-reset">Short Term Holder Coin SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSOPRLongTermHolderCoin.html" class="text-reset">Long Term Holder Coin SOPR</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSpendingPctSTH.html" class="text-reset">STH Spending (% STH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthSpendingPctLTH.html" class="text-reset">LTH Spending (% LTH Supply)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo30.html" class="text-reset">Supply Age Shift (30 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo7.html" class="text-reset">Supply Age Shift (7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeShiftDaysAgo1.html" class="text-reset">Supply Age Shift (1 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SatoshiBagsSpending.html" class="text-reset">Satoshi Bags Spending</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#ageUnrealizedPnL" aria-expanded="false" aria-controls="ageUnrealizedPnL">
+            <i class="me-1"></i><span><b>Age-Specific Unrealized PnL</b></span>
+                    </a>
+        <ul id="ageUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="LthVsSthProfitability.html" class="text-reset">Short Term vs Long Term Holder PnL</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthInProfitPct.html" class="text-reset">Short/Long Term Holder In Profit (%)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonYoungCumulative.html" class="text-reset">Young Cumulative Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonOldCumulative.html" class="text-reset">Old Cumulative Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MvrvRibbonIsolated.html" class="text-reset">Isolated Age Bands MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthMVRVShortTermHolderAddress.html" class="text-reset">Short Term Holder Address MVRV</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="XthMVRVLongTermHolderAddress.html" class="text-reset">Long Term Holder Address MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#supplyDistribution" aria-expanded="false" aria-controls="supplyDistribution">
+            <i class="me-1"></i><span><b>Supply Distribution</b></span>
+                    </a>
+        <ul id="supplyDistribution" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyAgeHistogram.html" class="text-reset">Supply Age Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AgeBandCostBasisDistribution.html" class="text-reset">Age Bands Realized Price Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftFromAth.html" class="text-reset">LTH/STH Realized Price Shift From Last ATH</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo30.html" class="text-reset">LTH/STH Realized Price Shift (30 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo7.html" class="text-reset">LTH/STH Realized Price Shift (7 Days)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyDistributionShiftDaysAgo1.html" class="text-reset">LTH/STH Realized Price Shift (1 Days)</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                                    <a class="list-group-item list-group-item-action py-2 ps-0 ripple" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpecific" aria-expanded="true" aria-controls="addressSpecific">
+                        <i class="me-1"></i><span><b>Address Specific</b></span>
+                                            </a>
+                    <ul id="addressSpecific" class="collapse show list-group list-group-flush">
+                                                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressMacro" aria-expanded="true" aria-controls="addressMacro">
+            <i class="me-1"></i><span><b>Address-Specific Macro Picture</b></span>
+                    </a>
+        <ul id="addressMacro" class="collapse show list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandDistribution.html" class="text-reset">Address Bands Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedDistribution.html" class="text-reset">Address Bands Distribution (Realized Cap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedPrice.html" class="text-reset">Address Bands Realized Price</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SupplyInAccumulation.html" class="text-reset">Supply In Accumulation-Only Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="MinersSupply.html" class="text-reset">Supply In Miner Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative active bg-black" id="currentPlot">
+                <a href="AddressBandCostBasisDistribution.html" class="text-reset">Address Bands Cost Basis Distribution</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsBalances" aria-expanded="false" aria-controls="addressBandsBalances">
+            <i class="me-1"></i><span><b>Address Bands Balances</b></span>
+                    </a>
+        <ul id="addressBandsBalances" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotFISH.html" class="text-reset">10 to 100 (Fish)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandTotPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                    <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressBandsCounts" aria-expanded="false" aria-controls="addressBandsCounts">
+            <i class="me-1"></i><span><b>Address Bands Counts</b></span>
+                    </a>
+        <ul id="addressBandsCounts" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntHUMPBACK.html" class="text-reset">10000 and more (Humpbacks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntWHALE.html" class="text-reset">1000 to 10000 (Whales)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntSHARK.html" class="text-reset">100 to 1000 (Sharks)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntFISH.html" class="text-reset">10 to 100 (Fish)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntCRAB.html" class="text-reset">1 to 10 (Crabs)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntSHRIMP.html" class="text-reset">0.1 to 1 (Shrimps)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="addressBandCntPLANKTON.html" class="text-reset">less than 0.1 (Plankton)</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                                                <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressSpending" aria-expanded="false" aria-controls="addressSpending">
+            <i class="me-1"></i><span><b>Address-Specific Spending</b></span>
+                    </a>
+        <ul id="addressSpending" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedProfitDistributionAbs.html" class="text-reset">Realized Profit Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedProfitDistributionPct.html" class="text-reset">Realized Profit Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedLossDistributionAbs.html" class="text-reset">Realized Loss Distribution (Absolute)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandRealizedLossDistributionPct.html" class="text-reset">Realized Loss Distribution (% MCap)</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandBDD7.html" class="text-reset">Bitcoin Days Destroyed Bands 7d MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressBandBDD90.html" class="text-reset">Bitcoin Days Destroyed Bands 90d MA</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="SpentOutputAddressDistribution.html" class="text-reset">Spending Distribution</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleSOPR.html" class="text-reset">Whale SOPR</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressUnrealizedPnL" aria-expanded="false" aria-controls="addressUnrealizedPnL">
+            <i class="me-1"></i><span><b>Address-Specific Unrealized PnL</b></span>
+                    </a>
+        <ul id="addressUnrealizedPnL" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleMVRV.html" class="text-reset">Whale MVRV</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                                        <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressNetwork" aria-expanded="false" aria-controls="addressNetwork">
+            <i class="me-1"></i><span><b>Address-Specific Network Metrics</b></span>
+                    </a>
+        <ul id="addressNetwork" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ActiveAddresses.html" class="text-reset">Active Addresses</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="ActiveAddressRatio.html" class="text-reset">Active to Total Address Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressNonZeroCount.html" class="text-reset">Non-Zero Address Count</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressCountChange.html" class="text-reset">Net Address Count Change</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="NewAddresses.html" class="text-reset">New Addresses Created</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="DepletedAddresses.html" class="text-reset">Addresses Depleted</a>
+                            </li>
+                    </ul>
+    </li>
+                                                                                                                            <li class="list-group-item py-0">
+        <a class="list-group-item list-group-item-action py-1 ps-0 ripple border-0" data-bs-toggle="collapse" role="button" aria-current="true" href="#addressOther" aria-expanded="false" aria-controls="addressOther">
+            <i class="me-1"></i><span><b>Other</b></span>
+                    </a>
+        <ul id="addressOther" class="collapse  list-group list-group-flush">
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="WhaleAccumulationHeatMap.html" class="text-reset">Whale Accumulation Heat Map</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressWhaleTxCount.html" class="text-reset">Whale Originating Transaction Count</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressSmallToWhaleRatio.html" class="text-reset">Small/Whale Bands Balance Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="AddressSmallToWhaleRealizedRatio.html" class="text-reset">Small/Whale Bands Realized Cap Ratio</a>
+                            </li>
+                        <li class="list-group-item py-2 py-lg-1 position-relative " >
+                <a href="UnspentSatoshiBagDistribution.html" class="text-reset">Unspent Satoshi&#39;s Bags Distribution</a>
+                            </li>
+                    </ul>
+    </li>
+                                            </ul>
+
+                    <br/>
+                            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark bg-black fixed-top p-0">
+        <div class="container-fluid align-items-end">
+            <a class="navbar-brand" href="index.html">
+                <h2>ChainExposed</h2>
+            </a>
+            <div class="hidden-on-mobile badge bg-dark">Rendered: 10/08/2025 04:57 UTC</div>
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+                <!--<div class="alert alert-danger m-0" role="alert">
+                    The charts will not be updated for about a week starting from 18 December 2021.
+                    We will be upgrading our servers and resyncing the Bitcoin node!
+                </div>-->
+                <li class="hidden-on-mobile nav-item bg-light" style="margin-right: 7px; border-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container" style="padding-right: 7px; font-size : 12px;">
+                        <img src="ua.png" height="52px"/>
+                        Зроблено в Україні
+                    </div>
+                </li>
+                <li class="hidden-on-mobile nav-item bg-light" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container" style="padding-right: 5px">
+                        <img src="donate.png" height="52px"/>
+                    </div>
+                </li>
+                <li class="hidden-on-mobile nav-item bg-light" style="width: 340px; font-size : 11px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; margin-top: 2px; margin-bottom: 2px;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="btc-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                bc1q8lpae55fxyws7ylcu2drpv664s5k5gq437xwmy
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="ltc-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                ltc1qr8tqx2p2tchxv625wxgpc6u2pxx5r3y035au6c
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 p-0 text-center">
+                                <img class="align-text-top" src="eth-logo.svg" height="14px"/>
+                            </div>
+                            <div class="col p-0 text-bottom">
+                                0xDf2C345f1806078cd6638c5D6087b99A9dDA725D
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active p-1 px-2" href="https://twitter.com/bullfromsea" target="_blank" style="white-space: nowrap;"><img src="whale-bull-chainexposed-logo.png" height="48px"/><span class="hidden-on-mobile"> @bullfromsea</span></a>
+                </li>
+                <li class="nav-item">
+                    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>`
+    <!-- Navbar -->
+</header>
+
+<!--Main layout-->
+<main style="margin-top: 40px;" class="h-100">
+    <div class="container-fluid pt-0 h-100 m-0">
+        <div class="row h-100 m-0 p-0">
+            <div class="col-12  m-0 p-0 main-box" id="target">
+                                    <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    spikedistance: 10000,
+    annotations: [
+        {
+            "opacity": 0.1,
+            "font": {"color": "blue", "size": 50},
+            "showarrow": false,
+            "text": "ChainExposed",
+            "valign": "top",
+            "x": 0.5,
+            "y": 0.5,
+            "xref": "x domain",
+            "yref": "y domain"
+        }
+    ],
+    legend: {
+        x: 0,
+        y: -0.15,
+        orientation: 'h'
+    },
+    title: 'Address Bands Cost Basis Distribution',
+    autosize: true,
+    margin: {
+  "autoexpand" : true,
+  "b" : 80,
+  "l" : 80,
+  "pad" : 0,
+  "r" : 80,
+  "t" : 40
+},
+    hovermode: 'closest',
+    xaxis: {
+    title: 'Price',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    },
+
+    yaxis: {
+    title: 'Supply',
+    autorange: 'false',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'normal',
+    showgrid: false,
+    range: ["0","650000"],
+    },
+    yaxis2: {
+    title: 'Cumulative % of Total',
+    fixedrange: false,
+    showspike: true,
+    spikemode: 'toaxis+across+marker',
+    spikethickness: 1,
+    spikesnap: 'cursor',
+    spikecolor: 'red',
+    spikedash: 'dot',
+    rangemode: 'tozero',
+    showgrid: false,
+    side: 'right',
+    overlaying: 'y',
+    },
+
+    barmode: 'stack',
+};
+var config = {
+  "displayModeBar" : false,
+  "responsive" : true
+}
+var trace0 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [169293.37060584998, 53880.0659149, 20008.00323662, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10000.02532367, 0.0, 44000.08723824, 0.0, 0.0, 15745.55982548, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 69370.18290537, 10000.00023549, 0.0, 0.0, 0.0, 51830.40133436, 68200.00661687, 0.0, 0.0, 0.0, 0.0, 48464.35287293, 0.0, 0.0, 0.0, 100000.06831355, 0.0, 10000.0004184, 0.0, 23375.00827783, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10216.7206543, 0.0, 0.0, 18066.9492544, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 31275.35247789, 0.0, 0.0, 94643.48485903, 31643.40161751, 81324.44898181, 0.0, 0.0, 14100.80811635, 0.0, 0.0, 0.0, 0.0, 0.0, 130010.07864226, 0.0, 0.0, 0.0, 0.0, 0.0, 258599.32225604999, 47255.03393631, 0.0, 0.0, 0.0, 194553.99572138, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 35277.262915, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 54233.70755948, 0.0, 0.0, 12267.02336758, 0.0, 0.0, 0.0, 88817.04133773, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 46420.66947359, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 26139.3844019, 0.0, 0.0, 41148.89084327, 59990.334402219996, 123537.00918117, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 40984.18113822, 25657.50550375, 77446.57898324, 0.0, 21749.14243225, 0.0, 0.0, 0.0, 0.0, 10608.16687241, 0.0, 0.0, 12229.86198024, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 33056.48326821, 13763.93847403, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 24051.75831311, 0.0, 0.0, 27551.15894926, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 20285.83982619, 0.0, 34650.21538213, 10499.99999582, 0.0, 0.0, 0.0, 27683.99936932, 25597.13147923, 0.0, 0.0, 0.0, 33779.43324984, 0.0, 0.0, 10137.25762526, 0.0, 0.0, 24181.49943925, 0.0, 0.0, 0.0, 0.0, 0.0, 15106.10407782, 0.0, 39963.46743363, 33242.32124011, 18422.68865254, 0.0, 108450.14252868001, 13925.61886727, 63620.12551605, 0.0],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(94, 79, 162, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: '10000 and more (Humpbacks)',
+};
+var trace1 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [404203.6506958105, 79692.12461768, 12649.898353550001, 13081.80668747, 3964.99605742, 55877.91373848, 8195.7615436, 78278.72468700001, 14712.4447682, 8267.6610635, 2400.00026928, 21124.31663817, 32711.99069493001, 40447.20754688999, 23714.15388171, 9243.88750725, 22784.755846049997, 34751.98031478, 4960.98877005, 33085.16242179, 10888.26088692, 26024.49339328, 11489.39059685, 10581.28663476, 3996.81361528, 0.0, 0.0, 2199.99916157, 10592.634173470002, 1889.5743278, 0.0, 5000.00103351, 1999.91708031, 47220.78872129, 4529.94387753, 1000.82348021, 6000.00013724, 24000.00048884, 13125.763269949999, 3312.7186092399998, 13000.873552719999, 6513.782450479999, 13689.285787249999, 1000.00209526, 18622.15472925, 9172.51555548, 2264.16441248, 28229.94535951, 0.0, 5757.69402606, 6087.3354433, 2073.30589398, 21135.49552143, 20249.22536353, 31098.63714447, 6247.52071043, 6166.66835145, 0.0, 9868.515053990002, 22492.87234696, 9065.18335328, 15423.11525735, 12772.215022339999, 11941.16306357, 7625.91028915, 19042.37724179, 37455.10234015, 39496.306069809994, 21400.24251602, 5946.00235088, 16758.88999948, 2913.9760306, 25084.02795813, 25526.15596426, 12675.339482350002, 8493.487811519999, 1900.11377402, 7123.66613092, 14936.749400699999, 14636.10786016, 44197.05191374, 1474.96959311, 8694.02276065, 13042.6037885, 43764.5540503, 37141.07783832, 38352.31231726, 20674.581973660002, 9155.23835239, 24161.1048903, 6772.07935231, 0.0, 5115.81454378, 3216.85091535, 16875.57704406, 20990.49157816, 12049.40930761, 14971.380961030001, 22111.86877411, 3189.5334282900003, 26504.06196859, 24253.47453548, 20804.98854309, 13135.82314809, 40063.52877558, 22278.01083959, 8340.335807219999, 5000.008733879999, 4101.13274348, 2524.64506046, 13380.01705036, 3528.09404277, 0.0, 18722.96622563, 12013.55769725, 36700.10578162, 1768.32299516, 0.0, 14485.867665509999, 2734.06578239, 17892.89403386, 44828.627581689994, 5927.5469321, 19321.019410499997, 175301.07544491, 3526.74878485, 37700.15983578, 15998.34102202, 16486.05654859, 2408.28364613, 18951.574093969997, 37923.74412339, 21252.323544810002, 38937.56826773, 20165.710814659997, 10348.2346552, 34088.05789019, 17991.497594829998, 16809.98683447, 37068.15351683999, 8581.509971039999, 0.0, 5341.82591322, 17985.82249699, 0.0, 2683.46046779, 6264.18413905, 1775.00100877, 0.0, 0.0, 2418.14098652, 20609.86931468, 5235.41684394, 5369.662140009999, 1078.88491979, 3004.52065326, 1742.03063495, 2400.01190899, 6779.161845619999, 1499.999, 0.0, 11104.707849510001, 17506.278358120002, 0.0, 14341.99333767, 18539.34660361, 4945.90178105, 27012.944341039994, 10729.32300878, 11852.50910224, 3194.23673748, 6741.23236163, 5959.94128796, 13543.254626449998, 34410.405305989996, 15664.24007431, 13412.01715635, 6705.464984849999, 20477.075413850005, 15524.28110624, 1723.49685647, 11289.78131707, 6449.02131101, 21172.51284461, 7375.28228656, 20342.91449387, 40577.589215800006, 13175.138204449999, 22866.01617959, 26904.731998149997, 30812.14456335, 37358.28946786, 24736.603506879997, 29485.409832080004, 12983.163062819998, 57536.254499819996, 8051.80539494, 14493.11816464, 2213.31571854, 16317.872402009998, 52814.47651383, 10039.861500280002, 44745.28519503999, 9864.27166614, 9379.27786042, 19334.003699430003, 10661.89227732, 19251.9181812, 15714.393887670001, 37431.333693500004, 24620.50342493, 29189.47039983, 12789.944277179999, 15268.16542059, 50043.99758479, 1736.28199542, 35127.471945979996, 15073.211187170002, 17511.14187382, 16706.7929095, 9723.08894157, 5158.14043082, 14310.52207371, 2785.99441763, 6344.66400591, 1084.50066191, 4562.0003326900005, 1500.0, 13972.64532358, 1410.95745517, 17148.880182899997, 13079.623000250001, 8241.72849128, 34125.777895830004, 33163.26264649, 91471.46817069, 24315.29915994, 25477.92228925, 2405.27529247, 18818.67638534, 11393.359649200002],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(83, 173, 173, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: '1000 to 10000 (Whales)',
+};
+var trace2 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [457962.49980187067, 117394.49311700989, 24733.351136110014, 5155.369910859999, 9354.270849159999, 40264.42344487001, 8044.061540120002, 77891.86556957992, 20717.972898659995, 11192.042694169999, 11047.1897198, 19279.705902470003, 26800.89323381, 33771.82005389, 32657.26950774998, 20488.286486799992, 39571.17586121997, 22369.054919379992, 37038.18801416003, 28354.511906999993, 18284.34089716, 17437.402150810005, 14342.265868160004, 11117.402066569997, 1155.32934376, 6617.28386455, 4631.662636969999, 13429.613390740004, 5187.9662802699995, 5866.656212000001, 6661.419612080001, 10563.06619971, 8389.76824007, 34806.832312609986, 15500.07316427, 8792.80559413, 3825.2227498400002, 7986.583916379998, 11488.744292920004, 8383.695762340001, 11524.75807062, 8553.28472659, 5301.21240563, 7133.23144914, 6166.02277881, 8443.960608180001, 8459.724937769999, 9467.737857200002, 4686.68532655, 3158.5398631999997, 707.77127509, 12307.429134900001, 18010.938993800002, 26176.25842346, 14640.048897559995, 12186.14454201, 10218.547285189998, 10117.469671629997, 17071.633111379997, 15596.497064639994, 18593.077823049996, 11342.10707461, 6891.904198599999, 4276.03375111, 5657.586962100001, 3372.0692492700005, 3014.10665931, 8323.487709719999, 7294.57500273, 5268.06039099, 6660.530956349999, 6426.978673069998, 6368.42382904, 13467.86278454, 10025.97544143, 7178.44480959, 8731.84935058, 8425.012209980001, 7448.78229273, 9967.297056139998, 6701.430404380001, 3681.5846046900006, 12239.218253260002, 12204.390903029998, 11766.642502049996, 12876.754356100002, 8701.302964490002, 11636.210899839998, 14276.366096270003, 4745.1973447, 1813.734326, 4702.6231180899995, 8592.53374597, 9157.797828940002, 3971.1805746600003, 7849.615378220001, 5366.720722869999, 5221.26269571, 6906.95419104, 3455.74133294, 3770.4152079899995, 7767.9141998000005, 1334.4924182199998, 10064.16773742, 6374.273182080001, 3979.39626131, 2545.81155959, 3508.0185805, 9815.8443923, 7327.760968960002, 1662.01374811, 5909.681409690001, 6345.803219929999, 3585.3784514100003, 9891.75366639, 14055.00231489, 7840.347909339999, 11063.980287080003, 15348.17908643, 5040.37959182, 27874.70486879, 30346.77515851001, 19449.669450489993, 36570.62757623998, 54275.87466906001, 14229.946510919997, 25345.248055930006, 5324.984917129999, 36890.745369130025, 5136.2120275299985, 10685.253832760001, 8105.49761061, 22787.19803772, 15015.22482597, 14420.72590981, 9907.119988479999, 11830.285732800001, 9162.7535327, 11114.873648839999, 5857.2158808, 16635.087194329997, 5252.288917369999, 2440.39667241, 3008.33193354, 1745.73637885, 2628.5082563299998, 2793.75758318, 228.75725713, 316.42112927, 1074.96732787, 1190.31370488, 4849.11227998, 2933.28825707, 3267.9295425, 733.4610607300001, 539.89620223, 1099.9187465, 301.15121641999997, 9305.475552119997, 13229.799565879997, 2012.47224685, 3497.6583138900005, 13583.832441860002, 2059.3397337, 14848.679873330002, 26367.438156649987, 9244.549993980001, 16073.81296302, 37536.43083968, 10502.715906240002, 7554.970992469999, 4166.68609549, 8187.14862813, 7134.376499620001, 19513.620867510002, 3128.6894258, 7250.752775439999, 11138.263668100002, 1444.69001333, 1894.4979101000001, 9639.5544516, 8272.41128946, 5111.8754991099995, 19323.988099849998, 5787.08631826, 9257.147994500001, 59399.29278385999, 27817.565994940003, 32344.201471799985, 93659.93721021, 22663.900970620005, 28710.65326506001, 29929.12686312999, 253360.3307875323, 156626.55144832114, 38727.0469221, 12208.82104682, 88263.65119587012, 4920.16555672, 154785.56178548126, 36144.948844629995, 9252.77164743, 55694.61310432999, 61652.024179619955, 6451.6096208, 24938.16682265, 16381.492303269997, 60423.333275949975, 32435.991471429992, 47578.79906957999, 18017.493548610004, 117140.61450047002, 63754.52391389999, 21041.27287876001, 93215.86686122003, 25097.476143289994, 14015.214049429997, 27260.964864580015, 18617.033667030002, 29134.152706169996, 17018.126561439993, 859.2349988, 24036.95601244, 3951.8981160599997, 4296.148072409999, 7799.162958059999, 18596.714015919995, 1245.80754839, 27700.90152837, 5562.06202007, 28989.02766427999, 22943.119880769995, 7803.290542449999, 44739.09593708999, 51196.53330853999, 119486.61712882986, 22420.328460579993, 35871.72687374999, 4385.32412281, 33327.355199879996, 11344.67463274],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(190, 229, 160, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: '100 to 1000 (Sharks)',
+};
+var trace3 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [2005192.4253251813, 100740.79886824026, 17508.28823478998, 4870.690565880001, 8743.692383229994, 26129.41601784995, 20205.096786269987, 35292.72590987987, 31962.780151049934, 11489.444595690014, 9182.639866089989, 13929.770668650006, 25009.252479399976, 21794.826448500018, 24415.18499855998, 20849.896209869985, 27743.23722466, 22793.610532649993, 35722.25239358992, 21133.152181219994, 19994.197940620004, 16636.253837739994, 20197.502858000003, 15678.45920789999, 2139.5693270400006, 6418.374951749998, 5451.375595369999, 13048.377711070005, 4821.815375949998, 5908.4581259900015, 6546.664073920003, 6928.922355070003, 10557.280649330001, 37016.78412400994, 14510.661386290007, 10404.678594260005, 3270.1395204399987, 9897.364505930003, 17439.719971240003, 7844.581650020003, 12650.870723400005, 12105.03014346, 8976.32430548, 7862.595607860005, 10663.41934115, 11115.795303380006, 13753.30541118, 12182.706220789998, 5805.529605680002, 4896.877350039998, 3582.351767350003, 12176.121525560005, 15274.66418772999, 14028.13638761001, 18133.500845339993, 14443.159045019991, 13649.775226939995, 9310.63362141, 23004.69340277002, 13114.05045448, 16125.665491929987, 5597.127802310003, 4511.276751370001, 4570.699271379999, 4760.314432709999, 4190.340729930001, 3982.781070789999, 7497.934783730001, 6707.506090410001, 6421.568075609999, 5418.639649509999, 6002.165982729999, 7222.726988489998, 10627.116431599998, 12299.12291179999, 10534.763220850004, 9158.819844469994, 5867.863982129998, 8363.412212900004, 9434.690749759999, 6773.257942349999, 5333.484379389999, 8743.405052709995, 9986.412560010012, 9845.595121929993, 14702.131584909994, 13265.249027130008, 12978.541881620007, 9699.738992430006, 4773.368146859999, 3130.2883212900006, 3848.547848209999, 7888.916656669996, 6284.740859129998, 7468.102506079998, 5280.072727750001, 4892.9349379, 6095.807714199994, 6358.5853029, 5791.185112030001, 1328.7035545499998, 6759.305899779999, 3044.591048609999, 8081.827140030001, 3767.3523751099983, 1840.3088941699996, 868.5968573199999, 5677.302041799999, 4178.663279119999, 5242.14687494, 3424.076406880001, 4815.218752469998, 7557.60984183, 5506.02009822, 12583.53673101, 10528.036897839997, 8048.9858345799985, 7660.928820440001, 11754.180369909998, 4899.678270650002, 8541.23469876, 12132.816611719994, 17945.605721800017, 9008.99303922, 11455.217792149995, 11642.742526610009, 14798.117868109985, 8719.76084417999, 11823.383539030005, 7316.416711850002, 7974.686614500003, 6906.111634189995, 11929.53780926999, 8363.278596650001, 10439.096719039997, 17086.34726173001, 14979.04592626999, 6465.3918241300025, 12666.823279340006, 6161.8085236399975, 6204.08162553, 4035.0268688599976, 3588.3310822300004, 2287.67273876, 3518.097663660001, 1799.68169599, 2487.2485894799997, 513.6870035000001, 463.24058427000006, 215.64557729, 472.36180519, 4416.697994509998, 2041.7779775000004, 2852.7240029999984, 404.26650477999993, 2555.787859340001, 439.72613049000006, 675.18730357, 6109.605859650001, 2734.6261137799993, 2070.8919221000006, 1295.9846065799998, 2550.4164365100014, 385.83093840999993, 4307.824989140001, 8624.201052119992, 3198.94532599, 8529.501570420007, 12747.915197459997, 5378.499332489997, 4585.24880244, 2735.6333362999994, 3886.4524992699976, 4978.785589050003, 10270.778968509994, 746.83539997, 3833.743865379999, 5712.0721774799995, 1009.8461995300001, 1281.1480756099998, 4383.040341899998, 5307.417171640004, 1993.1399364800002, 5785.794070220001, 3247.5462567, 6559.201814590006, 10427.535160949994, 6694.271590690004, 14208.54659660002, 9185.854697550001, 10163.516555699998, 12412.589100460007, 13050.284526869997, 24071.756695719974, 14509.19355959999, 11098.047964910007, 5809.013407579995, 13159.660357030003, 1865.9895164799996, 7206.99322666, 7280.541925019997, 9857.305262739994, 8731.388770419999, 9830.900637710003, 4105.464540800001, 9406.7943944, 5866.215906800001, 12974.873366850004, 12247.750929050002, 30078.524144489962, 7710.062273429996, 25198.84466590002, 8085.441087709996, 3516.1203833299996, 28003.925077359963, 4730.330076540002, 8357.64305226, 9902.343298290005, 10787.6757247, 6666.310684259999, 6358.624955959999, 606.82864511, 7389.221892550007, 477.8497539, 578.9735461899999, 3009.96591629, 5372.2423231699995, 663.6028448000001, 7348.91206942, 1202.03762796, 16817.001710140008, 9275.0987573, 2310.6101190100007, 21240.47546418001, 19567.229009180013, 32367.228521239995, 8127.7383652200015, 11486.165106960001, 2623.812631819999, 12340.231553790001, 13799.102394309999],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(254, 254, 189, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: '10 to 100 (Fish)',
+};
+var trace4 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [149900.35848428737, 63598.09078461997, 16389.117445940043, 3983.4916161499937, 6556.303383860017, 13485.874463140013, 6000.731259180004, 19606.60735910997, 15682.243148059997, 6850.564234040007, 7544.561465570002, 11265.78564606999, 17928.470999160087, 17868.606302310014, 19287.97959085998, 15452.478309029995, 19831.173682659977, 18694.576184589943, 23410.960629210054, 19385.69580227008, 14319.005115289961, 15665.580330899942, 16423.10923956, 12309.84493465998, 2104.9463746300016, 3461.037170379998, 4031.854481369999, 6321.8160380400095, 4829.653215709993, 4062.230893539998, 4814.9985177000035, 8163.202577730013, 15391.681599339987, 47170.20484509977, 15723.326388859967, 10778.023188070005, 4683.554387360001, 8888.066312570005, 21366.390067919987, 9604.32768835999, 17497.795895229978, 13874.139893719988, 10695.207844379978, 8950.978355800027, 10994.801437730017, 11814.774813999997, 12598.08606385999, 10333.462047049985, 6317.702957029988, 4136.79539423999, 3371.289239120003, 10250.32773507002, 14267.183026299967, 14996.852353050042, 17749.93337275994, 11352.11865855, 13347.357961030035, 9554.524990860018, 21134.771363579996, 13396.187156329992, 17368.273226240057, 6348.457307800018, 5530.534449309997, 5178.998919309991, 5957.995997070005, 4238.973825440003, 4549.196568680001, 7297.276761169996, 7734.197437690004, 5901.840919010001, 6353.013820589978, 6197.293395789998, 6043.436834840007, 9894.069968929989, 11700.021482290009, 10994.89368620001, 8653.731820710005, 6803.054965540003, 9966.137489259963, 8471.386713599988, 6808.41550307999, 5848.6252155200045, 7421.098797940003, 11174.273404289994, 9475.07884285, 14244.170897469992, 10729.215814879972, 12249.248138089975, 10289.446252079963, 4811.832525199991, 4133.05279843, 4242.62109219, 9897.124584930001, 7474.5885399600065, 9296.327522080011, 6950.255602440013, 5434.61495345, 5963.902253950003, 6509.573315920016, 5782.5939624, 1855.6056550399992, 6859.746894649993, 2215.8633443700023, 9862.66310676001, 4587.770747749995, 1740.3486619699995, 955.9597462100007, 5326.008805679993, 4054.56915349, 4458.481910269997, 2939.9025506900016, 4057.4779888300045, 7047.064907730005, 5163.925657550004, 10926.491268630021, 8548.465873659994, 8673.27531426001, 7060.454276870013, 8588.36910179001, 4332.0955786500035, 6755.349202610009, 11127.72696553001, 10705.837379829989, 6559.195430380001, 9845.595418750034, 11289.101314009988, 10728.146691130038, 9125.966180780013, 9333.811816640029, 6667.104616930002, 7464.4846188400015, 7769.229685980004, 8816.839289840003, 7121.641596520014, 9535.245108059991, 10010.189105420048, 12928.990087069982, 5309.750509400001, 10591.475771109997, 6248.574734430029, 5016.430593019988, 3660.0408083400034, 4324.186617349997, 2855.0355701200024, 3292.014166639999, 1931.943948509999, 2320.2613415999963, 456.0123154400001, 421.50423814, 470.1234460000001, 518.81194581, 3222.509113229998, 1831.2206211500015, 2140.5214892699983, 421.5461554900001, 2400.5129696199992, 400.5918743400002, 416.4373290800001, 4180.606759640002, 1658.1406189300005, 1945.4023808199986, 1552.2243623199993, 1734.2074352799996, 446.67134158000005, 4065.599577219995, 6937.926779429996, 2765.426129930001, 7225.794514679986, 10153.833848099985, 4091.4953532299987, 4050.3085992799965, 2357.1631902899994, 2614.9691185999995, 3721.3300569699977, 7960.217870709987, 600.3056928199996, 3691.6740884899964, 5139.670688700003, 655.6433250900008, 1962.9464117099997, 4298.8193090899995, 4456.555841410005, 2118.9549751100008, 3459.330673319998, 3198.830280139997, 2953.7156853800043, 8020.744118260007, 6510.385630300009, 12299.576506300002, 8251.26876041001, 7390.6614599100085, 10035.790817920031, 9944.793532090016, 17807.50006868999, 11458.776430780015, 11315.433932149987, 5524.919775919995, 9675.013571559984, 1968.6756933399993, 5395.178759510004, 5949.906450309999, 8063.795141590007, 6829.441512820002, 6662.663844250005, 3362.0016297099987, 7535.385354240006, 5064.536074369994, 10055.573877060026, 8863.406341670026, 14911.653934740008, 5301.7570438099965, 18839.169493250043, 5505.490581100002, 2377.91747485, 13583.751480249985, 3607.4767691000034, 6947.764897670004, 7586.589387560032, 5141.699816390002, 4634.018677979998, 4115.51806651, 574.2436464699999, 5958.318014119999, 347.7245627400002, 336.19040246, 2477.596124909999, 3587.964020460001, 480.11780573000004, 5717.790101380013, 610.9737625799997, 6944.366259999995, 6725.562601090005, 878.74593524, 9431.097388429991, 13073.600758560036, 22343.29195811998, 5736.049251449998, 8261.666228900007, 2107.262900180002, 7828.503204950003, 2673.990853289993],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(253, 190, 110, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: '1 to 10 (Crabs)',
+};
+var trace5 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [64727.279372507925, 45446.42554272451, 5150.217664990003, 1544.1507865700048, 3039.785467209984, 4780.880041859924, 4968.976472479983, 9173.260402190219, 5505.977638929978, 2585.118287199989, 3609.0085795499695, 4490.482055069976, 8139.441939830108, 8162.28748149006, 9353.361689530142, 7148.73835188003, 9109.949091950159, 9161.140537600188, 10981.183050310266, 9775.858349240263, 7398.133294990117, 7110.051868030015, 8466.071238740113, 6190.449029870045, 910.4363793400005, 1836.9500775999984, 1658.5550974099974, 2700.2594542499783, 2398.3362964599837, 2076.803251339993, 2494.098454079982, 4954.260565539968, 10730.168841280096, 29488.305786059133, 9702.624220320138, 6637.066465500034, 2168.182055959995, 5070.194987299991, 12247.573435690269, 5705.173143499991, 10425.631513570173, 7866.370534190076, 6715.161077090024, 4933.358944839991, 6260.068314019989, 6783.951865170075, 7579.824524810233, 6051.831655989996, 3554.032799109976, 2147.1546919799985, 1677.1833855100024, 5998.217314670025, 8458.537844090093, 8639.520950560085, 9658.979538130157, 6396.944443860079, 8131.532242060134, 5168.427961429997, 11740.543974220305, 7312.568012990047, 10472.230781930106, 3581.627151889972, 2863.2921909600013, 2797.0699028299855, 2758.2346326899906, 2157.64735608, 2338.822482029994, 4081.9578270399647, 4333.714090089971, 3500.9318074299727, 3664.573588399984, 3641.951449279964, 3286.2150271499954, 5553.858851319993, 6214.911435830033, 6241.334317180011, 4603.7731456199745, 3703.129061589962, 5761.714200620004, 4646.002735159959, 3629.944634339978, 3247.5586830399843, 4018.17713899997, 6578.639033939988, 5265.839678189988, 7835.660240680043, 5863.686494579974, 6852.237289530069, 5656.031174450036, 2628.4380998699958, 2127.8020855799928, 2333.332934879999, 5488.861741579971, 4118.1656223999535, 4938.310600980002, 3697.2209995899548, 3056.0600383299725, 3426.258155499976, 3908.447278509961, 3278.843856839982, 999.0880664700016, 3807.025411409971, 1168.1064538200037, 5365.0657723100185, 2673.306208159989, 964.7331374500008, 410.6046780300005, 2993.527203249987, 1924.494041169998, 2723.917754239989, 1491.4203078400042, 2396.32150546999, 3661.208216589975, 2931.760245539969, 6062.826271980015, 4721.8600750799915, 4470.946226660007, 4159.957132129961, 4596.815982, 2230.759102339986, 3606.3829719399814, 5750.9550064400055, 5671.189987300009, 3366.2350114599785, 4951.926718250004, 5573.52534542999, 5804.343502090025, 4948.411426149968, 4577.643586609972, 3509.0810938499735, 3909.632342699979, 3478.6518113199686, 4609.011959239971, 3556.0427297199826, 4919.316073099978, 5107.8551035299815, 6698.396867410026, 2848.572132939991, 5812.274978900012, 2889.289208009996, 2764.440481699991, 1806.237385959989, 2303.48530669, 1504.274984170002, 1773.8014035500012, 912.014429280002, 1078.4680069100043, 219.9102225999996, 235.7799134799999, 253.82811207999995, 227.45355177999986, 1572.5179080399982, 843.2364355199992, 1173.8811646400031, 244.31109138000014, 840.5703500700008, 211.62763413000022, 221.72145299999985, 1946.8580773199997, 763.15662095, 1055.8964457800034, 779.9560497500031, 709.1946017600017, 226.1487871699999, 2004.1250709399976, 3146.617870319995, 1200.4473018899985, 3353.3427980499705, 4915.452269429996, 1919.5170795099955, 1924.2724532999941, 1238.9698803000026, 1419.9519640499966, 1877.3411752199945, 3857.7339108199862, 288.91728450999994, 1861.9633501199933, 2447.455919979999, 292.80446643000016, 1075.6108733000026, 2222.605748549988, 2392.150000049994, 1140.7238397899987, 1718.906783240001, 1733.5282577399958, 1419.8234284400023, 3995.5457840599747, 2118.1476669899967, 6228.583604860048, 3773.254737929947, 3543.0281489099652, 4722.091572319927, 5428.678204139993, 9110.71128662013, 5830.058675910051, 5801.900930270066, 2908.2240515599806, 5206.788357119999, 1013.3193930500048, 2883.2050712499854, 2784.7459979399773, 3746.4391802699765, 3178.3826234399603, 3233.2703472899752, 1642.9629312000006, 3706.762225959988, 2454.8610620199916, 5040.162841870009, 4278.682662419962, 7094.893264260042, 2358.587103959998, 9429.03862079021, 2784.5092957699894, 1060.7930250199997, 5826.361492960026, 1671.0046280999954, 3138.2446206800064, 3512.901617169965, 2429.931399009995, 2176.023205780004, 1821.196448569996, 199.42187105999992, 2615.0240744899943, 166.29434811000004, 171.70909149999994, 1188.7497178900019, 1506.5972023199975, 173.70176457999983, 2660.75973149997, 261.8085703800002, 3194.361483869978, 3117.2501611399894, 396.4676062799999, 4720.017693089954, 5460.600280080014, 10439.546766180167, 2475.663934979993, 3630.9787183899625, 1097.9495685099987, 3695.8871461099443, 1184.8813838600015],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(233, 92, 71, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: '0.1 to 1 (Shrimps)',
+};
+var trace6 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: [15910.993333724691, 12968.4134152602, 2792.1486219107533, 680.9870405699271, 1429.9882655297922, 2071.3268553201206, 1650.5235176300391, 6453.440106798119, 2451.3007216011074, 1008.9823029899865, 1550.323315540293, 1907.2217083302316, 2431.8853735611915, 2444.0102014708937, 3071.589163031887, 2283.754941881132, 2895.6762220022774, 2877.789841881985, 3312.841459782298, 3014.886145942114, 2263.9542861501172, 2060.552277129678, 2406.854151861234, 1807.5508233393482, 233.04430876001604, 463.39544976002253, 400.37966335000107, 744.0174661400132, 701.5536390399675, 592.4456352099749, 755.381521189973, 1140.7923288599743, 2329.280311100162, 7012.8594513422895, 2348.3359860502333, 1617.1612388800065, 482.82737070000235, 1363.0690569599924, 3315.160160380722, 1529.811361949969, 2721.5264635305584, 1958.934243060104, 1614.390682350157, 1326.8652043898317, 1662.490182399851, 1777.3562476100565, 2152.228504380384, 1701.125468849937, 1029.4394977497968, 564.1299452199241, 440.56042581998884, 2104.659258299672, 2755.574026760079, 2974.8859984578453, 3296.401485140029, 2102.404365700293, 2460.730272402813, 1452.409712660131, 3522.318001721392, 2297.5548570203496, 3307.36239574176, 1081.7497320898292, 743.1600729999466, 756.3786273799442, 669.7331912299999, 589.0284238000152, 587.0864074000114, 1168.1911708099512, 1196.4448341299951, 1063.890425119864, 1062.5225091599207, 1074.0087247399351, 903.8264157300105, 1604.5842732298258, 1866.0086527798771, 1832.221602309806, 1280.4325744899218, 1103.6934326999422, 1615.7075501898396, 1376.3576542199505, 1033.8183087598989, 914.5353342599677, 1153.025095539683, 1973.3693999499599, 1560.0177593698054, 2350.6916049700267, 1768.2723919202356, 1974.0570787097952, 1602.265819458837, 732.5135836998805, 621.339368130028, 706.245523679984, 1554.8964719095932, 1146.7359536093682, 1376.5344279399035, 1082.5781821401263, 881.9696649599608, 933.1574655700178, 1141.8264277399428, 958.8502636099926, 269.2578940700007, 1149.703164019897, 322.0300806700155, 1544.871132129929, 747.7950100498366, 251.44589735999466, 96.91917085000028, 937.9288812500223, 620.7520610600477, 813.2646443899861, 451.45966078002544, 645.2020393500547, 1161.2240486798835, 898.5548740200271, 1834.594602149254, 1445.3535198491852, 1343.9140132191496, 1098.8123604598914, 1364.354427249087, 620.670801880047, 1395.821855629355, 1760.0364137085849, 1653.4614488094066, 1059.0119753497884, 1446.713735939585, 1664.03102910958, 1733.127306689078, 1533.9195696997488, 1395.7939280691828, 1113.1821781897866, 1139.591947019667, 1041.6563186699418, 1350.1180379094587, 1016.3251101399422, 1378.4675346390345, 1444.545989019201, 1926.6361346784004, 799.3989391697643, 1658.6412786879457, 846.4024554099007, 795.7867682599821, 549.8262685300629, 653.3947889599666, 422.84483541003294, 457.45021605002256, 240.57548111001154, 287.12153661000804, 59.478318440000216, 61.465663600000276, 61.40174732999989, 60.5274058600003, 444.6258517800367, 260.03985839000933, 338.8784712800428, 62.008694750000444, 240.50083355001263, 64.27422661999998, 66.20998314, 610.0188684700624, 234.11800633001099, 310.13685042001276, 257.31793217002297, 234.31553204001258, 77.3774342799999, 651.8545803900681, 1035.0378402701324, 377.47541366004975, 1110.413601060023, 1586.1374573494743, 599.6460284800934, 627.0633272200645, 432.6527361600411, 472.52932191005135, 613.2148989500663, 1157.1919049099906, 97.45435165999935, 487.256254650015, 743.4242371100155, 106.04508158999934, 304.97196710003794, 632.6304402600352, 674.4985471500663, 305.17977426002074, 480.67871343003804, 505.46002738002045, 372.3859908800156, 999.8957391200423, 617.4362853600951, 1778.5098804592656, 1139.683430139967, 1029.9136308001223, 1359.2547772997152, 1547.176352739667, 2703.80621461054, 1622.1999750396903, 1666.7618825198206, 859.9267253200682, 1312.207490459763, 311.50131052001916, 812.2297531300212, 784.8708279001671, 1074.9844774000012, 921.3301023100113, 1000.9234946300826, 537.3150281600119, 1017.7245589899985, 712.585639100063, 1450.2047367997259, 1183.3497966899279, 2138.428786729342, 725.5342616901007, 2678.9053116702385, 770.4942981200757, 314.9897751600258, 1655.8946487092958, 487.16730625004675, 926.3366288401303, 1001.2503172601115, 691.1755658900732, 594.9543618200747, 527.7598820901018, 82.12191508000012, 685.0139819700288, 74.37995906999998, 71.74487056000007, 429.46368049005736, 537.8046751800423, 90.08687112000015, 925.2262038900245, 125.39975515999922, 1094.2956656199005, 916.7827681100288, 183.6024500399992, 1697.0673168304122, 1656.0508591196792, 2973.146727860335, 721.5671102700458, 1013.7885341900595, 331.1792182800204, 931.5376332600754, 334.12842061001504],
+hoverlabel : {namelength :-1},
+marker: {
+size: 6.0,
+color: 'rgba(158, 1, 66, 1.0)',
+},
+orientation: 'v',
+xaxis: 'x',
+yaxis: 'y',
+type: 'bar',
+name: 'less than 0.1 (Plankton)',
+};
+var trace7 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["5.034000678367225","9.13701301458596","10.0204071410236","10.235861270900092","10.68828820288027","11.343625087014379","11.865826079318213","13.90759815438821","14.683153095340058","15.002380028013471","15.492879172751119","16.096295639099644","16.8657078538776","17.638956183135793","18.61076112366041","19.33330708201277","20.24945579505349","21.159945524536703","22.208079088927004","23.161944041638897","23.87822536821803","24.53015333671864","25.291646046763297","25.863528133570973","25.93725987261337","26.08387127263827","26.210545418911483","26.445941434151287","26.667902528645154","26.855343480130028","27.09433491267852","27.455264569105747","28.192214074409875","30.410978075807822","31.153956512091515","31.665602177626177","31.818361547243057","32.24961624099332","33.29848340762584","33.78249287656998","34.64354320675701","35.263320746826714","35.774089849650416","36.19389018511047","36.719877251439065","37.28220622540733","37.96313918313083","38.50134987711857","38.82704916070927","39.005531450743625","39.14491819020877","39.810800948864426","40.68262341959599","41.62383292300016","42.666765124925796","43.33193446923725","44.110472779243224","44.569993522256866","45.68440233622498","46.411314381641496","47.457714451992906","47.79996391253548","48.03508866138995","48.27439556344632","48.48628914345498","48.67264894028187","48.85839431212157","49.22799255297153","49.60652983095991","49.943128873485435","50.27929512782949","50.61909544924962","50.90505262957647","51.41271913100195","52.00309640204403","52.58278395488819","52.98789369966594","53.33708581937758","53.848271559519844","54.283730566993206","54.61081524099498","54.9001605632193","55.264960484341664","55.88930509247883","56.38287141446874","57.12659513340019","57.686050111085144","58.31061229051222","58.81754526778802","59.04930162642105","59.24588412350708","59.469329660233136","59.96127568335118","60.32408581388792","60.75960074992637","61.102112319692914","61.381154350481594","61.67639143695226","62.03764826682202","62.341014170900074","62.42620334752622","62.78995225912495","62.89183776749932","63.38061192282802","63.617203096547605","63.696756823416436","63.7274206016968","64.02416729283298","64.22056397473284","64.47786876304382","64.62070385768274","64.8248361475812","65.19223009503516","65.47651943828939","66.05695777284471","66.51424604182911","66.93944036579836","67.28708818714647","67.71874955286066","67.91512052556946","68.35673771569327","68.91358695286694","69.43671746272129","69.77177303659361","70.22949165763575","70.75596622485253","71.30430182242186","71.78961106694668","72.2312194212075","72.58341363828859","72.94396351182787","73.2735280151135","73.7006851998448","74.02223528704405","74.45836182917337","74.91539460746273","75.52495350837563","75.77787139462332","76.30264072529643","76.57042982213893","76.82220487145437","76.99616169179305","77.20288604531875","77.3366678365402","77.4813982534045","77.55751274290903","77.64835370926184","77.66717176097583","77.68661857901974","77.70604517491034","77.7251951422171","77.86586812174353","77.9481408495413","78.05535693709331","78.07497556208352","78.15106643421483","78.1714018396556","78.192349689551","78.38535054960327","78.45942199052239","78.55754465845737","78.638956209448","78.71309014455194","78.73757120921496","78.94380826375038","79.27127877930971","79.39070636302971","79.74202464365246","80.24385484801543","80.43357389640136","80.63196736866271","80.76885223321172","80.918353453981","81.11236549034811","81.47848372772873","81.50931682922507","81.66347743158342","81.89868575801734","81.93223683817082","82.02872541415499","82.22888023784375","82.4422815053004","82.53883582836663","82.69091539491102","82.8508353991087","82.96865276546578","83.28500484502814","83.48035246501382","84.04304643118739","84.40362524861975","84.72947454082694","85.15952245345458","85.64902594615839","86.5044698542187","87.01770970062655","87.54504826908016","87.81711624295278","88.2322790966215","88.33083345935549","88.58781082352671","88.83613223232936","89.1762412673194","89.46773635268268","89.78441359874007","89.95441204946667","90.27640490138292","90.50185635594555","90.96067947752573","91.33507368122743","92.01164061436907","92.24118881974638","93.08875445398277","93.33252734345997","93.43218540430985","93.95608574227549","94.11021820268842","94.40329727827911","94.72007792613593","94.93875555326979","95.12699022838913","95.29396557359435","95.31994772112911","95.53667591512685","95.56020862339727","95.58290762901518","95.71878352397508","95.8889368917065","95.91743903238485","96.21016678610425","96.24984139593545","96.59606020248782","96.88611657921945","96.94420565252024","97.48113240781285","98.0050821684195","98.94574139258062","99.17403445049347","99.49478200294304","99.59956216182532","99.89428675754344","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(94, 79, 162, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total PLANKTON Supply',
+};
+var trace8 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["6.053781762981024","10.304273129378165","10.785960202864862","10.930380792786965","11.214684381678214","11.661828224104326","12.126564258762345","12.984516532799093","13.499476953522304","13.74125664971709","14.078798263285995","14.498781902881426","15.26004370244835","16.023442188815757","16.898238889180284","17.5668426414541","18.418873565805878","19.275692298993444","20.302735090385045","21.217046854541366","21.908975896755","22.573961398228295","23.36577202530915","23.944749356119196","24.02990021064351","24.20170559142095","24.35682613254266","24.609374696269235","24.833685136531177","25.02792338924541","25.261190226392927","25.7245499188051","26.728115974334987","29.48608401376837","30.39354637164062","31.014294722537674","31.21707940801247","31.69128215910031","32.8367672995934","33.3703579813831","34.345441416625064","35.081163525485366","35.709215871545105","36.17062068725865","36.756109336894774","37.390595514599795","38.09951768651457","38.66553047844453","38.99793034373883","39.198748392058164","39.355611190723664","39.91660956640033","40.7077156137802","41.51574856184209","42.419128940931145","43.017419275214706","43.77794130038395","44.26133153769209","45.35939547128605","46.04332180507848","47.02276355421375","47.35774425082432","47.62554086170863","47.88714386637203","48.14511470462254","48.34691410576854","48.56565836670185","48.94743374935585","49.352755270342","49.68018873170052","50.02292720261454","50.36354988101306","50.670901414917395","51.19034004657681","51.771605285491674","52.355341790907964","52.78592126497271","53.13226573358543","53.671144560092024","54.105673662837184","54.445173373639676","54.748909475638555","55.124719608867125","55.740003387128574","56.23250430049384","56.965354151836294","57.51377019386454","58.15464293780061","58.68363749321337","58.9294687839516","59.12847683103458","59.34670766825001","59.860067281581976","60.24522908945506","60.70709702127556","61.05288892351539","61.338714632644056","61.65916405270482","62.02471142447132","62.33137355111449","62.42481577787022","62.78087741417296","62.890127511132235","63.39190879476515","63.64193648829273","63.73216558381869","63.77056842008418","64.05054558837713","64.23053873875122","64.48530000454733","64.6247888436901","64.8489108455522","65.1913345615949","65.46553481966139","66.03257591073223","66.4741997621745","66.89235626423383","67.28142672827015","67.71135551609173","67.91999287737538","68.25728892438224","68.79516147016544","69.32557379171436","69.6404093961124","70.103550809581","70.6248287996151","71.16769463886673","71.63050727579144","72.0586429170651","72.38683856095295","72.75249676883139","73.07784643746083","73.5089158847588","73.84150373387367","74.30159515465292","74.77932016292559","75.40580459406885","75.6722244744671","76.21583212505593","76.48606017241084","76.74461142831409","76.91354432728254","77.12898358992607","77.26967469503599","77.43557393708757","77.52087238270548","77.6217388182406","77.64230647546295","77.66435838547893","77.68809829870777","77.70937146478303","77.85644516115867","77.93531097175227","78.04510116307961","78.06795097298706","78.14656743122676","78.16636043850991","78.18709749561542","78.3691822987749","78.44055844309912","78.53931381655259","78.61226116975016","78.67859038037294","78.69974151505312","78.8871823579683","79.18147771632543","79.29375257252289","79.60738240020389","80.06711244901724","80.2466401165219","80.42661254233255","80.54249031966161","80.67529490202021","80.8508779618926","81.21168223826814","81.23870395469022","81.41284876475439","81.64175324147132","81.66913851636897","81.76973773128998","81.97761252963328","82.20134438094863","82.3080334499913","82.46879853447379","82.63093112917042","82.76372368991251","83.13741716869283","83.33552226197087","83.91806622491579","84.27096937395908","84.60234000163771","85.04398550444219","85.5517163009149","86.40381851144211","86.94908942706667","87.49172681863932","87.76372579490825","88.25070378480078","88.3454770322042","88.615136045351","88.87558642578246","89.22598158228381","89.52324781914852","89.82564756857356","89.97930981309511","90.32599408255253","90.5555911438222","91.0269850628987","91.42715963106296","92.09072738595485","92.31132018291427","93.1931947588018","93.45362300106687","93.55283633942157","94.09776146670256","94.25404638152543","94.54755861062918","94.87611157857924","95.1033770303521","95.30689507910498","95.4772270620655","95.49587849462787","95.74045520487081","95.75600830244629","95.77206782752964","95.88324863773327","96.02415693414217","96.04040282899217","96.28925708170266","96.31374338738588","96.61250408740125","96.90405275682014","96.94113338785822","97.38258492588642","97.89330131487957","98.8696862091554","99.10122891149271","99.44082533760943","99.54351383524065","99.88918098547559","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(83, 173, 173, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total SHRIMP Supply',
+};
+var trace9 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["7.265045740019948","10.347380186715997","11.141692415767764","11.33475565516855","11.65251236002782","12.30611649953459","12.596946938583073","13.547197496425978","14.307250473809036","14.63926877588976","15.004922231892026","15.550927917559134","16.419846198839775","17.285863087720653","18.220671085360348","18.969588318427117","19.93072267020324","20.83677087745666","21.971402585537906","22.91094648076059","23.60492899131653","24.3641743913859","25.16013406103042","25.75674094981402","25.85875892926788","26.026500978753077","26.221908164702718","26.5283002450203","26.76237341119118","26.959252815260008","27.19261572928456","27.588252142111916","28.334222812000267","30.62036608230927","31.38241019317979","31.904776065016797","32.13176842977227","32.56253596731568","33.59807586002926","34.06355760179167","34.91160285541063","35.58402460243318","36.10237675965357","36.53619338177748","37.069065592059204","37.64167849505464","38.25225523026802","38.75307507608879","39.059267812509056","39.259761047216074","39.42315338845328","39.919944060593565","40.61141497043912","41.33824991201569","42.1985152185121","42.74870510554392","43.395595927392534","43.85866393993527","44.88297823920605","45.5322356086793","46.37400343825407","46.681686709902586","46.94972866888966","47.200733165588346","47.48949240456046","47.694937802049594","47.91541840320351","48.26908700002038","48.643931321377046","48.929968957714145","49.23787306455057","49.53823005128491","49.83113025163124","50.310654594375016","50.87770588156032","51.41058256274099","51.829992883937216","52.15970860974516","52.64272576489353","53.05329857858131","53.383274107306434","53.666732600245524","54.026402335217455","54.56797280385756","55.02719039265883","55.717546000511675","56.237546382350786","56.831216396911856","57.329902980564505","57.5631124521253","57.76342429880883","57.96904646411916","58.44871885137186","58.81098101124742","59.26153526838881","59.59838519568135","59.861778336401215","60.15082382703289","60.46631572022359","60.7465739534766","60.83650742725624","61.16897077463252","61.27636443741798","61.75436662042496","61.976716751299556","62.0610641989017","62.10739558431037","62.36552503761031","62.56203310906543","62.778117148734744","62.920601974774726","63.117251025357646","63.45879289627263","63.70906685478418","64.23862835581852","64.65293687520507","65.07329438809582","65.41548518593942","65.83172764851645","66.04168626934475","66.36908989561368","66.90840445232641","67.42727177883671","67.74516864913964","68.22234363242994","68.76947933136557","69.28942789723156","69.7317254500569","70.18409641475833","70.5072231936751","70.86899565859707","71.24553784704875","71.67285330760389","72.01800959986299","72.4801431968258","72.9652953502461","73.59190962458537","73.84925110601303","74.36257580189421","74.66541818142278","74.9085436687694","75.08593059533716","75.29550590176794","75.43387757890092","75.59342778771472","75.68706106047672","75.79951445916083","75.8216154758841","75.84204402989599","75.86482895431632","75.88997360743717","76.0461551959402","76.13490682873976","76.2386489857585","76.25907957132969","76.37542243201491","76.39483745089538","76.41502043293897","76.61763702196471","76.69800018828212","76.7922857351768","76.86751558189002","76.95156538982502","76.97321368846919","77.17025635859865","77.50650875921416","77.64053744018422","77.99074159038068","78.48285560591015","78.68115333639497","78.8774549165413","78.99169679406117","79.11843345064734","79.29879081170351","79.68458940162012","79.71368371707361","79.89260377691414","80.14170219815612","80.17347849805347","80.26861433101932","80.47696018972448","80.6929508808621","80.79564779880731","80.96330714149099","81.11834111562396","81.26149540674294","81.65022745166506","81.96575871434885","82.56186793519844","82.96177254892795","83.31996711295814","83.80636007470083","84.28834277718556","85.15139810155293","85.70675724636116","86.25516917756985","86.52293901673409","86.99184660870668","87.08726011607918","87.34874194880963","87.63710912115948","88.02792766978851","88.35892224159022","88.6818337947599","88.84477600427054","89.20998473239355","89.45544169196536","89.94279345614842","90.37236582766057","91.09507155692398","91.35202562838333","92.2650816707863","92.5319098578392","92.64715760904848","93.30550543972043","93.48034480634087","93.81707401955198","94.1847643938025","94.43396115840824","94.65855273374567","94.85801474504036","94.88584594170797","95.17462078750465","95.19147354809027","95.20776729599004","95.32784605600618","95.50173972100977","95.52500903039967","95.80212649054712","95.83173784288797","96.16830233829336","96.49426233210757","96.53685148584896","96.99393747682548","97.62756042781831","98.71044668439372","98.98844908945907","99.38885762515999","99.49098787695429","99.87040280587732","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(190, 229, 160, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total CRAB Supply',
+};
+var trace10 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["46.46063831168207","48.794819191448845","49.20048910963704","49.313343811186584","49.51593660188096","50.121359468818","50.58951488471888","51.40725314904847","52.14783602243177","52.414048343514075","52.62681161958502","52.9495666971661","53.52903519067116","54.03402490432691","54.59972875658785","55.08282428119107","55.725639650933495","56.25377135610042","57.081461819706696","57.57112043175644","58.03438928671468","58.41985402448977","58.88783348782358","59.25110596648585","59.30068013971278","59.449394943048254","59.57570421224297","59.87803727002416","59.98975952538397","60.12665947199474","60.278346755392064","60.43889102603802","60.683504955159506","61.54118993188604","61.877404342940565","62.118482457345884","62.19425212791167","62.42357569144663","62.82765687169016","63.00941711880906","63.30253987430341","63.583015413779925","63.79099832437646","63.973175957861464","64.22024913793028","64.47780394345139","64.79647029199164","65.07874559895616","65.21326067482151","65.32672212846728","65.40972580814709","65.69184854664007","66.04576502826824","66.37079925573694","66.79095545294744","67.12560582365187","67.44187336079449","67.65760227322879","68.1906248032156","68.49447950926354","68.86811383108393","68.99780020288698","69.10232722723744","69.20823108115042","69.31852834953959","69.41561923348526","69.50790092598895","69.68162930819895","69.83704332757387","69.98583211611438","70.11138288805907","70.25045406112372","70.41780583345142","70.66403786913479","70.9490105699784","71.19310276657832","71.40531412883038","71.54127350245093","71.73505513904973","71.953658475553","72.11059597615234","72.23417368648188","72.43675981968086","72.6681466412756","72.89627069966818","73.23692150671803","73.54427950856363","73.84499445868977","74.06973900657121","74.18033873166432","74.25286802694289","74.34203951360053","74.5248270101158","74.67044548954495","74.84348265297491","74.96582280655076","75.07919291385878","75.2204337812439","75.36776324858124","75.50194596016932","75.5327322400753","75.68934646955343","75.75989014492838","75.94714740907328","76.03443758326405","76.07707784303858","76.09720337509073","76.22874739720996","76.32556771269964","76.44702911802774","76.52636553157211","76.63793494208086","76.81304600520247","76.94062139651622","77.2321840123317","77.47612035892111","77.66261668461695","77.84012166546701","78.1124679579821","78.2259943094191","78.42389612226377","78.70501547878023","79.12081811507305","79.32955796560375","79.59497724601835","79.86474150537472","80.20761633039429","80.40965462339257","80.6836043647188","80.853126943347","81.03790174389272","81.19791748638397","81.47432683961208","81.66810538030039","81.909980968318","82.30587444475896","82.65294140264537","82.80274559464729","83.09623797348668","83.23900809048243","83.38275768220211","83.47624991844054","83.55939213982961","83.61239789346634","83.69391279499504","83.73561171590532","83.79324167482976","83.8051438871928","83.81587724772481","83.82087379122032","83.8318184919413","83.93415411093888","83.98146244251208","84.0475605268817","84.05692744829177","84.1161454733723","84.12633400014253","84.14197820102201","84.28353877370675","84.34690051055823","84.39488341701653","84.42491159351637","84.48400516184643","84.4929449281514","84.59275794170695","84.79258209860541","84.86670218797566","85.06433214230684","85.35970343422717","85.48432414842416","85.59056511736495","85.65395019172786","85.74399993538518","85.85935921640119","86.09733485445388","86.11463915351173","86.20346762945222","86.33581728133417","86.35921558387824","86.38889999551516","86.49045576116569","86.6134294900041","86.65961087016684","86.79366867042945","86.86891485135823","87.02089263626911","87.2625003410841","87.41760771492369","87.74682207660884","87.9596598408535","88.19515019115869","88.48275192225664","88.78512916127356","89.34287572327011","89.6790561245388","89.93619972130845","90.07079551743686","90.37570701242888","90.41894229644632","90.58592951492452","90.7546208688411","90.98301625312234","91.1853239670842","91.41310755186045","91.50823184054342","91.72618881390457","91.86211000134864","92.16273995138414","92.44652235493771","93.1434467067239","93.32209011776126","93.90595149341192","94.093292493319","94.17476158093723","94.82361713110504","94.93321965702987","95.12686762122773","95.35630654420059","95.60625876511412","95.76071828015267","95.90804866625793","95.92210898577717","96.09331847241725","96.10439032981253","96.11780524210815","96.18754664747205","96.31202238573395","96.3273981727983","96.49767367420625","96.52552508375895","96.91517777946721","97.13008334325527","97.18362055976516","97.67576586993378","98.12914178452212","98.87909579316695","99.06741682795105","99.33355316274006","99.39434733298776","99.68027252782788","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(254, 254, 189, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total FISH Supply',
+};
+var trace11 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["9.330950640265872","11.722854390437025","12.226794513742432","12.33183477837405","12.522427326032325","13.34281185071587","13.506708984674642","15.093749742864263","15.51587684402953","15.743913851400722","15.96899949058232","16.361822012541257","16.907888146750736","17.595986377700044","18.26137572716535","18.678822985389914","19.485082643982196","19.94085041407785","20.695500640492746","21.273221635437775","21.645763672122012","22.00104939711929","22.293271958886397","22.51978816922247","22.54332791556532","22.678154564339966","22.772524333625938","23.046151671499807","23.151856084646095","23.271388752847667","23.407114664076882","23.62233632384596","23.793277205174086","24.502463731130874","24.818276527329","24.997429263685746","25.075367882420295","25.23809391422492","25.472176193805126","25.64299334886748","25.877809406392903","26.05208192353236","26.160093717755462","26.30543275880427","26.431064997733706","26.6031100443857","26.775476288038206","26.968380717240876","27.06387156958668","27.12822657588432","27.142647361069393","27.39341028121243","27.760381775185614","28.293721023272123","28.592010891314406","28.840302647224185","29.048504760660514","29.254647425510164","29.602480634517303","29.9202580602545","30.299090588010724","30.530185145568563","30.670607162485663","30.75773102062903","30.87300391897596","30.941709570058983","31.003121760958205","31.172712181588405","31.321338585107554","31.428674909587247","31.564382714524452","31.695331909688687","31.825088054418387","32.099494720743216","32.30377319770361","32.45003345748719","32.62794421507923","32.79960318957818","32.951371554746984","33.15445446412918","33.290995592168045","33.36600759476474","33.61538072345108","33.864044247560486","34.103788681735296","34.36615155938484","34.543439936714385","34.78052683704597","35.07140669603943","35.168089726245775","35.20504442336133","35.30086000698151","35.47593221986609","35.66252164487871","35.74343414304562","35.90336945144081","36.01271597257924","36.1190987976241","36.259827456977334","36.33023792031689","36.40705983961002","36.565330492791254","36.59252067296891","36.79757731501679","36.92745263986389","37.00853253201315","37.06040324634506","37.131878854574865","37.33187592760313","37.48117849262672","37.515041894660214","37.63545119794896","37.764746449511314","37.837798259149125","38.03934197778697","38.32571156679436","38.48545805122532","38.71088579692127","39.02360376298923","39.12630110873222","39.69424607225038","40.312559277409775","40.70884479356126","41.453968512086405","42.55983527566063","42.84976933917994","43.36617681507042","43.47467297238329","44.226319066268466","44.330968990503656","44.54868021387965","44.713829103040034","45.17811650694738","45.48405055561782","45.77787173468697","45.97972854095318","46.220769701049825","46.40746009814463","46.63392479216431","46.75326511434522","47.09220373393518","47.19921871585531","47.2489416099848","47.31023614129149","47.34580538547417","47.399361038629095","47.456283634083526","47.46094454556821","47.467391601691865","47.48929397815412","47.5135465281587","47.61234681716309","47.672112339345","47.73869615192818","47.753640364515874","47.76464070802883","47.78705146772276","47.793187400548895","47.982785747790416","48.25234189438155","48.29334586131855","48.3646103799146","48.64137991907004","48.68333880743973","48.98587951553503","49.52311403595189","49.711471029641594","50.03897373002359","50.80377561561104","51.0177676428016","51.17169959454411","51.25659550263117","51.42340802498104","51.56877039634513","51.96635891768994","52.03010572362599","52.1778392526413","52.40478051650082","52.434215964186386","52.47281621310388","52.6692213921763","52.83777113467994","52.94192520402408","53.335649972342","53.45356141009073","53.64217508707015","54.852431099893664","55.41921186326057","56.07822247562021","57.986536478310306","58.448311713977475","59.033289061646684","59.64309271497406","64.80528992938066","67.99654384460653","68.78560444111761","69.03435822906533","70.83272332008177","70.93297131412398","74.08671520684663","74.82316575402044","75.01169026326558","76.14646371312237","77.40261895452618","77.53407000335221","78.0421832304866","78.37595487371468","79.60707563264613","80.26795645917436","81.23737082352395","81.60447586604626","83.99120685897074","85.2902003704299","85.71891468377437","87.6181807873264","88.12953992959156","88.4150988357565","88.97053889398718","89.34985952021832","89.94346563636289","90.29020865353851","90.30771550042151","90.79746662675032","90.87798624630926","90.96551993219899","91.12442727642159","91.5033338913273","91.52871712411672","92.09312085796809","92.20644744298286","92.79709664758305","93.26456094702633","93.42355239046276","94.33510802233154","95.37823344299673","97.81276405867773","98.2695765232239","99.00046019379707","99.08981083484129","99.76885312864313","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(253, 190, 110, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total SHARK Supply',
+};
+var trace12 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["9.251201451036769","11.075153059663165","11.364677307656411","11.664086847379698","11.754835600431818","13.033740023408843","13.221320320998892","15.012922772295575","15.349653502346056","15.538879398489414","15.593809347626271","16.07729164274851","16.825986552510674","17.75172105417596","18.294478187672723","18.506047443351335","19.027533001390314","19.8229181251047","19.936462637701403","20.69369850649516","20.9429033188291","21.53853829300105","21.801501447287592","22.043680393719217","22.13515737037084","22.13515737037084","22.13515737037084","22.185509798907198","22.42794846186142","22.471196049390855","22.471196049390855","22.58563345424053","22.63140650889619","23.712171188743817","23.815850171605003","23.83875649522779","23.97608135580316","24.525380796728623","24.825796391688968","24.9016161601446","25.199173344669347","25.34825738573103","25.66157058891625","25.684458113110512","26.11067223699609","26.320607968824437","26.372428978016373","27.018541181661778","27.018541181661778","27.150320266874928","27.28964401219257","27.337096751577317","27.820834903124545","28.284288567491465","28.99605788620229","29.13904786801522","29.28018734338312","29.28018734338312","29.506052747196005","30.02085782858499","30.228336997185792","30.58133318117049","30.87365694901431","31.146960034898356","31.321497875442393","31.757329832098847","32.61458259694013","33.51855336364307","34.00835090573835","34.144439893261435","34.52800858991735","34.59470214707886","35.168812240950174","35.753041529056404","36.04314806028056","36.23754256075336","36.28103136960774","36.44407410891407","36.785938605911205","37.12092217679277","38.13248115230445","38.16623948382007","38.36522372317619","38.66373600748079","39.665396198419565","40.51546173493675","41.393249371810576","41.866438375484975","42.07597867573812","42.628965389824","42.783961195088935","42.783961195088935","42.90104927890308","42.974674877792715","43.36091424640885","43.84133362364993","44.117114192872414","44.459771318883725","44.965856190052115","45.03885656060575","45.6454676491501","46.200568471295256","46.67674215222889","46.97738799241113","47.89434105531463","48.404228499058995","48.59511773667243","48.70955531776413","48.803419895983716","48.86120264981702","49.16743747213519","49.24818664070822","49.24818664070822","49.67670808532182","49.95166810166407","50.791640900711435","50.832113351246115","50.832113351246115","51.16365830324247","51.22623416887292","51.63575735592069","52.661771504525746","52.79743809409002","53.23964746676202","57.25184666568694","57.332565044701276","58.19542655715101","58.561588207156674","58.93891243468813","58.994031969415815","59.42778567118411","60.295764463703925","60.78217651386032","61.67335918239429","62.134901409508345","62.37174638429533","63.15193599929234","63.56371597299889","63.94845414725153","64.7968506300936","64.99325973565092","64.99325973565092","65.11552064931287","65.52717073435248","65.52717073435248","65.58858837204744","65.73195973768696","65.77258503109948","65.77258503109948","65.77258503109948","65.82793017547111","66.29963806970073","66.41946354831792","66.54236156295912","66.56705451592548","66.6358204109867","66.6756910957518","66.73062131129224","66.88577921695452","66.92011040842561","66.92011040842561","67.17426914547285","67.57494367542847","67.57494367542847","67.90319570716498","68.32751456204257","68.44071377153702","69.0589718932893","69.30453901871383","69.57581303916444","69.64892105659541","69.80321085209413","69.93961886670843","70.24958978517067","71.03715711898752","71.39567204149104","71.7026392654747","71.85611043598722","72.3247790129669","72.68009062791428","72.7195371212648","72.97793172290329","73.12553354492415","73.6101189295761","73.77892052766602","74.24451849977746","75.17323710879192","75.47478277139243","75.99812817338449","76.6139095877101","77.31912181427788","78.17415877680499","78.74031720180345","79.41516381873377","79.71231565484175","81.0291753125902","81.21346081724832","81.54517171487123","81.59582892578882","81.96930384266165","83.17809391894968","83.40788101048068","84.43198766219157","84.65775594556585","84.87242394473564","85.31493049501202","85.55895430117246","85.99958212110077","86.35924493781584","87.2159536983217","87.77945488545319","88.44752819565969","88.74025774140239","89.08970751467999","90.23508832030883","90.27482743322331","91.07880661272473","91.42379437561725","91.8245802191729","92.20695654491978","92.42949351204011","92.54755032858817","92.87508206251859","92.93884644355423","93.08405979023422","93.10888127336491","93.21329394758189","93.24762516194046","93.56742374978054","93.59971700501005","93.99221159272246","94.29157115335639","94.48020351836925","95.26125644909908","96.02027983492992","98.11383088923743","98.6703467210059","99.25347206202142","99.3085227431262","99.73923475174601","100.0"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(233, 92, 71, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total WHALE Supply',
+};
+var trace13 =
+{
+x: ["500","1000","1500","2000","2500","3000","3500","4000","4500","5000","5500","6000","6500","7000","7500","8000","8500","9000","9500","10000","10500","11000","11500","12000","12500","13000","13500","14000","14500","15000","15500","16000","16500","17000","17500","18000","18500","19000","19500","20000","20500","21000","21500","22000","22500","23000","23500","24000","24500","25000","25500","26000","26500","27000","27500","28000","28500","29000","29500","30000","30500","31000","31500","32000","32500","33000","33500","34000","34500","35000","35500","36000","36500","37000","37500","38000","38500","39000","39500","40000","40500","41000","41500","42000","42500","43000","43500","44000","44500","45000","45500","46000","46500","47000","47500","48000","48500","49000","49500","50000","50500","51000","51500","52000","52500","53000","53500","54000","54500","55000","55500","56000","56500","57000","57500","58000","58500","59000","59500","60000","60500","61000","61500","62000","62500","63000","63500","64000","64500","65000","65500","66000","66500","67000","67500","68000","68500","69000","69500","70000","70500","71000","71500","72000","72500","73000","73500","74000","74500","75000","75500","76000","76500","77000","77500","78000","78500","79000","79500","80000","80500","81000","81500","82000","82500","83000","83500","84000","84500","85000","85500","86000","86500","87000","87500","88000","88500","89000","89500","90000","90500","91000","91500","92000","92500","93000","93500","94000","94500","95000","95500","96000","96500","97000","97500","98000","98500","99000","99500","100000","100500","101000","101500","102000","102500","103000","103500","104000","104500","105000","105500","106000","106500","107000","107500","108000","108500","109000","109500","110000","110500","111000","111500","112000","112500","113000","113500","114000","114500","115000","115500","116000","116500","117000","117500","118000","118500","119000","119500","120000","120500"],
+y: ["5.918660167101264","7.802359444811136","8.501858612179737","8.501858612179737","8.501858612179737","8.501858612179737","8.501858612179737","8.501858612179737","8.501858612179737","8.501858612179737","8.501858612179737","8.851469180753083","8.851469180753083","10.389754836913045","10.389754836913045","10.389754836913045","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","10.940234855204784","13.365483622343188","13.715093313809467","13.715093313809467","13.715093313809467","13.715093313809467","15.527134333045625","17.911472604029065","17.911472604029065","17.911472604029065","17.911472604029065","17.911472604029065","19.605833309630366","19.605833309630366","19.605833309630366","19.605833309630366","23.101932530271448","23.101932530271448","23.45154222813244","23.45154222813244","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.268755152091284","24.625941599254595","24.625941599254595","24.625941599254595","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","25.257579639836923","26.350996247117482","26.350996247117482","26.350996247117482","29.65982412328381","30.76610808487605","33.60928956964156","33.60928956964156","33.60928956964156","34.10226747553066","34.10226747553066","34.10226747553066","34.10226747553066","34.10226747553066","34.10226747553066","38.647545716656644","38.647545716656644","38.647545716656644","38.647545716656644","38.647545716656644","38.647545716656644","47.68842843048559","49.340510175050916","49.340510175050916","49.340510175050916","49.340510175050916","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","56.1423062566438","57.37563352794898","57.37563352794898","57.37563352794898","57.37563352794898","57.37563352794898","57.37563352794898","57.37563352794898","59.271696459992825","59.271696459992825","59.271696459992825","59.70056347536837","59.70056347536837","59.70056347536837","59.70056347536837","62.805693244148834","62.805693244148834","62.805693244148834","62.805693244148834","62.805693244148834","62.805693244148834","62.805693244148834","64.42860479916288","64.42860479916288","64.42860479916288","64.42860479916288","64.42860479916288","64.42860479916288","64.42860479916288","65.34246298922912","65.34246298922912","65.34246298922912","66.78106805854094","68.87838823928307","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","73.19736170402516","74.63020836255616","75.52721959972848","78.23482699431199","78.23482699431199","78.99519807394552","78.99519807394552","78.99519807394552","78.99519807394552","78.99519807394552","79.36606985994047","79.36606985994047","79.36606985994047","79.79363767723036","79.79363767723036","79.79363767723036","79.79363767723036","79.79363767723036","79.79363767723036","79.79363767723036","80.94932434165102","81.43052495864588","81.43052495864588","81.43052495864588","81.43052495864588","81.43052495864588","81.43052495864588","81.43052495864588","81.43052495864588","82.27139771915095","82.27139771915095","82.27139771915095","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.23461291444713","83.94382551802275","83.94382551802275","85.15523060039403","85.52232076764288","85.52232076764288","85.52232076764288","85.52232076764288","86.49018019265684","87.38508069547036","87.38508069547036","87.38508069547036","87.38508069547036","88.56604239129813","88.56604239129813","88.56604239129813","88.9204507340203","88.9204507340203","88.9204507340203","89.7658593699266","89.7658593699266","89.7658593699266","89.7658593699266","89.7658593699266","89.7658593699266","90.29398339608024","90.29398339608024","91.69114491511789","92.85332865498741","93.49740368939948","93.49740368939948","97.28892568700552","97.77577880710696","99.99999999999999","99.99999999999999"],
+hoverlabel : {namelength :-1},
+mode: 'lines',
+line: {
+  "color" : "rgba(158, 1, 66, 1.0)",
+  "dash" : "solid",
+  "shape" : "linear",
+  "simplify" : true,
+  "smoothing" : 1.0,
+  "width" : 1.0
+},
+xaxis: 'x',
+yaxis: 'y2',
+type: 'scatter',
+name: '% of Total HUMPBACK Supply',
+};
+var trace14={};
+config.scrollZoom=true;
+
+        var data = [ trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8, trace9, trace10, trace11, trace12, trace13, trace14];
+Plotly.newPlot(target_target, data, layout, config);            </script>
+                            </div>
+                    </div>
+    </div>
+</main>
+<script type="text/javascript">
+    var currentPlot = document.getElementById("currentPlot");
+    if (currentPlot) {
+        currentPlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
+<!--Main layout-->
+
+</body>
+</html>
